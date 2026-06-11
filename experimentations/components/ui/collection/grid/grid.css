@@ -1,0 +1,45 @@
+.grid-root .list-root.is-context-grid {
+  --list-item-hover-bg: hsl(var(--muted) / 0.55);
+  --list-item-focus-bg: hsl(var(--muted) / 0.75);
+  --list-item-focus-color: inherit;
+  --list-item-focus-shadow: inset 2px 0 0 hsl(var(--ring));
+  --list-item-selected-bg: hsl(var(--primary) / 0.14);
+  --list-item-selected-color: inherit;
+  --list-item-focus-selected-bg: hsl(var(--primary) / 0.2);
+  --list-item-focus-selected-color: inherit;
+  --list-item-focus-selected-shadow: var(--list-item-focus-shadow);
+  --list-item-disabled-opacity: 0.5;
+}
+
+.grid-root {
+  --grid-row-border: 1px solid hsl(var(--border));
+  --grid-row-cursor: default;
+  --grid-cell-padding: 0 12px;
+  --grid-cell-flex: 1 1 0;
+}
+
+.grid-row--cellular {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: var(--grid-row-border);
+  cursor: var(--grid-row-cursor);
+}
+
+/* Fallback: keep cellular rows laid out correctly even if runtime className is transiently missing. */
+.grid-root .list-pooled-item[data-kind="cellular"] {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: var(--grid-row-border);
+  cursor: var(--grid-row-cursor);
+}
+
+.grid-cell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: var(--grid-cell-padding);
+  flex: var(--grid-cell-flex);
+}
+

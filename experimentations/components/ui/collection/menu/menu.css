@@ -1,0 +1,142 @@
+.menu-root {
+  position: relative;
+  --menu-overlay-z-index: 79;
+  --menu-layer-border: 1px solid hsl(var(--border));
+  --menu-border-radius: 10px;
+  --menu-bg: hsl(var(--card));
+  --menu-color: hsl(var(--card-foreground));
+  --menu-shadow: 0 16px 44px -24px rgba(0, 0, 0, 0.42);
+  --menu-header-padding: 8px 10px;
+  --menu-header-border: 1px solid hsl(var(--border));
+  --menu-header-font-size: 12px;
+  --menu-header-font-weight: 600;
+  --menu-header-opacity: 0.7;
+  --menu-kind-gap: 8px;
+  --menu-kind-padding: 0 10px;
+  --menu-kind-checked-label-weight: 500;
+  --menu-arrow-opacity: 0.7;
+  --menu-input-width: 140px;
+  --menu-input-height: 28px;
+  --menu-input-border: 1px solid hsl(var(--border));
+  --menu-input-radius: 6px;
+  --menu-input-padding: 0 8px;
+  --menu-input-bg: hsl(var(--background));
+  --menu-enum-gap: 4px;
+  --menu-enum-option-border: 1px solid hsl(var(--border));
+  --menu-enum-option-radius: 999px;
+  --menu-enum-option-padding: 2px 8px;
+  --menu-enum-font-size: 12px;
+  --menu-enum-line-height: 1.2;
+  --menu-enum-selected-border-color: hsl(var(--primary));
+  --menu-enum-selected-bg: hsl(var(--primary) / 0.12);
+}
+
+.menu-root .list-root.is-context-menu {
+  --list-item-hover-bg: hsl(var(--accent) / 0.6);
+  --list-item-hover-color: hsl(var(--accent-foreground));
+  --list-item-focus-bg: hsl(var(--accent));
+  --list-item-focus-color: hsl(var(--accent-foreground));
+  --list-item-focus-shadow: none;
+  --list-item-selected-bg: hsl(var(--primary) / 0.14);
+  --list-item-selected-color: inherit;
+  --list-item-selected-shadow: none;
+  --list-item-checked-bg: hsl(var(--accent) / 0.35);
+  --list-item-checked-color: inherit;
+  --list-item-focus-selected-bg: var(--list-item-focus-bg);
+  --list-item-focus-selected-color: var(--list-item-focus-color);
+  --list-item-focus-selected-shadow: var(--list-item-focus-shadow);
+  --list-item-disabled-opacity: 0.45;
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--menu-overlay-z-index);
+  cursor: default;
+}
+
+.menu-layer {
+  display: flex;
+  flex-direction: column;
+  border: var(--menu-layer-border);
+  border-radius: var(--menu-border-radius);
+  background: var(--menu-bg);
+  color: var(--menu-color);
+  box-shadow: var(--menu-shadow);
+  overflow: hidden;
+}
+
+.menu-layer .list-root.is-context-menu {
+  border: 0;
+  border-radius: 0;
+}
+
+.menu-header {
+  padding: var(--menu-header-padding);
+  border-bottom: var(--menu-header-border);
+  font-size: var(--menu-header-font-size);
+  font-weight: var(--menu-header-font-weight);
+  opacity: var(--menu-header-opacity);
+}
+
+.menu-kind {
+  display: flex;
+  align-items: center;
+  gap: var(--menu-kind-gap);
+  min-height: 100%;
+  padding: var(--menu-kind-padding);
+}
+
+.menu-root .list-root.is-context-menu .list-pooled-item.is-checked .menu-kind__label {
+  font-weight: var(--menu-kind-checked-label-weight);
+}
+
+.menu-kind__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-kind__icon.material-symbols-outlined {
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.menu-kind__arrow {
+  opacity: var(--menu-arrow-opacity);
+}
+
+.menu-kind__input {
+  width: var(--menu-input-width);
+  height: var(--menu-input-height);
+  border: var(--menu-input-border);
+  border-radius: var(--menu-input-radius);
+  padding: var(--menu-input-padding);
+  background: var(--menu-input-bg);
+}
+
+.menu-kind__enum-values {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--menu-enum-gap);
+}
+
+.menu-kind__enum-option {
+  border: var(--menu-enum-option-border);
+  border-radius: var(--menu-enum-option-radius);
+  background: transparent;
+  padding: var(--menu-enum-option-padding);
+  font-size: var(--menu-enum-font-size);
+  line-height: var(--menu-enum-line-height);
+}
+
+.menu-kind__enum-option.is-selected {
+  border-color: var(--menu-enum-selected-border-color);
+  background: var(--menu-enum-selected-bg);
+}
+

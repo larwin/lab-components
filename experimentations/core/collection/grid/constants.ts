@@ -1,0 +1,6 @@
+export const GRID_DEFAULT_ROW_HEIGHT = 40;
+export const GRID_HEADER_HEIGHT = 36;
+export const GRID_OVERSCAN_DEFAULT = 5;
+export const GRID_COLUMN_MIN_WIDTH = 40;
+export const GRID_COLUMN_RESIZE_PREVIEW_THROTTLE_MS = 16;
+
