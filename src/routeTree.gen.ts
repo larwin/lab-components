@@ -29,6 +29,7 @@ import { Route as DataLoaderRouteImport } from './routes/data-loader'
 import { Route as DataGridRouteImport } from './routes/data-grid'
 import { Route as ControlsRouteImport } from './routes/controls'
 import { Route as ComponentsRouteImport } from './routes/components'
+import { Route as ColorRouteImport } from './routes/color'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as CarouselRouteImport } from './routes/carousel'
 import { Route as CanvasGridRouteImport } from './routes/canvas-grid'
@@ -135,6 +136,11 @@ const ComponentsRoute = ComponentsRouteImport.update({
   path: '/components',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ColorRoute = ColorRouteImport.update({
+  id: '/color',
+  path: '/color',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CollectionsRoute = CollectionsRouteImport.update({
   id: '/collections',
   path: '/collections',
@@ -167,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/canvas-grid': typeof CanvasGridRoute
   '/carousel': typeof CarouselRoute
   '/collections': typeof CollectionsRoute
+  '/color': typeof ColorRoute
   '/components': typeof ComponentsRoute
   '/controls': typeof ControlsRoute
   '/data-grid': typeof DataGridRoute
@@ -194,6 +201,7 @@ export interface FileRoutesByTo {
   '/canvas-grid': typeof CanvasGridRoute
   '/carousel': typeof CarouselRoute
   '/collections': typeof CollectionsRoute
+  '/color': typeof ColorRoute
   '/components': typeof ComponentsRoute
   '/controls': typeof ControlsRoute
   '/data-grid': typeof DataGridRoute
@@ -222,6 +230,7 @@ export interface FileRoutesById {
   '/canvas-grid': typeof CanvasGridRoute
   '/carousel': typeof CarouselRoute
   '/collections': typeof CollectionsRoute
+  '/color': typeof ColorRoute
   '/components': typeof ComponentsRoute
   '/controls': typeof ControlsRoute
   '/data-grid': typeof DataGridRoute
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/canvas-grid'
     | '/carousel'
     | '/collections'
+    | '/color'
     | '/components'
     | '/controls'
     | '/data-grid'
@@ -278,6 +288,7 @@ export interface FileRouteTypes {
     | '/canvas-grid'
     | '/carousel'
     | '/collections'
+    | '/color'
     | '/components'
     | '/controls'
     | '/data-grid'
@@ -305,6 +316,7 @@ export interface FileRouteTypes {
     | '/canvas-grid'
     | '/carousel'
     | '/collections'
+    | '/color'
     | '/components'
     | '/controls'
     | '/data-grid'
@@ -333,6 +345,7 @@ export interface RootRouteChildren {
   CanvasGridRoute: typeof CanvasGridRoute
   CarouselRoute: typeof CarouselRoute
   CollectionsRoute: typeof CollectionsRoute
+  ColorRoute: typeof ColorRoute
   ComponentsRoute: typeof ComponentsRoute
   ControlsRoute: typeof ControlsRoute
   DataGridRoute: typeof DataGridRoute
@@ -497,6 +510,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/color': {
+      id: '/color'
+      path: '/color'
+      fullPath: '/color'
+      preLoaderRoute: typeof ColorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/collections': {
       id: '/collections'
       path: '/collections'
@@ -541,6 +561,7 @@ const rootRouteChildren: RootRouteChildren = {
   CanvasGridRoute: CanvasGridRoute,
   CarouselRoute: CarouselRoute,
   CollectionsRoute: CollectionsRoute,
+  ColorRoute: ColorRoute,
   ComponentsRoute: ComponentsRoute,
   ControlsRoute: ControlsRoute,
   DataGridRoute: DataGridRoute,

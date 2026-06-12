@@ -31,6 +31,11 @@ export interface SliderProps {
   formatValue?: (value: number) => string;
   showValue?: boolean;
   disabled?: boolean;
+  /**
+   * Styling slot for the track (gradient hue/alpha rails). When set, the
+   * filled-portion bar is not rendered. Machine untouched.
+   */
+  trackStyle?: React.CSSProperties;
   className?: string;
   "aria-label"?: string;
 }
@@ -48,6 +53,7 @@ export function Slider({
   formatValue,
   showValue = true,
   disabled = false,
+  trackStyle,
   className,
   ...rest
 }: SliderProps) {
@@ -135,11 +141,19 @@ export function Slider({
           if (e.currentTarget.hasPointerCapture(e.pointerId)) dispatchPointer(e.clientX);
         }}
       >
-        <div className="absolute top-1/2 h-1.5 w-full -translate-y-1/2 rounded-full bg-muted" />
         <div
-          className="absolute top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-primary"
-          style={{ width: `${ratio * 100}%` }}
+          className={cn(
+            "absolute top-1/2 w-full -translate-y-1/2 rounded-full",
+            trackStyle ? "h-3 border border-border/60" : "h-1.5 bg-muted",
+          )}
+          style={trackStyle}
         />
+        {!trackStyle && (
+          <div
+            className="absolute top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-primary"
+            style={{ width: `${ratio * 100}%` }}
+          />
+        )}
         <div
           role="slider"
           {...composed.aria(state)}

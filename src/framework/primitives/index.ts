@@ -54,6 +54,12 @@ export { Splitter, type SplitterProps } from "./Splitter";
 export { Toolbar, FloatingToolbar, type ToolbarProps, type FloatingToolbarProps } from "./Toolbar";
 export { Carousel, type CarouselProps, type CarouselSlideDef } from "./Carousel";
 export {
+  ColorPicker,
+  type ColorPickerProps,
+  type ColorPickerLabels,
+  type ColorSwatchDef,
+} from "./ColorPicker";
+export {
   type ToolbarItemDef,
   type ToolbarButtonDef,
   type ToolbarToggleDef,

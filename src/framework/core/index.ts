@@ -420,6 +420,37 @@ export {
   type TimeZoneNameStyle,
 } from "./time/zone";
 
+// Color — pure conversions, parsing, contrast.
+// NOTE: ./color/named (CSS named colors + nearestNamedColor) is deliberately
+// NOT re-exported here — leaf module, import it directly (windows-zones pattern).
+export {
+  rgbToHsv,
+  hsvToRgb,
+  rgbToHsl,
+  hslToRgb,
+  rgbToOklab,
+  oklabToRgb,
+  rgbToOklch,
+  oklchToRgb,
+  deltaEOK,
+  clampRgb,
+  type RgbColor,
+  type HslColor,
+  type HsvColor,
+  type HsvaColor,
+  type OklabColor,
+  type OklchColor,
+} from "./color/convert";
+export {
+  parseColor,
+  formatHex,
+  formatRgb,
+  formatHsl,
+  formatOklch,
+  type ParsedColor,
+} from "./color/parse";
+export { relativeLuminance, contrastRatio, wcagContrast, type WcagVerdict } from "./color/contrast";
+
 // Layout policies
 export {
   partitionOverflow,

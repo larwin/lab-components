@@ -17,6 +17,7 @@ import {
   PanelRightOpen,
   PanelTopOpen,
   PencilRuler,
+  Pipette,
   Shapes,
   SlidersHorizontal,
   SquareKanban,
@@ -209,6 +210,19 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "Survolez / focalisez / masquez l'onglet : la rotation se suspend et repart — le timer est annulé à chaque arrêt",
       "Boucle 3/page : franchir la couture (page 3 → 1) anime vers l'avant, sans clones DOM",
       "Galerie 10k : le compteur de slides montées reste à ~6 ; End saute à la page 10000 sans monter le reste",
+    ],
+  },
+  {
+    to: "/color",
+    icon: Pipette,
+    title: "ColorPicker",
+    what: "core/color pur zéro dépendance : RGB ↔ HSL ↔ HSV et sRGB ↔ OKLCH exacts (matrices OKLab en dur, round-trip prouvé sur le cube), parsing/formatage CSS, contraste WCAG, ΔE OK. AUCUNE machine couleur : la surface 2D = NumericValue ×2 (6ᵉ/7ᵉ réutilisations), teinte/alpha = Slider, hex/RGB = TextField/NumberField, swatches = ToggleGroup — tout converge sur un état HSV unique.",
+    verify: [
+      "Tab sur la surface : ←/→ = saturation, ↑/↓ = luminosité — l'aria-valuetext annonce les deux axes",
+      "Saturation à 0 puis remontez-la : la teinte n'a pas été perdue (l'état est HSV, pas RGB)",
+      "Tapez un hex invalide puis Entrée : retour à la dernière couleur (brouillon → commit)",
+      "Chaque commit annonce le nom CSS approché (ΔE OK) — module feuille importé par la démo seule",
+      "Vérificateur WCAG : passez le fond en gris — les badges AA/AAA basculent en direct",
     ],
   },
   {

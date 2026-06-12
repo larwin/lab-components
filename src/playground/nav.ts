@@ -23,6 +23,7 @@ import {
   Shapes,
   PencilRuler,
   GalleryHorizontal,
+  Pipette,
   type LucideIcon,
 } from "lucide-react";
 
@@ -131,6 +132,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Carousel",
         icon: GalleryHorizontal,
         description: "Drag-snap, autoplay pausable, boucle modulo, 10k virtualisé",
+      },
+      {
+        to: "/color",
+        label: "ColorPicker",
+        icon: Pipette,
+        description: "core/color pur, surface NumericValue ×2, contraste WCAG",
       },
       {
         to: "/data-loader",

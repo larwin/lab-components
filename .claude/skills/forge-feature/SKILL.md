@@ -44,7 +44,9 @@ src/framework/core/        LE PRODUIT — pur, testé en Node
   behaviors/  composeMachine + Focusable/Pressable/Toggleable/Navigable/
               Selectable/Expandable/Dismissable/Searchable/Actionable/
               Validatable (dirty/touched/error + annonces)/NumericValue
-              (clamp/step, profils keymap spinbutton|slider)
+              (clamp/step, profils keymap spinbutton|slider)/Autoplayable
+              (rotation minutée : suspensions hover/focus/hidden, effets
+              schedule-advance/cancel-advance, règles APG d'annonce)
   collection/ modèle normalisé, navigation, algèbre de sélection, typeahead
   i18n/       translator, collators, formatNumber/parseNumber (round-trip Intl)
   interaction/ combos clavier, résolution de keymap, scopes de raccourcis
@@ -62,6 +64,11 @@ src/framework/core/        LE PRODUIT — pur, testé en Node
   time/       TimeValue pur (stockage 0-23, wrap à minuit, secondes opt-in),
               conversions de cycle h11/h12/h23/h24, services Intl
               (hourCycleOf/timeFieldParts/dayPeriodLabels), DateTimeValue
+  layout/     partitionOverflow — répartition visible/débordé d'une rangée
+              (largeurs mesurées injectées, priorité par item)
+  color/      conversions exactes RGB↔HSL↔HSV, sRGB↔OKLCH (matrices OKLab),
+              parsing/formatage CSS, contraste WCAG, ΔE OK ; named.ts =
+              module feuille hors barrel (148 couleurs CSS nommées)
 src/framework/react/       L'ADAPTATEUR — useMachine, interpréteurs d'effets,
                             Overlay (pile de layers), useVirtualizer, useDataSource
 src/framework/primitives/  Les composants composés (coquilles minces)
@@ -304,6 +311,59 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
   module feuille volontairement NON ré-exporté par le barrel du core — les
   consommateurs l'importent par chemin direct, le tree-shaking est garanti
   par construction et non par espoir.
+- 2026-06-12 · RTL : retourner la FRAPPE avant la résolution
+  (`flipHorizontalStroke`, core pur testé), jamais la keymap — les behaviors
+  restent aveugles à la direction et tous les conteneurs horizontaux
+  (Toolbar, Carousel…) partagent la même fonction.
+- 2026-06-12 · Débordement « … » (Toolbar) : les items débordés restent
+  MONTÉS mais cachés (`display:none`) — leurs machines, leur état et leurs
+  raccourcis globaux survivent ; leurs largeurs sont mises en cache à la
+  dernière mesure visible et la répartition est la fonction pure
+  `partitionOverflow` (largeurs injectées). Le menu est LA machine Menu sur
+  une projection pure des défs (les valeurs des groupes remontent par un
+  petit registre de contrôleurs + bump de version).
+- 2026-06-12 · Conteneur roving hétérogène (Toolbar) : aplatir les composites
+  dans la collection de la barre (les toggles d'un groupe sont des stops ; le
+  groupe ne garde QUE sa machine Selectable — la nav appartient à la barre).
+  Items désactivés : jamais `disabled` dans la collection ni l'attribut DOM
+  (trou de navigation APG) — `aria-disabled` + activation bloquée en bordure.
+  Une primitive existante rejoint le roving par un simple slot `tabIndex`
+  passé au trigger, machine intacte ; sa cible de focus se retrouve par
+  `data-toolbar-key` sur le wrapper + `querySelector` du focusable interne.
+- 2026-06-12 · Rotation minutée (Carousel) : le behavior Autoplayable réagit
+  aux intents nav (pattern followNavigation de Selectable) — l'invariant
+  « timer ⟺ playing ∧ aucune suspension » se prouve en Node en comptant les
+  paires schedule/cancel. Discriminer le tick d'autoplay de la sync contrôlée
+  par TYPE + source : nav/next+program = tick (émet pageChange, peut
+  auto-pauser en fin de piste), nav/move+program = sync (totalement
+  silencieux). Les règles APG (annoncer seulement rotation arrêtée) vivent
+  dans le reducer, pas dans la coquille.
+- 2026-06-12 · Boucle infinie visuelle : l'état machine reste normalisé
+  (modulo pur), la coquille tient un index virtuel continu et lui ajoute
+  `loopDelta` (plus court chemin signé) à chaque changement — la couture
+  n-1 → 0 anime vers l'avant sans clonage DOM. Le settle de drag en boucle =
+  le même coast v²/2a que wheelSettle, non clampé, normalisé après coup.
+- 2026-06-12 · Les portails React font REMONTER les keydown dans l'arbre
+  React : un keymap de conteneur doit ignorer les événements dont `e.target`
+  n'est pas dans son DOM (`containerRef.current.contains(e.target)`), sinon
+  les flèches tapées dans un panneau d'overlay re-déclenchent la navigation
+  du conteneur.
+- 2026-06-12 · Surface 2D (ColorPicker) : DEUX machines NumericValue sur UN
+  élément — les profils de keymap partitionnent les touches sans toucher au
+  core : résoudre d'abord le profil étroit (spinbutton : ↑/↓/Page = axe Y)
+  puis le profil large (slider : ←/→/Home/End = axe X). Le pointeur convertit
+  sa position en deux number/set. ARIA : un seul role=slider,
+  aria-valuetext composé annonçant les deux axes.
+- 2026-06-12 · Champ texte libre adossé à un état riche (hex → couleur) : le
+  brouillon vit dans le parent, le TextField reste contrôlé sur le brouillon,
+  et le commit (blur/Entrée) se capte par un wrapper div (blur et keydown
+  remontent) — aucun prop nouveau ; entrée invalide ⇒ retour au canonique.
+  La re-synchronisation externe du brouillon est gardée par un ref de focus.
+- 2026-06-12 · Représentation interne sans perte : quand plusieurs encodages
+  convergent (hex/RGB/HSV), l'état interne garde le plus riche (HSV+alpha —
+  la teinte survit à s=0, la saturation à v=0) et chaque conversion entrante
+  préserve les composantes indéfinies depuis l'état précédent. Jumeau de la
+  règle 12/24 h (affiché vs canonique).
 - 2026-06-12 · Statiques sans machine (Alert, Badge, Avatar, Card, Skeleton,
   Spinner, EmptyState…) : rôle ARIA correct + tokens + variantes CVA, point.
   Quand un statique a quand même UNE décision (compteur TextArea, acceptation
