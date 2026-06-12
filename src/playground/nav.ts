@@ -18,6 +18,7 @@ import {
   BellRing,
   TextCursorInput,
   PanelRightOpen,
+  Shapes,
   type LucideIcon,
 } from "lucide-react";
 
@@ -96,6 +97,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Feedback",
         icon: BellRing,
         description: "Toast queue machine, Progress, Meter",
+      },
+      {
+        to: "/statics",
+        label: "Statiques",
+        icon: Shapes,
+        description: "Alert, Badge, Avatar, Card, Skeleton, Dropzone",
       },
       {
         to: "/data-loader",

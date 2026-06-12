@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VirtualizationRouteImport } from './routes/virtualization'
 import { Route as ThemingRouteImport } from './routes/theming'
 import { Route as SurfacesRouteImport } from './routes/surfaces'
+import { Route as StaticsRouteImport } from './routes/statics'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as OverlaysRouteImport } from './routes/overlays'
 import { Route as KanbanRouteImport } from './routes/kanban'
@@ -43,6 +44,11 @@ const ThemingRoute = ThemingRouteImport.update({
 const SurfacesRoute = SurfacesRouteImport.update({
   id: '/surfaces',
   path: '/surfaces',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaticsRoute = StaticsRouteImport.update({
+  id: '/statics',
+  path: '/statics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/statics': typeof StaticsRoute
   '/surfaces': typeof SurfacesRoute
   '/theming': typeof ThemingRoute
   '/virtualization': typeof VirtualizationRoute
@@ -171,6 +178,7 @@ export interface FileRoutesByTo {
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/statics': typeof StaticsRoute
   '/surfaces': typeof SurfacesRoute
   '/theming': typeof ThemingRoute
   '/virtualization': typeof VirtualizationRoute
@@ -194,6 +202,7 @@ export interface FileRoutesById {
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/statics': typeof StaticsRoute
   '/surfaces': typeof SurfacesRoute
   '/theming': typeof ThemingRoute
   '/virtualization': typeof VirtualizationRoute
@@ -218,6 +227,7 @@ export interface FileRouteTypes {
     | '/kanban'
     | '/overlays'
     | '/sitemap.xml'
+    | '/statics'
     | '/surfaces'
     | '/theming'
     | '/virtualization'
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
     | '/kanban'
     | '/overlays'
     | '/sitemap.xml'
+    | '/statics'
     | '/surfaces'
     | '/theming'
     | '/virtualization'
@@ -262,6 +273,7 @@ export interface FileRouteTypes {
     | '/kanban'
     | '/overlays'
     | '/sitemap.xml'
+    | '/statics'
     | '/surfaces'
     | '/theming'
     | '/virtualization'
@@ -285,6 +297,7 @@ export interface RootRouteChildren {
   KanbanRoute: typeof KanbanRoute
   OverlaysRoute: typeof OverlaysRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StaticsRoute: typeof StaticsRoute
   SurfacesRoute: typeof SurfacesRoute
   ThemingRoute: typeof ThemingRoute
   VirtualizationRoute: typeof VirtualizationRoute
@@ -311,6 +324,13 @@ declare module '@tanstack/react-router' {
       path: '/surfaces'
       fullPath: '/surfaces'
       preLoaderRoute: typeof SurfacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/statics': {
+      id: '/statics'
+      path: '/statics'
+      fullPath: '/statics'
+      preLoaderRoute: typeof StaticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -453,6 +473,7 @@ const rootRouteChildren: RootRouteChildren = {
   KanbanRoute: KanbanRoute,
   OverlaysRoute: OverlaysRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StaticsRoute: StaticsRoute,
   SurfacesRoute: SurfacesRoute,
   ThemingRoute: ThemingRoute,
   VirtualizationRoute: VirtualizationRoute,

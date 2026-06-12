@@ -13,6 +13,7 @@ import {
   Layers,
   PanelRightOpen,
   PanelTopOpen,
+  Shapes,
   SlidersHorizontal,
   SquareKanban,
   TestTube2,
@@ -144,6 +145,18 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "L'erreur est sticky (duration null) et annoncée en assertif ; les autres en polite",
       "Lancez l'upload simulé : le progressbar est déterminé (aria-valuenow), et la fin enfile un toast succès",
       "Glissez le slider disque : le Meter change de zone (vert → orange → rouge), sémantique du <meter> natif",
+    ],
+  },
+  {
+    to: "/statics",
+    icon: Shapes,
+    title: "Statiques & finitions",
+    what: "Alert, Badge, Avatar, Card, Separator, Skeleton, Spinner et EmptyState — volontairement sans machine : rôle ARIA correct et tokens du thème suffisent. La Dropzone ferme la vague : sa politique d'acceptation est une fonction pure testée en Node, le verdict est annoncé aux lecteurs d'écran.",
+    verify: [
+      "Dropzone : déposez un lot mélangé (images, PDF, gros fichiers) — tri pur + annonce SR du verdict (assertive si refus)",
+      "Avatar : la 2ᵉ image est cassée — repli automatique sur les initiales",
+      "Alert : warning/error portent role=alert, info/success role=status",
+      "Spinner : role=status avec libellé sr-only ; Skeleton aria-hidden",
     ],
   },
   {

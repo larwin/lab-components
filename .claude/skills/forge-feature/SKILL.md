@@ -200,3 +200,22 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
   `null` quand la requête est vide pour laisser la touche aux overlays
   parents ; les composeurs existants (ComboBox) ne passent pas les flags et ne
   voient aucun binding nouveau.
+- 2026-06-12 · Menubar : « le panneau ouvert EST le focusedKey de la barre » —
+  composer Navigable(horizontal)+Dismissable sur la barre rend « ← → traverse
+  les menus ouverts » et « le survol bascule » triviaux (nav/next, nav/move) ;
+  le panneau est UNE machine Menu dont `getCollection` lit le menu actif.
+  Ancre mobile pour l'Overlay : objet ref stable avec un getter `current` qui
+  lit le registry (`triggerRegistry.get(activeKey)`), jamais un objet recréé
+  par render.
+- 2026-06-12 · « Réutilise la machine X » se vérifie contre l'abstraction, pas
+  le nom : la dragMachine modélise des items entre zones — pour un ratio
+  continu (Splitter), c'est NumericValue qui est la bonne réutilisation
+  (4ᵉ : NumberField, Slider, Rating, Splitter). Justifier la substitution
+  dans la table RFC.
+- 2026-06-12 · Statiques sans machine (Alert, Badge, Avatar, Card, Skeleton,
+  Spinner, EmptyState…) : rôle ARIA correct + tokens + variantes CVA, point.
+  Quand un statique a quand même UNE décision (compteur TextArea, acceptation
+  Dropzone), l'extraire en fonction pure testée en Node (`characterLimit`,
+  `partitionFiles`) et annoncer via `announceNow` — le pattern « politique
+  pure + annonce en bordure ». Dropzone : l'input file natif masqué reste LE
+  contrôle focusable (jamais d'input imbriqué dans un button — HTML invalide).
