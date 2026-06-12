@@ -87,7 +87,12 @@ export {
   type DismissableConfig,
   type DismissReason,
 } from "./behaviors/dismissable";
-export { searchable, searchIntents, type SearchableSlice } from "./behaviors/searchable";
+export {
+  searchable,
+  searchIntents,
+  type SearchableSlice,
+  type SearchableConfig,
+} from "./behaviors/searchable";
 export { actionable, actionIntents } from "./behaviors/actionable";
 export {
   validatable,
@@ -219,6 +224,18 @@ export {
   type ToastConfig,
   type EnqueueToastPayload,
 } from "./overlay/toast";
+
+// Text input machines
+export { characterLimit, type CharacterLimitState } from "./text/character-limit";
+export {
+  createPinMachine,
+  pinIntents,
+  pinKeymap,
+  sanitizePinText,
+  type PinState,
+  type PinConfig,
+  type PinKind,
+} from "./text/pin";
 
 // Overlay positioning
 export {

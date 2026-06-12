@@ -14,6 +14,11 @@ export { Toggle, type ToggleProps } from "./Toggle";
 export { ToggleGroup, type ToggleGroupProps, type ToggleGroupItemDef } from "./ToggleGroup";
 export { RadioGroup, type RadioGroupProps, type RadioItemDef } from "./RadioGroup";
 export { TextField, type TextFieldProps } from "./TextField";
+export { TextArea, type TextAreaProps } from "./TextArea";
+export { SearchField, type SearchFieldProps } from "./SearchField";
+export { TagsInput, type TagsInputProps } from "./TagsInput";
+export { Rating, type RatingProps } from "./Rating";
+export { PinInput, type PinInputProps } from "./PinInput";
 export { NumberField, type NumberFieldProps } from "./NumberField";
 export { Slider, type SliderProps } from "./Slider";
 export {

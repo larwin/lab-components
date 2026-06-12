@@ -14,6 +14,7 @@ import { Route as ThemingRouteImport } from './routes/theming'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as OverlaysRouteImport } from './routes/overlays'
 import { Route as KanbanRouteImport } from './routes/kanban'
+import { Route as InputsAdvancedRouteImport } from './routes/inputs-advanced'
 import { Route as GridNextRouteImport } from './routes/grid-next'
 import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as EngineRouteImport } from './routes/engine'
@@ -51,6 +52,11 @@ const OverlaysRoute = OverlaysRouteImport.update({
 const KanbanRoute = KanbanRouteImport.update({
   id: '/kanban',
   path: '/kanban',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InputsAdvancedRoute = InputsAdvancedRouteImport.update({
+  id: '/inputs-advanced',
+  path: '/inputs-advanced',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GridNextRoute = GridNextRouteImport.update({
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/engine': typeof EngineRoute
   '/feedback': typeof FeedbackRoute
   '/grid-next': typeof GridNextRoute
+  '/inputs-advanced': typeof InputsAdvancedRoute
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/engine': typeof EngineRoute
   '/feedback': typeof FeedbackRoute
   '/grid-next': typeof GridNextRoute
+  '/inputs-advanced': typeof InputsAdvancedRoute
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/engine': typeof EngineRoute
   '/feedback': typeof FeedbackRoute
   '/grid-next': typeof GridNextRoute
+  '/inputs-advanced': typeof InputsAdvancedRoute
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -196,6 +205,7 @@ export interface FileRouteTypes {
     | '/engine'
     | '/feedback'
     | '/grid-next'
+    | '/inputs-advanced'
     | '/kanban'
     | '/overlays'
     | '/sitemap.xml'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/engine'
     | '/feedback'
     | '/grid-next'
+    | '/inputs-advanced'
     | '/kanban'
     | '/overlays'
     | '/sitemap.xml'
@@ -236,6 +247,7 @@ export interface FileRouteTypes {
     | '/engine'
     | '/feedback'
     | '/grid-next'
+    | '/inputs-advanced'
     | '/kanban'
     | '/overlays'
     | '/sitemap.xml'
@@ -257,6 +269,7 @@ export interface RootRouteChildren {
   EngineRoute: typeof EngineRoute
   FeedbackRoute: typeof FeedbackRoute
   GridNextRoute: typeof GridNextRoute
+  InputsAdvancedRoute: typeof InputsAdvancedRoute
   KanbanRoute: typeof KanbanRoute
   OverlaysRoute: typeof OverlaysRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -299,6 +312,13 @@ declare module '@tanstack/react-router' {
       path: '/kanban'
       fullPath: '/kanban'
       preLoaderRoute: typeof KanbanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inputs-advanced': {
+      id: '/inputs-advanced'
+      path: '/inputs-advanced'
+      fullPath: '/inputs-advanced'
+      preLoaderRoute: typeof InputsAdvancedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/grid-next': {
@@ -409,6 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   EngineRoute: EngineRoute,
   FeedbackRoute: FeedbackRoute,
   GridNextRoute: GridNextRoute,
+  InputsAdvancedRoute: InputsAdvancedRoute,
   KanbanRoute: KanbanRoute,
   OverlaysRoute: OverlaysRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

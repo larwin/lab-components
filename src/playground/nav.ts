@@ -16,6 +16,7 @@ import {
   SlidersHorizontal,
   PanelTopOpen,
   BellRing,
+  TextCursorInput,
   type LucideIcon,
 } from "lucide-react";
 
@@ -64,6 +65,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Form Controls",
         icon: SlidersHorizontal,
         description: "Champs, toggles, slider — machines pures",
+      },
+      {
+        to: "/inputs-advanced",
+        label: "Saisie avancée",
+        icon: TextCursorInput,
+        description: "TextArea, SearchField, TagsInput, Rating, PinInput",
       },
       {
         to: "/disclosure",

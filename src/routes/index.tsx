@@ -15,6 +15,7 @@ import {
   SlidersHorizontal,
   SquareKanban,
   TestTube2,
+  TextCursorInput,
   X,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -81,6 +82,18 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "Dans NumberField Prix, tapez « 1 234,56 » puis Tab : parsing fr-FR, affichage 1 234,56 € — flèches ±0,5, Shift+flèche ±5",
       "Sur le Slider, glissez puis prenez le clavier : pointeur et flèches convergent sur le même intent number/set",
       "Soumettez le formulaire vide : chaque erreur est annoncée (live region assertive) et le focus saute au premier champ invalide",
+    ],
+  },
+  {
+    to: "/inputs-advanced",
+    icon: TextCursorInput,
+    title: "Saisie avancée",
+    what: "TextArea, SearchField, TagsInput, Rating et PinInput — toujours zéro logique dans les coquilles : Escape qui vide la recherche est un binding déclaratif, les chips du TagsInput sont un second Navigable horizontal avec un nœud sentinelle pour l'input, le PinInput est une machine dédiée au curseur de segment.",
+    verify: [
+      "SearchField : tapez puis Escape (vide la requête) ; champ vide, Escape traverse — c'est le binding qui retourne null",
+      "TagsInput : Backspace sur champ vide focalise le dernier chip, ← → naviguent, Backspace retire et focalise le voisin",
+      "PinInput : collez « 12-34 56 » — la machine sanitise et répartit ; la complétion émet l'événement complete (toast)",
+      "TextArea : approchez 120 caractères — compteur en avertissement + annonce SR « N caractères restants » une seule fois",
     ],
   },
   {

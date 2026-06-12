@@ -281,6 +281,8 @@ keymap. On top of it:
 
 | Feedback wave 3: pure toast queue machine (enqueue/dismiss/clear, eviction beyond `maxToasts`, SR announcements polite/assertive by kind, timers as declarative `schedule-dismiss`/`cancel-dismiss` effects — the adapter owns `setTimeout`) + `ToastProvider`/`useToast` + Progress (determinate/indeterminate progressbar) + Meter (low/high/optimum zones, native `<meter>` semantics) | ✅ implemented + tested (Node machine), demo at `/feedback` |
 
+| Rich text-entry wave 4: Searchable grows an opt-in standalone keymap (Escape → clear *only when non-empty* — the binding falls through on an empty field — and Enter → `search` event) powering SearchField; TextArea (TextField recipe + auto-resize + a counter from the pure `characterLimit` policy, SR-announced once when entering the warning window); TagsInput as **two cooperating machines** (the ComboBox composition in multiple mode + a horizontal Navigable over chips with an input *sentinel node* — Backspace-on-empty-field = `nav/previous`, exit-the-chips = `nav/next`, the row's `scrollToItem` reinterpreted as DOM focus); Rating on the unchanged NumericValue slider profile (half-star pointer geometry → the same `number/set` intent); PinInput as a dedicated pure machine (segment cursor, sanitizing paste distribution, focus moves as `dom/focus-element` effects, one-shot `complete` event, program-sourced sync never steals focus) | ✅ implemented + tested (Node machines), demo at `/inputs-advanced` |
+
 The structural roadmap is complete. Remaining work is breadth, not
 architecture: full i18n message bundles + RTL keymap flipping, remaining
 playgrounds (benchmarks with live render metrics), and migrating the gen-1
