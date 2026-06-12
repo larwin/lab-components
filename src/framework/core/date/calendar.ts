@@ -7,6 +7,7 @@ import {
   addMonths,
   addYears,
   clampDate,
+  compareDates,
   endOfWeek,
   isDateInRange,
   isSameDay,
@@ -29,18 +30,31 @@ import {
  * no DOM focus, no announcements, no change event.
  */
 
+export interface DateRange {
+  readonly start: DateValue;
+  readonly end: DateValue;
+}
+
 export interface CalendarState {
   /** Logical focus in the grid (always within min/max). */
   readonly focusedDate: DateValue;
   /** Month shown by the grid — follows the focused date. */
   readonly visibleMonth: { readonly year: number; readonly month: number };
+  /** Single mode only. */
   readonly selectedDate: DateValue | null;
+  /** Range mode: pending first endpoint — the preview spans anchor → focus. */
+  readonly anchor: DateValue | null;
+  /** Range mode: the committed interval (always start ≤ end). */
+  readonly range: DateRange | null;
 }
 
 export interface CalendarConfig {
   /** Initial focus — usually the value, else today (injected: the core has no clock). */
   initialFocus: DateValue;
   defaultValue?: DateValue | null;
+  /** "single" (default) or "range" — anchor + focus preview, ordered commit. */
+  selectionMode?: "single" | "range";
+  defaultRange?: DateRange | null;
   /** Live getters — props are read at dispatch time, the machine is built once. */
   getFirstDayOfWeek?: () => number;
   getMin?: () => DateValue | null | undefined;
@@ -48,8 +62,10 @@ export interface CalendarConfig {
   isDateDisabled?: (date: DateValue) => boolean;
   /** Localized "June 2026" — announced when the visible month changes. */
   monthLabel?: (year: number, month: number) => string;
-  /** Localized full date — announced on selection. */
+  /** Localized full date — announced on selection / range anchor. */
   dateLabel?: (date: DateValue) => string;
+  /** Localized "from X to Y" — announced when a range commits. */
+  rangeLabel?: (start: DateValue, end: DateValue) => string;
   /** RTL flips ArrowLeft/ArrowRight (adapter-level semantics, RFC §3.6). */
   direction?: () => "ltr" | "rtl";
 }
@@ -69,7 +85,27 @@ export const calendarIntents = {
   selectFocused: defineIntent<void>("calendar/select-focused"),
   /** Controlled-value sync — silent (no focus/announce/change echo). */
   setValue: defineIntent<{ date: DateValue | null }>("calendar/set-value"),
+  /** Controlled range sync — silent. */
+  setRange: defineIntent<{ range: DateRange | null }>("calendar/set-range"),
+  /** Drop the pending anchor (Escape while picking the second endpoint). */
+  cancelRange: defineIntent<void>("calendar/cancel-range"),
 };
+
+/**
+ * The interval to paint: the committed range, or — while an anchor is pending —
+ * the live anchor → focus preview (always ordered). Pure derivation, shared by
+ * every adapter.
+ */
+export function calendarRange(state: CalendarState): DateRange | null {
+  if (state.anchor !== null) {
+    const [start, end] =
+      compareDates(state.anchor, state.focusedDate) <= 0
+        ? [state.anchor, state.focusedDate]
+        : [state.focusedDate, state.anchor];
+    return { start, end };
+  }
+  return state.range;
+}
 
 export function createCalendarMachine(config: CalendarConfig): Machine<CalendarState> {
   const min = () => config.getMin?.() ?? null;
@@ -107,9 +143,32 @@ export function createCalendarMachine(config: CalendarConfig): Machine<CalendarS
     if (!isDateInRange(date, min(), max())) return state;
     if (config.isDateDisabled?.(date)) return state;
     const moved = toTransition(focusTransition(state, date, source));
+    const effects: Effect[] = [...moved.effects];
+
+    if (config.selectionMode === "range") {
+      if (state.anchor === null) {
+        // First endpoint: drop the previous range, start previewing.
+        const next: CalendarState = { ...moved.state, anchor: date, range: null };
+        if (source !== "program" && config.dateLabel) {
+          effects.push(announce({ message: config.dateLabel(date) }));
+        }
+        return withEffects(next, ...effects);
+      }
+      // Second endpoint: commit ordered (start ≤ end by construction).
+      const [start, end] =
+        compareDates(state.anchor, date) <= 0 ? [state.anchor, date] : [date, state.anchor];
+      const next: CalendarState = { ...moved.state, anchor: null, range: { start, end } };
+      if (source !== "program") {
+        effects.push(emitEvent({ name: "rangeChange", detail: { start, end } }));
+        if (config.rangeLabel) {
+          effects.push(announce({ message: config.rangeLabel(start, end) }));
+        }
+      }
+      return withEffects(next, ...effects);
+    }
+
     if (isSameDay(date, state.selectedDate)) return moved;
     const next: CalendarState = { ...moved.state, selectedDate: date };
-    const effects: Effect[] = [...moved.effects];
     if (source !== "program") {
       effects.push(emitEvent({ name: "change", detail: { date } }));
       if (config.dateLabel) {
@@ -125,6 +184,8 @@ export function createCalendarMachine(config: CalendarConfig): Machine<CalendarS
       focusedDate: initialFocus,
       visibleMonth: { year: initialFocus.year, month: initialFocus.month },
       selectedDate: config.defaultValue ?? null,
+      anchor: null,
+      range: config.defaultRange ?? null,
     },
     handlers: {
       [calendarIntents.focusDate.type]: (state, intent) =>
@@ -158,6 +219,37 @@ export function createCalendarMachine(config: CalendarConfig): Machine<CalendarS
       [calendarIntents.selectFocused.type]: (state, intent) =>
         selectTransition(state, state.focusedDate, intent.source),
 
+      [calendarIntents.setRange.type]: (state, intent) => {
+        const { range } = intent.payload as { range: DateRange | null };
+        if (range === null) {
+          return state.range === null && state.anchor === null
+            ? state
+            : { ...state, range: null, anchor: null };
+        }
+        const ordered: DateRange =
+          compareDates(range.start, range.end) <= 0
+            ? range
+            : { start: range.end, end: range.start };
+        if (
+          state.anchor === null &&
+          state.range !== null &&
+          isSameDay(ordered.start, state.range.start) &&
+          isSameDay(ordered.end, state.range.end)
+        ) {
+          return state;
+        }
+        return {
+          ...state,
+          anchor: null,
+          range: ordered,
+          focusedDate: clampDate(ordered.start, min(), max()),
+          visibleMonth: { year: ordered.start.year, month: ordered.start.month },
+        };
+      },
+
+      [calendarIntents.cancelRange.type]: (state) =>
+        state.anchor === null ? state : { ...state, anchor: null },
+
       [calendarIntents.setValue.type]: (state, intent) => {
         const { date } = intent.payload as { date: DateValue | null };
         if (date === null) {
@@ -175,11 +267,32 @@ export function createCalendarMachine(config: CalendarConfig): Machine<CalendarS
   });
 }
 
-/** Declarative grid keymap. ArrowLeft/Right flip in RTL; Space uses "Space". */
-export function calendarKeymap(config: CalendarConfig): KeyBinding[] {
+/**
+ * Declarative grid keymap. ArrowLeft/Right flip in RTL; Space uses "Space".
+ * In range mode, pass `getState` to bind Escape → cancel the pending anchor;
+ * the binding falls through (returns null) when no anchor is pending, leaving
+ * Escape to parent overlays (the Searchable pattern).
+ */
+export function calendarKeymap(
+  config: CalendarConfig,
+  getState?: () => CalendarState,
+): KeyBinding[] {
   const horizontal = (sign: 1 | -1): number =>
     (config.direction?.() ?? "ltr") === "rtl" ? -sign : sign;
+  const rangeBindings: KeyBinding[] =
+    config.selectionMode === "range" && getState
+      ? [
+          {
+            keys: "Escape",
+            intent: () =>
+              getState().anchor !== null
+                ? calendarIntents.cancelRange(undefined, "keyboard")
+                : null,
+          },
+        ]
+      : [];
   return [
+    ...rangeBindings,
     {
       keys: "ArrowLeft",
       intent: () => calendarIntents.moveDays({ days: horizontal(-1) }, "keyboard"),

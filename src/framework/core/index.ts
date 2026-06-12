@@ -273,14 +273,36 @@ export {
   type DateValue,
   type CalendarCell,
 } from "./date/value";
-export { firstDayOfWeek, weekdayNames, monthNames, formatDate, formatMonthYear } from "./date/intl";
+export {
+  firstDayOfWeek,
+  weekdayNames,
+  monthNames,
+  formatDate,
+  formatMonthYear,
+  dateFieldParts,
+  dateUnitLabel,
+  type DateSegmentType,
+  type DateFieldPart,
+} from "./date/intl";
 export {
   createCalendarMachine,
   calendarIntents,
   calendarKeymap,
+  calendarRange,
   type CalendarState,
   type CalendarConfig,
+  type DateRange,
 } from "./date/calendar";
+export {
+  createDateFieldMachine,
+  dateFieldIntents,
+  dateFieldKeymap,
+  dateFieldValue,
+  dateSegmentAria,
+  normalizeDigit,
+  type DateFieldState,
+  type DateFieldConfig,
+} from "./date/field";
 
 // Overlay positioning
 export {

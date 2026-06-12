@@ -148,6 +148,48 @@ export function weekdayNames(locale = "en", style: DayPeriodStyle = "short"): st
   );
 }
 
+/* --------------------------- date field segments --------------------------- */
+
+export type DateSegmentType = "day" | "month" | "year";
+
+export type DateFieldPart =
+  | { readonly type: DateSegmentType }
+  | { readonly type: "literal"; readonly value: string };
+
+/**
+ * The locale's date-field structure from Intl.formatToParts: editable segments
+ * in locale order interleaved with literal separators — "dd/mm/yyyy" (fr),
+ * "mm/dd/yyyy" (en-US), RTL-marked separators (ar)…
+ */
+export function dateFieldParts(locale = "en"): DateFieldPart[] {
+  const formatter = dtf(locale, { year: "numeric", month: "2-digit", day: "2-digit" });
+  const out: DateFieldPart[] = [];
+  for (const part of formatter.formatToParts(utc({ year: 2023, month: 12, day: 31 }))) {
+    if (part.type === "day" || part.type === "month" || part.type === "year") {
+      out.push({ type: part.type });
+    } else {
+      out.push({ type: "literal", value: part.value });
+    }
+  }
+  return out;
+}
+
+const displayNamesCache = new Map<string, Intl.DisplayNames>();
+
+/** "jour" / "month" / "سنة" — localized segment labels via Intl.DisplayNames. */
+export function dateUnitLabel(unit: DateSegmentType, locale = "en"): string {
+  try {
+    let names = displayNamesCache.get(locale);
+    if (!names) {
+      names = new Intl.DisplayNames(locale, { type: "dateTimeField" });
+      displayNamesCache.set(locale, names);
+    }
+    return names.of(unit) ?? unit;
+  } catch {
+    return unit;
+  }
+}
+
 /** Localized month names indexed 0 = January … 11 = December. */
 export function monthNames(locale = "en", style: "long" | "short" | "narrow" = "long"): string[] {
   const formatter = dtf(locale, { month: style });

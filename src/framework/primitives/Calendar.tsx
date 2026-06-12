@@ -4,12 +4,14 @@ import { cn } from "@/lib/utils";
 import {
   calendarIntents,
   calendarKeymap,
+  calendarRange,
   createCalendarMachine,
   firstDayOfWeek,
   focusElement,
   formatDate,
   formatMonthYear,
   getTextDirection,
+  isBetween,
   isDateInRange,
   isSameDay,
   monthGrid,
@@ -17,6 +19,7 @@ import {
   weekdayNames,
   type CalendarConfig,
   type CalendarState,
+  type DateRange,
   type DateValue,
 } from "@/framework/core";
 import {
@@ -55,6 +58,11 @@ export interface CalendarProps {
   value?: DateValue | null;
   defaultValue?: DateValue;
   onValueChange?: (date: DateValue) => void;
+  /** "range": first select anchors, hover/keyboard previews, second commits. */
+  selectionMode?: "single" | "range";
+  rangeValue?: DateRange | null;
+  defaultRange?: DateRange;
+  onRangeChange?: (range: DateRange) => void;
   min?: DateValue;
   max?: DateValue;
   isDateDisabled?: (date: DateValue) => boolean;
@@ -78,6 +86,10 @@ export function Calendar({
   value,
   defaultValue,
   onValueChange,
+  selectionMode = "single",
+  rangeValue,
+  defaultRange,
+  onRangeChange,
   min,
   max,
   isDateDisabled,
@@ -92,17 +104,21 @@ export function Calendar({
   const [registry] = useState(createItemRegistry);
   const todayValue = today ?? currentLocalDate();
   const fdow = firstDayProp ?? firstDayOfWeek(locale);
-  const live = useLiveRef({ min, max, isDateDisabled, locale, fdow, onValueChange });
+  const live = useLiveRef({ min, max, isDateDisabled, locale, fdow, onValueChange, onRangeChange });
 
   const [config] = useState<CalendarConfig>(() => ({
-    initialFocus: value ?? defaultValue ?? todayValue,
+    initialFocus: value ?? rangeValue?.start ?? defaultValue ?? defaultRange?.start ?? todayValue,
     defaultValue: value ?? defaultValue ?? null,
+    selectionMode,
+    defaultRange: rangeValue ?? defaultRange ?? null,
     getFirstDayOfWeek: () => live.current.fdow,
     getMin: () => live.current.min ?? null,
     getMax: () => live.current.max ?? null,
     isDateDisabled: (date) => live.current.isDateDisabled?.(date) === true,
     monthLabel: (year, month) => formatMonthYear(year, month, live.current.locale),
     dateLabel: (date) => formatDate(date, live.current.locale, { dateStyle: "full" }),
+    rangeLabel: (start, end) =>
+      `${formatDate(start, live.current.locale, { dateStyle: "long" })} – ${formatDate(end, live.current.locale, { dateStyle: "long" })}`,
     direction: () => getTextDirection(live.current.locale),
   }));
 
@@ -117,10 +133,24 @@ export function Calendar({
     dispatch(calendarIntents.setValue({ date: value }, "program"));
   }, [value, calendar.selectedDate, dispatch]);
 
+  useEffect(() => {
+    if (rangeValue === undefined) return;
+    const same =
+      rangeValue === null
+        ? calendar.range === null
+        : calendar.range !== null &&
+          isSameDay(rangeValue.start, calendar.range.start) &&
+          isSameDay(rangeValue.end, calendar.range.end);
+    // Never fight a selection in progress: the pending anchor wins.
+    if (same || calendar.anchor !== null) return;
+    dispatch(calendarIntents.setRange({ range: rangeValue }, "program"));
+  }, [rangeValue, calendar.range, calendar.anchor, dispatch]);
+
   useForgeEffects(store, {
     registry,
     events: {
       change: (detail) => live.current.onValueChange?.((detail as { date: DateValue }).date),
+      rangeChange: (detail) => live.current.onRangeChange?.(detail as DateRange),
     },
     overrides: {
       // A month change can mount the target cell in this very dispatch — focus
@@ -132,8 +162,10 @@ export function Calendar({
     },
   });
 
-  const [keymap] = useState(() => calendarKeymap(config));
+  const [keymap] = useState(() => calendarKeymap(config, () => store.getState() as CalendarState));
   const onKeyDown = useKeymap(() => keymap, dispatch);
+
+  const preview = selectionMode === "range" ? calendarRange(calendar) : null;
 
   const { year, month } = calendar.visibleMonth;
   const weeks = monthGrid(year, month, fdow);
@@ -219,17 +251,22 @@ export function Calendar({
               {week.map(({ date, inMonth }) => {
                 const iso = toISODate(date);
                 const focused = isSameDay(date, calendar.focusedDate);
-                const selected = isSameDay(date, calendar.selectedDate);
                 const isToday = isSameDay(date, todayValue);
                 const disabled =
                   !isDateInRange(date, min ?? null, max ?? null) || isDateDisabled?.(date) === true;
+                const inRange = preview !== null && isBetween(date, preview.start, preview.end);
+                const rangeEdge =
+                  preview !== null &&
+                  (isSameDay(date, preview.start) || isSameDay(date, preview.end));
+                const selected =
+                  selectionMode === "range" ? rangeEdge : isSameDay(date, calendar.selectedDate);
                 return (
                   <td
                     key={iso}
                     ref={inMonth ? registry.register(iso) : undefined}
                     role="gridcell"
                     tabIndex={inMonth && focused ? 0 : -1}
-                    aria-selected={selected || undefined}
+                    aria-selected={selected || (inRange && inMonth) || undefined}
                     aria-disabled={disabled || undefined}
                     aria-current={isToday ? "date" : undefined}
                     aria-label={formatDate(date, locale, { dateStyle: "full" })}
@@ -237,11 +274,18 @@ export function Calendar({
                     onClick={() => {
                       if (!disabled) dispatch(calendarIntents.select({ date }, "pointer"));
                     }}
+                    onPointerEnter={
+                      // Hover extends the anchor → focus preview (range mode only).
+                      selectionMode === "range" && calendar.anchor !== null && !disabled
+                        ? () => dispatch(calendarIntents.focusDate({ date }, "pointer"))
+                        : undefined
+                    }
                     className={cn(
                       "size-9 cursor-default rounded-md text-center text-sm transition-colors outline-none",
                       "hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring",
                       !inMonth && "text-muted-foreground/50",
                       isToday && !selected && "font-semibold text-primary",
+                      inRange && !rangeEdge && "rounded-none bg-accent text-accent-foreground",
                       selected && "bg-primary text-primary-foreground hover:bg-primary",
                       disabled && "pointer-events-none opacity-40",
                     )}

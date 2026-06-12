@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Calendar } from "@/framework/primitives";
+import { Calendar, DateField, DatePicker, DateRangePicker } from "@/framework/primitives";
 import {
   addDays,
   dayOfWeek,
   firstDayOfWeek,
   formatDate,
   weekdayNames,
+  type DateRange,
   type DateValue,
 } from "@/framework/core";
 import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
@@ -89,6 +90,9 @@ function DatesPage() {
   const [locale, setLocale] = useState<string>("fr-FR");
   const [picked, setPicked] = useState<DateValue | null>(null);
   const [shared, setShared] = useState<DateValue | null>(null);
+  const [fieldDate, setFieldDate] = useState<DateValue | null>(null);
+  const [pickedViaPicker, setPickedViaPicker] = useState<DateValue | null>(null);
+  const [range, setRange] = useState<DateRange | null>(null);
 
   const fdow = firstDayOfWeek(locale);
   const min = addDays(today(), -10);
@@ -98,15 +102,16 @@ function DatesPage() {
     <div>
       <PageHeader
         eyebrow="Next-Gen Engine"
-        title="Dates — le socle"
+        title="Dates"
         description={
           <>
-            Vague 7a : <code>DateValue</code> pur ({"{year, month, day}"}, aucun <code>Date</code>{" "}
-            dans l&apos;état — arithmétique civile exacte), services Intl sans données embarquées
-            (premier jour de semaine, libellés, RTL) et machine <code>calendarGrid</code> dédiée. À
-            tester au clavier : ←→↑↓ jour/semaine, Home/End bords de semaine, PageUp/PageDown mois
-            (Shift : année), Entrée/Espace sélection. Le focus est logique : chaque déplacement est
-            un intent, le focus DOM revient en effet déclaratif.
+            Vagues 7a + 7b : <code>DateValue</code> pur ({"{year, month, day}"}, aucun{" "}
+            <code>Date</code> dans l&apos;état — arithmétique civile exacte), services Intl sans
+            données embarquées, machine <code>calendarGrid</code> (clavier : ←→↑↓, Home/End,
+            PageUp/Down, Shift = année) avec sélection d&apos;intervalle (ancre + survol = preview,
+            Échap annule l&apos;ancre), et machine <code>dateField</code> : segments jour/mois/année
+            dans l&apos;ordre de la locale (Intl formatToParts), spinbuttons aux flèches, saisie
+            directe avec auto-avance — le pattern PIN adulte.
           </>
         }
       />
@@ -114,13 +119,13 @@ function DatesPage() {
       <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
         <MetricCard
           label="Tests Node ajoutés"
-          value="42"
-          unit="machine + arithmétique + Intl"
+          value="68"
+          unit="machines + arithmétique + Intl"
           accent
         />
         <MetricCard label="Date mutable dans l'état" value="0" unit="DateValue pur" />
         <MetricCard label="Données de locale embarquées" value="0" unit="tout dérive d'Intl" />
-        <MetricCard label="Locales prouvées" value="3" unit="fr · en-US · ar-EG" />
+        <MetricCard label="Machines pures" value="2" unit="calendarGrid + dateField" />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -184,6 +189,86 @@ function DatesPage() {
             }}
             aria-label="Calendrier jours ouvrés"
           />
+        </Showcase>
+
+        <Showcase
+          title="DateField — segments dans l'ordre de la locale"
+          description={
+            <>
+              L&apos;ordre vient d&apos;<code>Intl.formatToParts</code> : jj/mm/aaaa en français,
+              mm/jj/aaaa en anglais US, chiffres arabes en ar-EG. Tapez les chiffres (auto-avance :
+              « 4 » ne peut être que 04), flèches ↑↓ = spinbutton avec wrap (28 février → 1ᵉʳ), ←→
+              entre segments, Backspace efface puis recule. Chaque segment est un{" "}
+              <code>role=spinbutton</code> étiqueté via Intl.DisplayNames.
+            </>
+          }
+        >
+          <div className="flex flex-col gap-3">
+            {LOCALES.map((l) => (
+              <div key={l.tag} className="flex items-center gap-3">
+                <span className="w-28 shrink-0 text-xs text-muted-foreground">{l.label}</span>
+                <DateField
+                  locale={l.tag}
+                  value={fieldDate}
+                  onValueChange={setFieldDate}
+                  aria-label={`Date (${l.tag})`}
+                />
+              </div>
+            ))}
+            <p className="text-xs text-muted-foreground" aria-live="polite">
+              {fieldDate
+                ? `Valeur : ${formatDate(fieldDate, "fr", { dateStyle: "full" })}`
+                : "Champ incomplet — change n'est émis qu'aux points de commit."}
+            </p>
+          </div>
+        </Showcase>
+
+        <Showcase
+          title="DatePicker — champ + calendrier dans un Overlay"
+          description={
+            <>
+              Le pattern Select : une machine Dismissable possède l&apos;ouverture, la fermeture
+              restaure le focus au déclencheur (effet <code>dom/restore-focus</code>). Champ et
+              grille éditent la même valeur : tapez une date puis ouvrez le calendrier — il est déjà
+              positionné dessus.
+            </>
+          }
+        >
+          <div className="flex flex-col items-start gap-3">
+            <DatePicker
+              locale="fr-FR"
+              value={pickedViaPicker}
+              onValueChange={setPickedViaPicker}
+              aria-label="Date de livraison"
+            />
+            <p className="text-xs text-muted-foreground">
+              {pickedViaPicker
+                ? formatDate(pickedViaPicker, "fr", { dateStyle: "full" })
+                : "Aucune date."}
+            </p>
+          </div>
+        </Showcase>
+
+        <Showcase
+          title="DateRangePicker — intervalle : ancre + survol = preview"
+          description={
+            <>
+              Premier clic = ancre (annoncée SR), le survol ou les flèches étendent la preview en
+              direct (dérivation pure <code>calendarRange</code>), second clic valide —{" "}
+              <em>toujours ordonné</em> : choisissez la fin avant le début, la machine échange.
+              Échap annule l&apos;ancre (binding qui laisse passer la touche sinon — l&apos;overlay
+              garde Échap). Les deux champs imposent aussi début ≤ fin par échange.
+            </>
+          }
+        >
+          <div className="flex flex-col items-start gap-3">
+            <DateRangePicker locale="fr-FR" value={range} onValueChange={setRange} />
+            <p className="text-xs text-muted-foreground" aria-live="polite">
+              {range
+                ? `Du ${formatDate(range.start, "fr")} au ${formatDate(range.end, "fr")}`
+                : "Aucun intervalle complet."}
+            </p>
+          </div>
         </Showcase>
 
         <Showcase

@@ -109,7 +109,7 @@ export const NAV_GROUPS: NavGroup[] = [
         to: "/dates",
         label: "Dates",
         icon: CalendarDays,
-        description: "Calendar — DateValue pur, grille i18n Intl",
+        description: "Calendar, DateField, pickers — DateValue pur, i18n Intl",
       },
       {
         to: "/data-loader",

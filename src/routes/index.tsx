@@ -163,13 +163,13 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
   {
     to: "/dates",
     icon: CalendarDays,
-    title: "Dates — le socle",
-    what: "DateValue pur ({year, month, day} — aucun Date mutable dans l'état, arithmétique civile exacte), services i18n dérivés d'Intl sans données embarquées, et la machine calendarGrid : focus logique 2D, bornes, annonces SR.",
+    title: "Dates",
+    what: "DateValue pur ({year, month, day} — aucun Date mutable dans l'état, arithmétique civile exacte), services i18n dérivés d'Intl sans données embarquées, machine calendarGrid (focus logique 2D, intervalle ancre + survol), machine dateField (segments dans l'ordre de la locale) — et les pickers composés dessus.",
     verify: [
       "Clavier dans la grille : ←→↑↓ jour/semaine, Home/End bords de semaine, PageUp/Down mois (Shift : année)",
-      "Basculez fr → en-US → ar-EG : premier jour de semaine, libellés, chiffres et sens RTL suivent (←/→ inversés)",
-      "Bornes ±10 jours : le focus clampe sur la borne, les dates au-delà sont insélectionnables",
-      "Week-ends désactivés : focalisables au clavier (APG) mais Entrée/clic n'émettent rien",
+      "Basculez fr → en-US → ar-EG : premier jour de semaine, ordre des segments (jj/mm vs mm/jj), chiffres et sens RTL suivent",
+      "DateField : tapez « 4 » dans le jour — auto-avance (04) ; ↑↓ = spinbutton avec wrap sur la vraie longueur du mois",
+      "DateRangePicker : cliquez une ancre, survolez (preview live), validez à l'envers — la machine ordonne début ≤ fin ; Échap annule l'ancre sans fermer l'overlay",
     ],
   },
   {

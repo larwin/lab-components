@@ -8,6 +8,7 @@ import type { KeyStroke } from "../interaction/keys";
 import {
   calendarIntents,
   calendarKeymap,
+  calendarRange,
   createCalendarMachine,
   type CalendarConfig,
   type CalendarState,
@@ -177,6 +178,110 @@ describe("calendar machine — selection", () => {
     expect(state().focusedDate).toEqual(dateValue(2026, 6, 25));
     const change = effects.find(emitEvent.match);
     expect((change?.payload.detail as { date: DateValue }).date).toEqual(dateValue(2026, 6, 25));
+  });
+});
+
+describe("calendar machine — range mode", () => {
+  const makeRange = (config: Partial<CalendarConfig> = {}) =>
+    makeCalendar({
+      selectionMode: "range",
+      rangeLabel: (s, e) => `range:${toISODate(s)}..${toISODate(e)}`,
+      dateLabel: (d) => `anchor:${toISODate(d)}`,
+      ...config,
+    });
+
+  it("first select anchors (no event), preview follows the focus", () => {
+    const { store, press, state } = makeRange();
+    const effects = press(stroke("Enter"));
+    expect(state().anchor).toEqual(JUNE_12);
+    expect(state().range).toBeNull();
+    expect(eventNames(effects)).toEqual([]);
+    expect(announcements(effects)).toEqual(["anchor:2026-06-12"]);
+    // Moving the focus (hover dispatches focusDate, keyboard moves days)…
+    store.dispatch(calendarIntents.focusDate({ date: dateValue(2026, 6, 18) }, "pointer"));
+    // …extends the live preview, ordered.
+    expect(calendarRange(state())).toEqual({ start: JUNE_12, end: dateValue(2026, 6, 18) });
+  });
+
+  it("second select commits ordered even when picked backwards", () => {
+    const { store, state } = makeRange();
+    store.dispatch(calendarIntents.select({ date: dateValue(2026, 6, 20) }, "pointer"));
+    const effects = store.dispatch(
+      calendarIntents.select({ date: dateValue(2026, 6, 5) }, "pointer"),
+    );
+    expect(state().anchor).toBeNull();
+    expect(state().range).toEqual({ start: dateValue(2026, 6, 5), end: dateValue(2026, 6, 20) });
+    const commit = effects.find(emitEvent.match);
+    expect(commit?.payload.name).toBe("rangeChange");
+    expect(announcements(effects)).toEqual(["range:2026-06-05..2026-06-20"]);
+  });
+
+  it("a same-day range is valid (start = end)", () => {
+    const { press, state } = makeRange();
+    press(stroke("Enter"));
+    press(stroke("Enter"));
+    expect(state().range).toEqual({ start: JUNE_12, end: JUNE_12 });
+  });
+
+  it("preview backwards is ordered too", () => {
+    const { store, press, state } = makeRange();
+    press(stroke("Enter")); // anchor June 12
+    store.dispatch(calendarIntents.moveDays({ days: -7 }, "keyboard"));
+    expect(calendarRange(state())).toEqual({ start: dateValue(2026, 6, 5), end: JUNE_12 });
+  });
+
+  it("Escape cancels a pending anchor, and falls through when none is pending", () => {
+    const full: CalendarConfig = {
+      initialFocus: JUNE_12,
+      getFirstDayOfWeek: () => 1,
+      selectionMode: "range",
+    };
+    const store = createStore(createCalendarMachine(full));
+    const keymap = calendarKeymap(full, () => store.getState() as CalendarState);
+    const escape = () => resolveBinding(keymap, stroke("Escape"));
+    expect(escape()).toBeNull(); // no anchor → the binding falls through (overlays keep Escape)
+    store.dispatch(calendarIntents.selectFocused(undefined, "keyboard"));
+    const resolved = escape();
+    expect(resolved).not.toBeNull();
+    store.dispatch(resolved!.intent);
+    expect((store.getState() as CalendarState).anchor).toBeNull();
+    expect(escape()).toBeNull(); // cancelled → falls through again
+  });
+
+  it("starting a new selection clears the committed range", () => {
+    const { store, state } = makeRange();
+    store.dispatch(calendarIntents.select({ date: dateValue(2026, 6, 5) }, "pointer"));
+    store.dispatch(calendarIntents.select({ date: dateValue(2026, 6, 8) }, "pointer"));
+    store.dispatch(calendarIntents.select({ date: dateValue(2026, 6, 20) }, "pointer"));
+    expect(state().range).toBeNull();
+    expect(state().anchor).toEqual(dateValue(2026, 6, 20));
+  });
+
+  it("setRange (program) syncs silently, ordering swapped bounds", () => {
+    const { store, state } = makeRange();
+    const effects = store.dispatch(
+      calendarIntents.setRange(
+        { range: { start: dateValue(2026, 7, 10), end: dateValue(2026, 7, 2) } },
+        "program",
+      ),
+    );
+    expect(effects).toHaveLength(0);
+    expect(state().range).toEqual({ start: dateValue(2026, 7, 2), end: dateValue(2026, 7, 10) });
+    expect(state().visibleMonth).toEqual({ year: 2026, month: 7 });
+    store.dispatch(calendarIntents.setRange({ range: null }, "program"));
+    expect(state().range).toBeNull();
+  });
+
+  it("disabled dates can neither anchor nor commit", () => {
+    const { store, state } = makeRange({
+      isDateDisabled: (d) => toISODate(d) === "2026-06-13",
+    });
+    store.dispatch(calendarIntents.select({ date: dateValue(2026, 6, 13) }, "pointer"));
+    expect(state().anchor).toBeNull();
+    store.dispatch(calendarIntents.select({ date: dateValue(2026, 6, 10) }, "pointer"));
+    store.dispatch(calendarIntents.select({ date: dateValue(2026, 6, 13) }, "pointer"));
+    expect(state().range).toBeNull();
+    expect(state().anchor).toEqual(dateValue(2026, 6, 10));
   });
 });
 

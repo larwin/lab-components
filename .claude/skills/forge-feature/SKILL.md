@@ -53,6 +53,8 @@ src/framework/core/        LE PRODUIT — pur, testé en Node
   dnd/        drag machine (pointeur + clavier + annonces)
   overlay/    positionnement pur (flip/shift) + toast queue machine
   text/       characterLimit (politique compteur) + machine PinInput
+  date/       DateValue pur + arithmétique civile, services Intl
+              (firstDayOfWeek/libellés), machine calendarGrid
 src/framework/react/       L'ADAPTATEUR — useMachine, interpréteurs d'effets,
                             Overlay (pile de layers), useVirtualizer, useDataSource
 src/framework/primitives/  Les composants composés (coquilles minces)
@@ -212,6 +214,23 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
   continu (Splitter), c'est NumericValue qui est la bonne réutilisation
   (4ᵉ : NumberField, Slider, Rating, Splitter). Justifier la substitution
   dans la table RFC.
+- 2026-06-12 · Domaine à état riche (dates) : l'état machine ne porte que des
+  valeurs pures sérialisables (`DateValue {year,month,day}`) ; `Date` ne sert
+  que de véhicule éphémère vers `Intl.DateTimeFormat` (toujours UTC, via
+  `setUTCFullYear` pour les années < 100) dans le module intl du core — même
+  pattern que formatNumber/parseNumber. Les libellés localisés entrent dans la
+  machine par getters de config (`monthLabel`, `dateLabel`), jamais par appel
+  Intl direct dans le reducer.
+- 2026-06-12 · Effets de focus par source, raffinement calendrier :
+  `focusElement` seulement pour `keyboard`/`shortcut` — un clic pointeur sur
+  un bouton de navigation (mois suivant) ne doit pas voler le focus vers la
+  grille, et la cellule cliquée prend déjà le focus DOM nativement. Les
+  annonces SR, elles, partent pour toute source non-`program`.
+- 2026-06-12 · Quand un effet de focus cible un élément monté par le même
+  dispatch (changement de mois ⇒ nouvelle grille), surcharger l'interpréteur
+  `focusElement` avec un report d'une frame (`requestAnimationFrame`) : React
+  a commité au moment où le rAF s'exécute. Pattern jumeau de l'override
+  `scrollToItem` → focus DOM (Accordion).
 - 2026-06-12 · Statiques sans machine (Alert, Badge, Avatar, Card, Skeleton,
   Spinner, EmptyState…) : rôle ARIA correct + tokens + variantes CVA, point.
   Quand un statique a quand même UNE décision (compteur TextArea, acceptation
