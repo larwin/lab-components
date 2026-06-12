@@ -82,8 +82,14 @@ pas un contournement.
 
 - 2026-06-12 · PowerShell 5.1 : ne jamais réécrire un fichier texte via
   `Get-Content`/`Set-Content` (corruption UTF-8) — outils Write/Edit
-  uniquement. `git push` écrit sa confirmation sur stderr : le
-  `NativeCommandError` PowerShell est cosmétique si `main -> main` apparaît.
+  uniquement. Confirmé en vague 4 : même un « petit » remplacement regex en
+  batch (`-replace` sur tous les call sites) mojibake les tirets/accents ;
+  pour N occurrences identiques, Edit `replace_all` ou réécriture Write.
+  `git push` écrit sa confirmation sur stderr : le `NativeCommandError`
+  PowerShell est cosmétique si `main -> main` apparaît.
+- 2026-06-12 · Formatage ciblé : `bunx prettier --write <fichiers du chantier>`
+  évite le passage global de `bun run format` sur `experimentations/` (et donc
+  le `git restore` obligatoire). Le lint vérifie prettier de toute façon.
 - 2026-06-12 · Caractères Unicode invisibles (U+202F…) littéraux dans le code
   ⇒ erreur lint `no-irregular-whitespace` : toujours des échappements
   `\uXXXX` dans les regex. Piège de réparation : l'outil Edit ne matche pas

@@ -51,7 +51,8 @@ src/framework/core/        LE PRODUIT — pur, testé en Node
   virtualization/ fenêtrage Fenwick O(log n)
   data/       query (tri/filtre), grouping, loader machine (async sans courses)
   dnd/        drag machine (pointeur + clavier + annonces)
-  overlay/    positionnement pur (flip/shift)
+  overlay/    positionnement pur (flip/shift) + toast queue machine
+  text/       characterLimit (politique compteur) + machine PinInput
 src/framework/react/       L'ADAPTATEUR — useMachine, interpréteurs d'effets,
                             Overlay (pile de layers), useVirtualizer, useDataSource
 src/framework/primitives/  Les composants composés (coquilles minces)
@@ -181,3 +182,21 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
   `Map<id, handle>` de setTimeout ; chaque chemin qui retire un item (dismiss,
   éviction au-delà du plafond, clear) doit émettre son `cancel-…`, sinon fuite
   de timer. Tout le cycle se teste en Node sans fake timers.
+- 2026-06-12 · Nœud sentinelle (TagsInput) : pour relier un élément hors
+  collection (le champ texte) à une rangée Navigable, l'inclure comme nœud
+  sentinelle de la collection — « Backspace sur champ vide → dernier chip »
+  devient `nav/previous` et « sortir des chips → input » devient `nav/next`,
+  zéro logique dans la coquille. Deux machines peuvent coopérer dans une
+  primitive si la passerelle clavier est une fonction pure testée en Node
+  (cf. tags-core), et le `scrollToItem` de la rangée se réinterprète en focus
+  DOM (pattern Accordion).
+- 2026-06-12 · Effets dépendants de la source : un intent `program`
+  (re-synchronisation contrôlée) ne doit jamais émettre d'effet de focus DOM —
+  filtrer sur `intent.source` dans le reducer (cf. machine PIN). Généralise la
+  règle contrôlé/non-contrôlé : la synchronisation est silencieuse côté DOM
+  comme côté events.
+- 2026-06-12 · Un behavior peut porter une keymap opt-in par config
+  (Searchable : `clearOnEscape`/`submitOnEnter`) — le binding Escape retourne
+  `null` quand la requête est vide pour laisser la touche aux overlays
+  parents ; les composeurs existants (ComboBox) ne passent pas les flags et ne
+  voient aucun binding nouveau.

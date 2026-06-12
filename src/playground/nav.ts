@@ -17,6 +17,7 @@ import {
   PanelTopOpen,
   BellRing,
   TextCursorInput,
+  PanelRightOpen,
   type LucideIcon,
 } from "lucide-react";
 
@@ -77,6 +78,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Navigation",
         icon: PanelTopOpen,
         description: "Tabs, Accordion, Select, ContextMenu",
+      },
+      {
+        to: "/surfaces",
+        label: "Surfaces",
+        icon: PanelRightOpen,
+        description: "Drawer, AlertDialog, Pagination, Menubar, Splitter",
       },
       {
         to: "/overlays",

@@ -192,6 +192,15 @@ export {
   type ArraySourceOptions,
 } from "./data/source";
 export {
+  createPaginationMachine,
+  paginationIntents,
+  paginationRange,
+  pageCountOf,
+  type PaginationState,
+  type PaginationConfig,
+  type PaginationRangeItem,
+} from "./data/pagination";
+export {
   createLoaderMachine,
   loadIntents,
   fetchEffect,

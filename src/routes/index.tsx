@@ -11,6 +11,7 @@ import {
   FlaskConical,
   Grid3x3,
   Layers,
+  PanelRightOpen,
   PanelTopOpen,
   SlidersHorizontal,
   SquareKanban,
@@ -106,6 +107,19 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "Select : ouvrez et tapez « en » — le typeahead saute sur Enterprise (Legacy désactivé est sauté)",
       "Accordion single : ouvrir une section ferme l'autre ; ↑ ↓ naviguent entre les en-têtes",
       "Clic droit dans la zone ContextMenu : ouverture à la position du curseur, Échap referme et restaure le focus",
+    ],
+  },
+  {
+    to: "/surfaces",
+    icon: PanelRightOpen,
+    title: "Surfaces & navigation",
+    what: "Drawer ancré aux bords sur le moteur Overlay, AlertDialog à choix obligatoire, Pagination dont la fenêtre d'ellipses est du calcul core pur, Breadcrumbs qui replient le milieu dans la machine Menu, Menubar APG où le panneau suit le focus de la barre, et Splitter sur la machine NumericValue — la 4ᵉ réutilisation.",
+    verify: [
+      "Menubar : ouvrez Fichier puis ← → — le panneau suit le focus sans se fermer ; survolez Édition : il bascule",
+      "Splitter : glissez puis prenez le clavier (← →, Shift+← = ±10, Home/End) ; double-clic = retour 50 %",
+      "Pagination : naviguez vers le milieu — la fenêtre devient 1 … 9 10 11 … 24 (calculée dans le core)",
+      "AlertDialog : Escape et clic extérieur ne ferment pas ; le focus initial est sur « Annuler »",
+      "Breadcrumbs : ouvrez « … » — flèches + typeahead dans le menu des segments repliés",
     ],
   },
   {
