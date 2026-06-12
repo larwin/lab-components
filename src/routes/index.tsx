@@ -4,6 +4,7 @@ import {
   BellRing,
   Boxes,
   Brush,
+  CalendarDays,
   Check,
   Cpu,
   DatabaseZap,
@@ -157,6 +158,18 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "Avatar : la 2ᵉ image est cassée — repli automatique sur les initiales",
       "Alert : warning/error portent role=alert, info/success role=status",
       "Spinner : role=status avec libellé sr-only ; Skeleton aria-hidden",
+    ],
+  },
+  {
+    to: "/dates",
+    icon: CalendarDays,
+    title: "Dates — le socle",
+    what: "DateValue pur ({year, month, day} — aucun Date mutable dans l'état, arithmétique civile exacte), services i18n dérivés d'Intl sans données embarquées, et la machine calendarGrid : focus logique 2D, bornes, annonces SR.",
+    verify: [
+      "Clavier dans la grille : ←→↑↓ jour/semaine, Home/End bords de semaine, PageUp/Down mois (Shift : année)",
+      "Basculez fr → en-US → ar-EG : premier jour de semaine, libellés, chiffres et sens RTL suivent (←/→ inversés)",
+      "Bornes ±10 jours : le focus clampe sur la borne, les dates au-delà sont insélectionnables",
+      "Week-ends désactivés : focalisables au clavier (APG) mais Entrée/clic n'émettent rien",
     ],
   },
   {

@@ -1,6 +1,7 @@
 import {
   Home,
   Brush,
+  CalendarDays,
   Component,
   Cpu,
   DatabaseZap,
@@ -103,6 +104,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Statiques",
         icon: Shapes,
         description: "Alert, Badge, Avatar, Card, Skeleton, Dropzone",
+      },
+      {
+        to: "/dates",
+        label: "Dates",
+        icon: CalendarDays,
+        description: "Calendar — DateValue pur, grille i18n Intl",
       },
       {
         to: "/data-loader",

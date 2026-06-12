@@ -22,6 +22,7 @@ import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as EngineRouteImport } from './routes/engine'
 import { Route as DisclosureRouteImport } from './routes/disclosure'
 import { Route as DebugRouteImport } from './routes/debug'
+import { Route as DatesRouteImport } from './routes/dates'
 import { Route as DataLoaderRouteImport } from './routes/data-loader'
 import { Route as DataGridRouteImport } from './routes/data-grid'
 import { Route as ControlsRouteImport } from './routes/controls'
@@ -96,6 +97,11 @@ const DebugRoute = DebugRouteImport.update({
   path: '/debug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DatesRoute = DatesRouteImport.update({
+  id: '/dates',
+  path: '/dates',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DataLoaderRoute = DataLoaderRouteImport.update({
   id: '/data-loader',
   path: '/data-loader',
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/controls': typeof ControlsRoute
   '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
+  '/dates': typeof DatesRoute
   '/debug': typeof DebugRoute
   '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByTo {
   '/controls': typeof ControlsRoute
   '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
+  '/dates': typeof DatesRoute
   '/debug': typeof DebugRoute
   '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
@@ -193,6 +201,7 @@ export interface FileRoutesById {
   '/controls': typeof ControlsRoute
   '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
+  '/dates': typeof DatesRoute
   '/debug': typeof DebugRoute
   '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
@@ -218,6 +227,7 @@ export interface FileRouteTypes {
     | '/controls'
     | '/data-grid'
     | '/data-loader'
+    | '/dates'
     | '/debug'
     | '/disclosure'
     | '/engine'
@@ -241,6 +251,7 @@ export interface FileRouteTypes {
     | '/controls'
     | '/data-grid'
     | '/data-loader'
+    | '/dates'
     | '/debug'
     | '/disclosure'
     | '/engine'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/controls'
     | '/data-grid'
     | '/data-loader'
+    | '/dates'
     | '/debug'
     | '/disclosure'
     | '/engine'
@@ -288,6 +300,7 @@ export interface RootRouteChildren {
   ControlsRoute: typeof ControlsRoute
   DataGridRoute: typeof DataGridRoute
   DataLoaderRoute: typeof DataLoaderRoute
+  DatesRoute: typeof DatesRoute
   DebugRoute: typeof DebugRoute
   DisclosureRoute: typeof DisclosureRoute
   EngineRoute: typeof EngineRoute
@@ -396,6 +409,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DebugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dates': {
+      id: '/dates'
+      path: '/dates'
+      fullPath: '/dates'
+      preLoaderRoute: typeof DatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/data-loader': {
       id: '/data-loader'
       path: '/data-loader'
@@ -464,6 +484,7 @@ const rootRouteChildren: RootRouteChildren = {
   ControlsRoute: ControlsRoute,
   DataGridRoute: DataGridRoute,
   DataLoaderRoute: DataLoaderRoute,
+  DatesRoute: DatesRoute,
   DebugRoute: DebugRoute,
   DisclosureRoute: DisclosureRoute,
   EngineRoute: EngineRoute,

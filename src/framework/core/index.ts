@@ -246,6 +246,42 @@ export {
   type PinKind,
 } from "./text/pin";
 
+// Dates
+export {
+  dateValue,
+  isLeapYear,
+  daysInMonth,
+  toEpochDays,
+  fromEpochDays,
+  dayOfWeek,
+  addDays,
+  addMonths,
+  addYears,
+  compareDates,
+  isSameDay,
+  isSameMonth,
+  clampDate,
+  isDateInRange,
+  isBetween,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  toISODate,
+  parseISODate,
+  monthGrid,
+  type DateValue,
+  type CalendarCell,
+} from "./date/value";
+export { firstDayOfWeek, weekdayNames, monthNames, formatDate, formatMonthYear } from "./date/intl";
+export {
+  createCalendarMachine,
+  calendarIntents,
+  calendarKeymap,
+  type CalendarState,
+  type CalendarConfig,
+} from "./date/calendar";
+
 // Overlay positioning
 export {
   computePosition,

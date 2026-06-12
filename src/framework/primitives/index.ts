@@ -60,6 +60,7 @@ export { Skeleton, type SkeletonProps } from "./Skeleton";
 export { Spinner, type SpinnerProps } from "./Spinner";
 export { EmptyState, type EmptyStateProps } from "./EmptyState";
 export { Dropzone, type DropzoneProps } from "./Dropzone";
+export { Calendar, type CalendarProps, type CalendarLabels } from "./Calendar";
 export { Tooltip, type TooltipProps } from "./Tooltip";
 export { Popover, type PopoverProps } from "./Popover";
 export { KanbanBoard, type KanbanProps, type KanbanColumnDef } from "./Kanban";
