@@ -6,6 +6,7 @@ import {
   Brush,
   CalendarDays,
   Check,
+  Clock,
   Cpu,
   DatabaseZap,
   FileText,
@@ -170,6 +171,18 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "Basculez fr → en-US → ar-EG : premier jour de semaine, ordre des segments (jj/mm vs mm/jj), chiffres et sens RTL suivent",
       "DateField : tapez « 4 » dans le jour — auto-avance (04) ; ↑↓ = spinbutton avec wrap sur la vraie longueur du mois",
       "DateRangePicker : cliquez une ancre, survolez (preview live), validez à l'envers — la machine ordonne début ≤ fin ; Échap annule l'ancre sans fermer l'overlay",
+    ],
+  },
+  {
+    to: "/time",
+    icon: Clock,
+    title: "Temps",
+    what: "TimeValue pur ({hour, minute, second?} — stockage toujours 0-23, wrap à minuit), cycle 12/24 h dérivé d'Intl jamais deviné, et la machine dateField généralisée en machine de segments : dates et temps sont deux configurations du même reducer. TimeField, DateTimeField, DateTimePicker.",
+    verify: [
+      "Tapez « 2 30 p » dans le champ en-US : les champs fr et ar-EG (même état contrôlé) affichent 14:30",
+      "Segment AM/PM : flèches ↑↓ pour basculer, ou l'initiale localisée « a »/« p »",
+      "fr n'a pas de segment AM/PM (cycle h23 via Intl) ; ar-EG passe en chiffres arabes et RTL",
+      "DateTimePicker : choisir un jour ne ferme pas l'overlay — le TimeField en dessous complète l'échéance",
     ],
   },
   {

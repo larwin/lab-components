@@ -7,6 +7,7 @@ import {
   dateFieldParts,
   dateFieldValue,
   dateSegmentAria,
+  dateSegmentValues,
   dateUnitLabel,
   formatNumber,
   getTextDirection,
@@ -87,8 +88,8 @@ export function DateField({
     if (defaultValue || value) {
       // Seed before first render — silent program intent through the reducer.
       const seeded = machine.reduce(machine.initialState, {
-        type: dateFieldIntents.setValue.type,
-        payload: { date: value ?? defaultValue ?? null },
+        type: dateFieldIntents.setValues.type,
+        payload: { values: dateSegmentValues(value ?? defaultValue ?? null) },
         source: "program",
       });
       return { ...machine, initialState: seeded.state };
@@ -102,13 +103,15 @@ export function DateField({
   useEffect(() => {
     if (value === undefined || field.typed !== "") return;
     const same = value === null ? composed === null : isSameDay(composed, value);
-    if (!same) dispatch(dateFieldIntents.setValue({ date: value }, "program"));
+    if (!same)
+      dispatch(dateFieldIntents.setValues({ values: dateSegmentValues(value) }, "program"));
   }, [value, composed, field.typed, dispatch]);
 
   useForgeEffects(store, {
     registry,
     events: {
-      change: (detail) => live.current.onValueChange?.((detail as { date: DateValue | null }).date),
+      change: (detail) =>
+        live.current.onValueChange?.((detail as { value: DateValue | null }).value),
     },
   });
 
@@ -147,7 +150,7 @@ export function DateField({
         editableIndex += 1;
         const index = editableIndex;
         const type = part.type;
-        const segmentValue = field[type];
+        const segmentValue = field.values[type] ?? null;
         const active = field.cursor === index;
         return (
           <span

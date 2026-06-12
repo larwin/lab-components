@@ -299,10 +299,75 @@ export {
   dateFieldKeymap,
   dateFieldValue,
   dateSegmentAria,
+  dateSegmentValues,
   normalizeDigit,
   type DateFieldState,
   type DateFieldConfig,
 } from "./date/field";
+
+// Segment fields (the generic machine behind dateField & timeField)
+export {
+  createSegmentFieldMachine,
+  segmentFieldIntents,
+  segmentFieldKeymap,
+  segmentAria,
+  type SegmentFieldState,
+  type SegmentFieldConfig,
+  type SegmentSpec,
+  type SegmentValues,
+} from "./field/segments";
+
+// Times
+export {
+  timeValue,
+  toSecondsOfDay,
+  fromSecondsOfDay,
+  addMinutes,
+  addHours,
+  addSeconds,
+  compareTimes,
+  isSameTime,
+  clampTime,
+  isTimeInRange,
+  roundToMinuteStep,
+  toISOTime,
+  parseISOTime,
+  usesDayPeriod,
+  hourBounds,
+  dayPeriodOf,
+  displayHour,
+  hourFromDisplay,
+  combineDateTime,
+  dateOf,
+  timeOf,
+  compareDateTimes,
+  isSameDateTime,
+  addDateTimeMinutes,
+  toISODateTime,
+  SECONDS_PER_DAY,
+  type TimeValue,
+  type DateTimeValue,
+  type HourCycle,
+} from "./time/value";
+export {
+  hourCycleOf,
+  formatTime,
+  timeFieldParts,
+  dayPeriodLabels,
+  timeUnitLabel,
+  type TimeSegmentType,
+  type TimeFieldPart,
+} from "./time/intl";
+export {
+  createTimeFieldMachine,
+  timeFieldKeymap,
+  timeFieldValue,
+  timeSegmentValues,
+  timeSegmentAria,
+  timeSegmentSpecs,
+  dayPeriodParser,
+  type TimeFieldConfig,
+} from "./time/field";
 
 // Overlay positioning
 export {

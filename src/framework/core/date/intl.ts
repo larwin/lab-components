@@ -9,7 +9,11 @@ import type { DateValue } from "./value";
 
 const dtfCache = new Map<string, Intl.DateTimeFormat>();
 
-const dtf = (locale: string, options: Intl.DateTimeFormatOptions): Intl.DateTimeFormat => {
+/** Cached UTC-pinned formatter — shared infrastructure for date AND time intl. */
+export const utcFormatter = (
+  locale: string,
+  options: Intl.DateTimeFormatOptions,
+): Intl.DateTimeFormat => {
   const key = `${locale}|${JSON.stringify(options)}`;
   let formatter = dtfCache.get(key);
   if (!formatter) {
@@ -18,6 +22,8 @@ const dtf = (locale: string, options: Intl.DateTimeFormatOptions): Intl.DateTime
   }
   return formatter;
 };
+
+const dtf = utcFormatter;
 
 /** Transient UTC carrier — setUTCFullYear keeps years 0-99 exact. */
 const utc = (date: DateValue): Date => {

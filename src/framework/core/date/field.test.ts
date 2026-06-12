@@ -1,5 +1,5 @@
 // @vitest-environment node
-// Date field machine — segmented spinbuttons tested as a pure machine.
+// Date field — the date configuration of the generic segment-field machine.
 import { describe, expect, it } from "vitest";
 import { createStore } from "../runtime/store";
 import { emitEvent, focusElement, type Effect } from "../runtime/effect";
@@ -11,6 +11,7 @@ import {
   dateFieldKeymap,
   dateFieldValue,
   dateSegmentAria,
+  dateSegmentValues,
   normalizeDigit,
   type DateFieldConfig,
   type DateFieldState,
@@ -49,26 +50,26 @@ const changes = (effects: readonly Effect[]) =>
   effects
     .filter(emitEvent.match)
     .filter((e) => e.payload.name === "change")
-    .map((e) => (e.payload.detail as { date: DateValue | null }).date);
+    .map((e) => (e.payload.detail as { value: DateValue | null }).value);
 
 describe("date field — typing with auto-advance", () => {
   it("types a full fr date digit by digit (dd/mm/yyyy) and emits one change", () => {
     const { type, state } = makeField();
     type("12");
-    expect(state().day).toBe(12);
+    expect(state().values.day).toBe(12);
     expect(state().cursor).toBe(1); // two digits fill the day
     type("06");
-    expect(state().month).toBe(6);
+    expect(state().values.month).toBe(6);
     expect(state().cursor).toBe(2);
     const effects = type("2026");
-    expect(state().year).toBe(2026);
+    expect(state().values.year).toBe(2026);
     expect(changes(effects)).toEqual([dateValue(2026, 6, 12)]);
   });
 
   it("a digit that can only complete the segment advances immediately (day 4 → 04)", () => {
     const { type, state } = makeField();
     const effects = type("4");
-    expect(state().day).toBe(4);
+    expect(state().values.day).toBe(4);
     expect(state().cursor).toBe(1);
     expect(focusTargets(effects)).toEqual(["1"]);
   });
@@ -79,7 +80,7 @@ describe("date field — typing with auto-advance", () => {
     type("1");
     expect(state().cursor).toBe(1); // "1" might become 10-12
     type("3"); // 13 > 12 → restart with 3, which advances (3*10 > 12)
-    expect(state().month).toBe(3);
+    expect(state().values.month).toBe(3);
     expect(state().cursor).toBe(2);
   });
 
@@ -88,7 +89,7 @@ describe("date field — typing with auto-advance", () => {
     expect(normalizeDigit("۷")).toBe("7");
     const { type, state } = makeField();
     type("٣"); // day 3 — waits (could be 30/31)
-    expect(state().day).toBe(3);
+    expect(state().values.day).toBe(3);
   });
 
   it("a complete date with an impossible day clamps to the month length", () => {
@@ -105,27 +106,31 @@ describe("date field — spinbutton arrows", () => {
   it("ArrowUp on an empty segment seeds from the injected placeholder date", () => {
     const { press, state } = makeField();
     press(stroke("ArrowUp"));
-    expect(state().day).toBe(12); // placeholder day
+    expect(state().values.day).toBe(12); // placeholder day
   });
 
   it("day wraps on the real month length when month/year are known", () => {
     const { store, press, state } = makeField();
-    store.dispatch(dateFieldIntents.setValue({ date: dateValue(2026, 2, 28) }, "program"));
+    store.dispatch(
+      dateFieldIntents.setValues({ values: dateSegmentValues(dateValue(2026, 2, 28)) }, "program"),
+    );
     press(stroke("ArrowUp")); // Feb 2026 has 28 days → wrap to 1
-    expect(state().day).toBe(1);
+    expect(state().values.day).toBe(1);
     press(stroke("ArrowDown"));
-    expect(state().day).toBe(28);
+    expect(state().values.day).toBe(28);
   });
 
   it("month wraps 12 → 1; year clamps without wrapping", () => {
     const { store, press, state } = makeField();
-    store.dispatch(dateFieldIntents.setValue({ date: dateValue(9999, 12, 1) }, "program"));
+    store.dispatch(
+      dateFieldIntents.setValues({ values: dateSegmentValues(dateValue(9999, 12, 1)) }, "program"),
+    );
     store.dispatch(dateFieldIntents.focusSegment({ index: 1 }, "program"));
     press(stroke("ArrowUp"));
-    expect(state().month).toBe(1);
+    expect(state().values.month).toBe(1);
     store.dispatch(dateFieldIntents.focusSegment({ index: 2 }, "program"));
     press(stroke("ArrowUp"));
-    expect(state().year).toBe(9999);
+    expect(state().values.year).toBe(9999);
   });
 
   it("an incomplete field emits no change while stepping", () => {
@@ -158,10 +163,10 @@ describe("date field — cursor & clearing", () => {
     type("1206"); // day 12, month 6, cursor on year
     press(stroke("Backspace")); // year empty → step back, clear month
     expect(state().cursor).toBe(1);
-    expect(state().month).toBeNull();
+    expect(state().values.month).toBeNull();
     press(stroke("Backspace")); // month already cleared → step back, clear day
     expect(state().cursor).toBe(0);
-    expect(state().day).toBeNull();
+    expect(state().values.day).toBeNull();
   });
 
   it("emptying a complete date emits change(null) exactly once", () => {
@@ -197,12 +202,12 @@ describe("date field — drafts commit, never drip", () => {
 });
 
 describe("date field — controlled sync & ARIA", () => {
-  it("setValue (program) fills segments silently", () => {
+  it("setValues (program) fills segments silently", () => {
     const { store, state } = makeField();
     const effects = store.dispatch(
-      dateFieldIntents.setValue({ date: dateValue(2026, 6, 12) }, "program"),
+      dateFieldIntents.setValues({ values: dateSegmentValues(dateValue(2026, 6, 12)) }, "program"),
     );
-    expect(state().day).toBe(12);
+    expect(state().values.day).toBe(12);
     expect(dateFieldValue(state())).toEqual(dateValue(2026, 6, 12));
     expect(effects).toHaveLength(0);
   });
@@ -220,7 +225,7 @@ describe("date field — controlled sync & ARIA", () => {
   it("segment order is pure config — en-US (mdy) writes the month first", () => {
     const { type, state } = makeField({ segments: ["month", "day", "year"] });
     type("06");
-    expect(state().month).toBe(6);
-    expect(state().day).toBeNull();
+    expect(state().values.month).toBe(6);
+    expect(state().values.day).toBeNull();
   });
 });

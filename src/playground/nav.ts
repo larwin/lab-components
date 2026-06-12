@@ -2,6 +2,7 @@ import {
   Home,
   Brush,
   CalendarDays,
+  Clock,
   Component,
   Cpu,
   DatabaseZap,
@@ -110,6 +111,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Dates",
         icon: CalendarDays,
         description: "Calendar, DateField, pickers — DateValue pur, i18n Intl",
+      },
+      {
+        to: "/time",
+        label: "Temps",
+        icon: Clock,
+        description: "TimeField, DateTimePicker — cycle 12/24 h via Intl",
       },
       {
         to: "/data-loader",
