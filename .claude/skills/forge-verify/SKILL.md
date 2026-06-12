@@ -97,3 +97,11 @@ pas un contournement.
   voie sûre est PowerShell `[IO.File]` en construisant la chaîne par morceaux
   (`[char]0x5C + 'u00a0'`), écrite via `WriteAllText` + `UTF8Encoding($false)`
   — jamais `WriteAllLines`, qui force du CRLF (vague de `Delete ␍` prettier).
+- 2026-06-12 · Messages de commit multi-lignes : le here-string PowerShell
+  `git commit -m @'…'@` peut se déquoter silencieusement (le commit reçoit
+  des morceaux du message comme pathspecs et échoue à moitié). Voie robuste :
+  écrire le message via l'outil Write dans `.git/COMMIT_MSG.txt`, puis
+  `git commit -F .git/COMMIT_MSG.txt` et supprimer le fichier.
+- 2026-06-12 · Ne jamais chaîner `prettier --write` et `bun run test` dans la
+  même commande composée : vitest peut lire des fichiers en cours de
+  réécriture (échec fantôme). Deux commandes séparées.

@@ -290,6 +290,20 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
   passe par live.current — un `commit` recréé à chaque render et capturé par
   l'interpréteur commit sur un état périmé. Les handlers JSX (closures
   fraîches par render) n'ont pas ce problème.
+- 2026-06-12 · Fuseaux sans données embarquées (ZonedDateTime) : l'offset d'un
+  instant se calcule via Intl (timeZoneName "longOffset" + formatToParts) ;
+  pour wall-clock → instant, sonder les offsets candidats à ±24 h du guess —
+  sonder seulement au guess rate l'offset d'avant-transition et perd
+  l'instant « précoce » du chevauchement (fall-back). Résolution façon
+  Temporal-compatible : overlap → instant le plus tôt, gap → l'horloge saute
+  en avant. Tester les DEUX transitions avec des dates réelles (29 mars /
+  25 octobre).
+- 2026-06-12 · Module optionnel généré (windows-zones) : données externes
+  (table CLDR) ⇒ script de génération versionné (`scripts/generate-*.ts`,
+  provenance + procédure documentées dans le script ET le module généré),
+  module feuille volontairement NON ré-exporté par le barrel du core — les
+  consommateurs l'importent par chemin direct, le tree-shaking est garanti
+  par construction et non par espoir.
 - 2026-06-12 · Statiques sans machine (Alert, Badge, Avatar, Card, Skeleton,
   Spinner, EmptyState…) : rôle ARIA correct + tokens + variantes CVA, point.
   Quand un statique a quand même UNE décision (compteur TextArea, acceptation
