@@ -152,6 +152,7 @@ export {
   matchesCombo,
   formatKeyCombo,
   isPrintableStroke,
+  flipHorizontalStroke,
   type KeyStroke,
   type KeyCombo,
   type Platform,
@@ -409,6 +410,14 @@ export {
   type ZonedDateTime,
   type TimeZoneNameStyle,
 } from "./time/zone";
+
+// Layout policies
+export {
+  partitionOverflow,
+  type OverflowItem,
+  type OverflowInput,
+  type OverflowPartition,
+} from "./layout/overflow";
 
 // Overlay positioning
 export {

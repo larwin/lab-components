@@ -50,6 +50,8 @@ export interface SelectProps {
   onValueChange?: (value: Key | null) => void;
   placeholder?: string;
   disabled?: boolean;
+  /** Tab-order integration slot (roving toolbars set -1/0). Machine untouched. */
+  tabIndex?: number;
   className?: string;
   "aria-label"?: string;
 }
@@ -63,6 +65,7 @@ export function Select({
   onValueChange,
   placeholder = "Sélectionner…",
   disabled = false,
+  tabIndex,
   className,
   ...rest
 }: SelectProps) {
@@ -134,6 +137,7 @@ export function Select({
         ref={triggerRef}
         type="button"
         disabled={disabled}
+        tabIndex={tabIndex}
         {...fieldControlProps(field)}
         id={fieldControlProps(field).id ?? `${baseId}-trigger`}
         aria-label={field ? undefined : rest["aria-label"]}

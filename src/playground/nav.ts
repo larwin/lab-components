@@ -21,6 +21,7 @@ import {
   TextCursorInput,
   PanelRightOpen,
   Shapes,
+  PencilRuler,
   type LucideIcon,
 } from "lucide-react";
 
@@ -117,6 +118,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Temps",
         icon: Clock,
         description: "TimeField, TimePicker ×4, fuseaux — tout dérive d'Intl",
+      },
+      {
+        to: "/toolbar",
+        label: "Toolbar",
+        icon: PencilRuler,
+        description: "Roving APG, débordement « … », pilule flottante",
       },
       {
         to: "/data-loader",

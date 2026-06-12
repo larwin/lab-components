@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VirtualizationRouteImport } from './routes/virtualization'
+import { Route as ToolbarRouteImport } from './routes/toolbar'
 import { Route as TimeRouteImport } from './routes/time'
 import { Route as ThemingRouteImport } from './routes/theming'
 import { Route as SurfacesRouteImport } from './routes/surfaces'
@@ -36,6 +37,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const VirtualizationRoute = VirtualizationRouteImport.update({
   id: '/virtualization',
   path: '/virtualization',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolbarRoute = ToolbarRouteImport.update({
+  id: '/toolbar',
+  path: '/toolbar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TimeRoute = TimeRouteImport.update({
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/surfaces': typeof SurfacesRoute
   '/theming': typeof ThemingRoute
   '/time': typeof TimeRoute
+  '/toolbar': typeof ToolbarRoute
   '/virtualization': typeof VirtualizationRoute
 }
 export interface FileRoutesByTo {
@@ -197,6 +204,7 @@ export interface FileRoutesByTo {
   '/surfaces': typeof SurfacesRoute
   '/theming': typeof ThemingRoute
   '/time': typeof TimeRoute
+  '/toolbar': typeof ToolbarRoute
   '/virtualization': typeof VirtualizationRoute
 }
 export interface FileRoutesById {
@@ -223,6 +231,7 @@ export interface FileRoutesById {
   '/surfaces': typeof SurfacesRoute
   '/theming': typeof ThemingRoute
   '/time': typeof TimeRoute
+  '/toolbar': typeof ToolbarRoute
   '/virtualization': typeof VirtualizationRoute
 }
 export interface FileRouteTypes {
@@ -250,6 +259,7 @@ export interface FileRouteTypes {
     | '/surfaces'
     | '/theming'
     | '/time'
+    | '/toolbar'
     | '/virtualization'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -275,6 +285,7 @@ export interface FileRouteTypes {
     | '/surfaces'
     | '/theming'
     | '/time'
+    | '/toolbar'
     | '/virtualization'
   id:
     | '__root__'
@@ -300,6 +311,7 @@ export interface FileRouteTypes {
     | '/surfaces'
     | '/theming'
     | '/time'
+    | '/toolbar'
     | '/virtualization'
   fileRoutesById: FileRoutesById
 }
@@ -326,6 +338,7 @@ export interface RootRouteChildren {
   SurfacesRoute: typeof SurfacesRoute
   ThemingRoute: typeof ThemingRoute
   TimeRoute: typeof TimeRoute
+  ToolbarRoute: typeof ToolbarRoute
   VirtualizationRoute: typeof VirtualizationRoute
 }
 
@@ -336,6 +349,13 @@ declare module '@tanstack/react-router' {
       path: '/virtualization'
       fullPath: '/virtualization'
       preLoaderRoute: typeof VirtualizationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/toolbar': {
+      id: '/toolbar'
+      path: '/toolbar'
+      fullPath: '/toolbar'
+      preLoaderRoute: typeof ToolbarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/time': {
@@ -518,6 +538,7 @@ const rootRouteChildren: RootRouteChildren = {
   SurfacesRoute: SurfacesRoute,
   ThemingRoute: ThemingRoute,
   TimeRoute: TimeRoute,
+  ToolbarRoute: ToolbarRoute,
   VirtualizationRoute: VirtualizationRoute,
 }
 export const routeTree = rootRouteImport

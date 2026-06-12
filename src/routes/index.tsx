@@ -15,6 +15,7 @@ import {
   Layers,
   PanelRightOpen,
   PanelTopOpen,
+  PencilRuler,
   Shapes,
   SlidersHorizontal,
   SquareKanban,
@@ -183,6 +184,18 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "Les 4 variantes du TimePicker côte à côte : changez l'heure dans l'une, les trois autres suivent (même état)",
       "Cadran en fr (h23) : deux bagues (1-12 dehors, 13-00 dedans) ; flèches = mêmes intents que le pointeur",
       "Convertisseur : basculez été/hiver — Tokyo passe de +7 h à +8 h vs Paris (le Japon n'a pas de DST) ; 29 mars 02:30 n'existe pas → 03:30",
+    ],
+  },
+  {
+    to: "/toolbar",
+    icon: PencilRuler,
+    title: "Toolbar",
+    what: "APG toolbar sur la machine Navigable(horizontal) existante : UN tabstop, roving sur de vrais boutons, contenu hétérogène (boutons, ToggleGroup, Select compact) sans logique nouvelle. Le débordement « … » est la politique pure partitionOverflow + LA machine Menu inchangée ; la pilule flottante est le même composant ancré à la sélection de texte.",
+    verify: [
+      "Tab n'entre qu'une fois dans la barre ; ←/→ circulent (wrap), Annuler désactivé reste focalisable",
+      "Rétrécissez le conteneur au slider : les items partent dans « … » — Ctrl+B et Ctrl+Z marchent toujours",
+      "Sélectionnez du texte dans l'éditeur : la pilule apparaît, son « gras » coche aussi la barre statique (même état)",
+      "Toolbar RTL : ← avance, → recule — la frappe est retournée avant la keymap (fonction pure testée)",
     ],
   },
   {

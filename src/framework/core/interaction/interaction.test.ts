@@ -1,7 +1,13 @@
 // @vitest-environment node
 // Pure core: keyboard system tested without DOM or browser.
 import { describe, expect, it, vi } from "vitest";
-import { formatKeyCombo, matchesCombo, parseKeyCombo, type KeyStroke } from "./keys";
+import {
+  flipHorizontalStroke,
+  formatKeyCombo,
+  matchesCombo,
+  parseKeyCombo,
+  type KeyStroke,
+} from "./keys";
 import { createShortcutManager, ROOT_SCOPE } from "./shortcuts";
 
 const stroke = (key: string, mods: Partial<KeyStroke> = {}): KeyStroke => ({
@@ -36,6 +42,17 @@ describe("key combos", () => {
   it("formats for display per platform", () => {
     expect(formatKeyCombo("Mod+Shift+K", "mac")).toBe("⇧⌘K");
     expect(formatKeyCombo("Mod+Shift+K", "windows")).toBe("Ctrl+Shift+K");
+  });
+
+  it("flips horizontal arrows in RTL only, preserving modifiers", () => {
+    expect(flipHorizontalStroke(stroke("ArrowLeft"), "rtl").key).toBe("ArrowRight");
+    expect(flipHorizontalStroke(stroke("ArrowRight", { shift: true }), "rtl")).toMatchObject({
+      key: "ArrowLeft",
+      shift: true,
+    });
+    expect(flipHorizontalStroke(stroke("ArrowLeft"), "ltr").key).toBe("ArrowLeft");
+    expect(flipHorizontalStroke(stroke("ArrowDown"), "rtl").key).toBe("ArrowDown");
+    expect(flipHorizontalStroke(stroke("Home"), "rtl").key).toBe("Home");
   });
 });
 

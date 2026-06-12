@@ -51,6 +51,16 @@ export { Pagination, type PaginationProps } from "./Pagination";
 export { Breadcrumbs, type BreadcrumbsProps, type BreadcrumbItemDef } from "./Breadcrumbs";
 export { Menubar, type MenubarProps, type MenubarMenu } from "./Menubar";
 export { Splitter, type SplitterProps } from "./Splitter";
+export { Toolbar, FloatingToolbar, type ToolbarProps, type FloatingToolbarProps } from "./Toolbar";
+export {
+  type ToolbarItemDef,
+  type ToolbarButtonDef,
+  type ToolbarToggleDef,
+  type ToolbarToggleGroupDef,
+  type ToolbarSelectDef,
+  type ToolbarSeparatorDef,
+  type ToolbarSelectOptionDef,
+} from "./toolbar-core";
 export { Alert, type AlertProps } from "./Alert";
 export { Badge, type BadgeProps } from "./Badge";
 export { Avatar, type AvatarProps } from "./Avatar";

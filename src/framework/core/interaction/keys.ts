@@ -111,3 +111,16 @@ export function formatKeyCombo(combo: string | KeyCombo, platform: Platform = "o
 export function isPrintableStroke(stroke: KeyStroke): boolean {
   return stroke.key.length === 1 && !stroke.ctrl && !stroke.meta && !stroke.alt;
 }
+
+/**
+ * Swap ArrowLeft/ArrowRight in RTL so "next" stays the *visual* forward
+ * direction. Horizontal adapters (toolbar, carousel) flip the stroke before
+ * resolving it against a keymap — the keymap itself never knows about
+ * direction (RTL is an adapter concern, the mapping is pure).
+ */
+export function flipHorizontalStroke(stroke: KeyStroke, direction: "ltr" | "rtl"): KeyStroke {
+  if (direction !== "rtl") return stroke;
+  if (stroke.key === "ArrowLeft") return { ...stroke, key: "ArrowRight" };
+  if (stroke.key === "ArrowRight") return { ...stroke, key: "ArrowLeft" };
+  return stroke;
+}
