@@ -14,15 +14,15 @@
 Defined in `src/framework/engines/index.ts`. None are implemented yet — they are
 deliberate seams.
 
-| Engine          | Status        | Lands in                              |
-| --------------- | ------------- | ------------------------------------- |
-| Collection      | experimental  | `src/framework/collections`           |
-| Behaviors       | planned       | `src/framework/engines/behaviors`     |
-| Intents         | planned       | `src/framework/engines/intents`       |
-| State machines  | planned       | `src/framework/engines/state-machines`|
-| Effects         | planned       | `src/framework/engines/effects`       |
-| Virtualization  | planned       | `src/framework/engines/virtualization`|
-| Accessibility   | planned       | `src/framework/engines/accessibility` |
+| Engine         | Status       | Lands in                               |
+| -------------- | ------------ | -------------------------------------- |
+| Collection     | experimental | `src/framework/collections`            |
+| Behaviors      | planned      | `src/framework/engines/behaviors`      |
+| Intents        | planned      | `src/framework/engines/intents`        |
+| State machines | planned      | `src/framework/engines/state-machines` |
+| Effects        | planned      | `src/framework/engines/effects`        |
+| Virtualization | planned      | `src/framework/engines/virtualization` |
+| Accessibility  | planned      | `src/framework/engines/accessibility`  |
 
 ## Data Grid roadmap
 

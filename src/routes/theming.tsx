@@ -72,10 +72,7 @@ function Theming() {
                 <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
                   {t.label} · {t.family}
                 </span>
-                <p
-                  className="text-2xl"
-                  style={{ fontFamily: `var(${t.token})` }}
-                >
+                <p className="text-2xl" style={{ fontFamily: `var(${t.token})` }}>
                   The quick brown fox
                 </p>
               </li>

@@ -1,25 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import {
-  Button,
-  Checkbox,
-  Input,
-  Radio,
-  RadioGroup,
-  Select,
-} from "@/framework";
-import {
-  PageHeader,
-  Showcase,
-  DemoSurface,
-  Field,
-} from "@/playground/components/primitives";
+import { Button, Checkbox, Input, Radio, RadioGroup, Select } from "@/framework";
+import { PageHeader, Showcase, DemoSurface, Field } from "@/playground/components/primitives";
 
 export const Route = createFileRoute("/components")({
   head: () => ({
     meta: [
       { title: "Components — Forge" },
-      { name: "description", content: "The Forge component catalog: buttons, inputs and form primitives." },
+      {
+        name: "description",
+        content: "The Forge component catalog: buttons, inputs and form primitives.",
+      },
     ],
   }),
   component: Components,
@@ -38,7 +29,10 @@ function Components() {
         description="The foundational primitives. Minimal by design — the goal is a clean, consistent surface that future work can extend."
       />
 
-      <Showcase title="Button" description="Six variants × four sizes via class-variance-authority.">
+      <Showcase
+        title="Button"
+        description="Six variants × four sizes via class-variance-authority."
+      >
         <DemoSurface>
           <Button variant="primary">Primary</Button>
           <Button variant="brand">Brand</Button>

@@ -7,8 +7,7 @@ export interface SelectOption {
   value: string;
 }
 
-export interface SelectProps
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size"> {
+export interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size"> {
   options: SelectOption[];
 }
 

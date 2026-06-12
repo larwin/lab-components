@@ -88,9 +88,7 @@ export function List({
               <span className="flex min-w-0 flex-col">
                 <span className="truncate font-medium">{item.label}</span>
                 {item.description && (
-                  <span className="truncate text-xs text-muted-foreground">
-                    {item.description}
-                  </span>
+                  <span className="truncate text-xs text-muted-foreground">{item.description}</span>
                 )}
               </span>
             </button>

@@ -23,19 +23,14 @@ export interface TreeProps {
  * Expansion state is local for now. Extension point: lift this into a shared
  * collection engine that can drive Tree, Menu and List from one state model.
  */
-export function Tree({
-  nodes,
-  defaultExpanded = [],
-  selectedId,
-  onSelect,
-  className,
-}: TreeProps) {
+export function Tree({ nodes, defaultExpanded = [], selectedId, onSelect, className }: TreeProps) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set(defaultExpanded));
 
   const toggle = (id: string) =>
     setExpanded((prev) => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
 

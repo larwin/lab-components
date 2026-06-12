@@ -16,5 +16,4 @@ export const formatDate = (input: string | number | Date): string =>
     day: "numeric",
   });
 
-export const titleCase = (value: string): string =>
-  value.replace(/\b\w/g, (c) => c.toUpperCase());
+export const titleCase = (value: string): string => value.replace(/\b\w/g, (c) => c.toUpperCase());

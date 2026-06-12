@@ -2,12 +2,43 @@ import { createRng, intBetween, floatBetween, maybe, pick, type Rng } from "./ra
 import type { Order, Product, Status, User } from "./types";
 
 const FIRST = [
-  "Ava", "Liam", "Noah", "Emma", "Mia", "Kai", "Zoe", "Leo", "Aria", "Eli",
-  "Maya", "Ivan", "Nina", "Omar", "Sara", "Theo", "Lena", "Cruz", "Iris", "Reza",
+  "Ava",
+  "Liam",
+  "Noah",
+  "Emma",
+  "Mia",
+  "Kai",
+  "Zoe",
+  "Leo",
+  "Aria",
+  "Eli",
+  "Maya",
+  "Ivan",
+  "Nina",
+  "Omar",
+  "Sara",
+  "Theo",
+  "Lena",
+  "Cruz",
+  "Iris",
+  "Reza",
 ];
 const LAST = [
-  "Carter", "Singh", "Nguyen", "Garcia", "Khan", "Patel", "Rossi", "Cohen",
-  "Yamada", "Mbeki", "Lindqvist", "Okafor", "Petrova", "Haddad", "Müller",
+  "Carter",
+  "Singh",
+  "Nguyen",
+  "Garcia",
+  "Khan",
+  "Patel",
+  "Rossi",
+  "Cohen",
+  "Yamada",
+  "Mbeki",
+  "Lindqvist",
+  "Okafor",
+  "Petrova",
+  "Haddad",
+  "Müller",
 ];
 const TEAMS = ["Platform", "Growth", "Design", "Data", "Infra", "Mobile", "Research"];
 const ROLES: User["role"][] = ["admin", "editor", "viewer"];

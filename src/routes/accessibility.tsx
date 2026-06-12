@@ -44,24 +44,35 @@ function A11y() {
       </Showcase>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Showcase title="Focus handling" description="All interactive elements show a visible focus ring.">
+        <Showcase
+          title="Focus handling"
+          description="All interactive elements show a visible focus ring."
+        >
           <div className="flex flex-wrap gap-3">
             <Button variant="primary">Focus me</Button>
             <Button variant="outline">And me</Button>
             <Button variant="ghost">Then me</Button>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            Focus rings use the <code className="font-mono">--ring</code> token and stay
-            visible only for keyboard users (<code className="font-mono">:focus-visible</code>).
+            Focus rings use the <code className="font-mono">--ring</code> token and stay visible
+            only for keyboard users (<code className="font-mono">:focus-visible</code>).
           </p>
         </Showcase>
 
         <Showcase title="ARIA roles" description="Semantic roles are applied automatically.">
           <ul className="flex flex-col gap-2 font-mono text-xs">
-            <li className="rounded-md border border-border bg-surface p-2">List → role="listbox" / option</li>
-            <li className="rounded-md border border-border bg-surface p-2">Tree → role="tree" / treeitem</li>
-            <li className="rounded-md border border-border bg-surface p-2">Menu → role="menu" / menuitem</li>
-            <li className="rounded-md border border-border bg-surface p-2">RadioGroup → role="radiogroup"</li>
+            <li className="rounded-md border border-border bg-surface p-2">
+              List → role="listbox" / option
+            </li>
+            <li className="rounded-md border border-border bg-surface p-2">
+              Tree → role="tree" / treeitem
+            </li>
+            <li className="rounded-md border border-border bg-surface p-2">
+              Menu → role="menu" / menuitem
+            </li>
+            <li className="rounded-md border border-border bg-surface p-2">
+              RadioGroup → role="radiogroup"
+            </li>
           </ul>
         </Showcase>
       </div>

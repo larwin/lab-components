@@ -4,11 +4,7 @@ import { Button, Checkbox, Input } from "@/framework";
 import { useEventLog, type LogEntry } from "@/hooks/use-event-log";
 import { useRenderMetrics } from "@/hooks/use-render-metrics";
 import { formatDuration } from "@/utils/perf";
-import {
-  PageHeader,
-  Showcase,
-  MetricCard,
-} from "@/playground/components/primitives";
+import { PageHeader, Showcase, MetricCard } from "@/playground/components/primitives";
 
 export const Route = createFileRoute("/debug")({
   head: () => ({
@@ -53,18 +49,30 @@ function Debug() {
       <div className="grid gap-6 lg:grid-cols-2">
         <Showcase title="State inspector" description="Live component state as JSON.">
           <div className="mb-4 flex flex-wrap items-end gap-3">
-            <Button size="sm" onClick={() => { setCount((c) => c + 1); log("event", "increment", { count: count + 1 }); }}>
+            <Button
+              size="sm"
+              onClick={() => {
+                setCount((c) => c + 1);
+                log("event", "increment", { count: count + 1 });
+              }}
+            >
               Increment
             </Button>
             <Input
               className="max-w-40"
               value={name}
-              onChange={(e) => { setName(e.target.value); log("info", "name changed", e.target.value); }}
+              onChange={(e) => {
+                setName(e.target.value);
+                log("info", "name changed", e.target.value);
+              }}
             />
             <Checkbox
               label="flag"
               checked={flag}
-              onChange={(e) => { setFlag(e.target.checked); log("event", "toggle flag", e.target.checked); }}
+              onChange={(e) => {
+                setFlag(e.target.checked);
+                log("event", "toggle flag", e.target.checked);
+              }}
             />
           </div>
           <pre className="overflow-x-auto rounded-lg border border-border bg-surface p-4 font-mono text-xs">
@@ -72,10 +80,7 @@ function Debug() {
           </pre>
         </Showcase>
 
-        <Showcase
-          title="Event log"
-          description="Most recent first."
-        >
+        <Showcase title="Event log" description="Most recent first.">
           <div className="mb-3 flex gap-2">
             <Button size="sm" variant="outline" onClick={() => log("warn", "manual warning")}>
               Log warning

@@ -3,18 +3,16 @@ import { useMemo, useState } from "react";
 import { DataGrid, Input, type ColumnDef } from "@/framework";
 import { getUsers, type User } from "@/fixtures";
 import { formatDate } from "@/utils/format";
-import {
-  PageHeader,
-  Showcase,
-  StatusPill,
-  Field,
-} from "@/playground/components/primitives";
+import { PageHeader, Showcase, StatusPill, Field } from "@/playground/components/primitives";
 
 export const Route = createFileRoute("/data-grid")({
   head: () => ({
     meta: [
       { title: "Data Grid — Forge" },
-      { name: "description", content: "Sortable, filterable, selectable data grid with a virtualization placeholder." },
+      {
+        name: "description",
+        content: "Sortable, filterable, selectable data grid with a virtualization placeholder.",
+      },
     ],
   }),
   component: DataGridPage,
@@ -91,8 +89,7 @@ function DataGridPage() {
           </p>
           <p className="max-w-md text-sm text-muted-foreground">
             See the Virtualization page for a working windowed list, and{" "}
-            <code className="font-mono text-xs">DataGrid/README.md</code> for the
-            integration plan.
+            <code className="font-mono text-xs">DataGrid/README.md</code> for the integration plan.
           </p>
         </div>
       </Showcase>

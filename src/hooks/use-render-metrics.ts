@@ -17,9 +17,7 @@ export interface RenderMetrics {
  */
 export function useRenderMetrics(): RenderMetrics {
   const renderCount = useRef(0);
-  const startRef = useRef(
-    typeof performance !== "undefined" ? performance.now() : Date.now(),
-  );
+  const startRef = useRef(typeof performance !== "undefined" ? performance.now() : Date.now());
   const durations = useRef<number[]>([]);
   const [, force] = useState(0);
 

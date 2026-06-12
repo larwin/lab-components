@@ -62,9 +62,7 @@ export function Menu({ sections, onAction, className }: MenuProps) {
               {item.icon && <span className="size-4 text-muted-foreground">{item.icon}</span>}
               <span className="flex-1">{item.label}</span>
               {item.shortcut && (
-                <span className="font-mono text-xs text-muted-foreground">
-                  {item.shortcut}
-                </span>
+                <span className="font-mono text-xs text-muted-foreground">{item.shortcut}</span>
               )}
             </button>
           ))}

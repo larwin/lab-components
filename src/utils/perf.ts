@@ -16,8 +16,7 @@ export interface TimingSample {
   timestamp: number;
 }
 
-const now = (): number =>
-  typeof performance !== "undefined" ? performance.now() : Date.now();
+const now = (): number => (typeof performance !== "undefined" ? performance.now() : Date.now());
 
 /** Measure the synchronous execution time of `fn`. */
 export function measure<T>(label: string, fn: () => T): { result: T; sample: TimingSample } {

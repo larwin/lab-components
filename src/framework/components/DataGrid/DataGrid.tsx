@@ -44,10 +44,7 @@ export function DataGrid<T>({
 
   return (
     <div
-      className={cn(
-        "overflow-auto rounded-lg border border-border bg-surface",
-        className,
-      )}
+      className={cn("overflow-auto rounded-lg border border-border bg-surface", className)}
       style={maxHeight ? { maxHeight } : undefined}
     >
       <table className="w-full border-collapse text-sm">
@@ -130,10 +127,7 @@ export function DataGrid<T>({
                   </td>
                 )}
                 {columns.map((col) => (
-                  <td
-                    key={col.id}
-                    className={cn("px-3 py-2", alignClass[col.align ?? "left"])}
-                  >
+                  <td key={col.id} className={cn("px-3 py-2", alignClass[col.align ?? "left"])}>
                     {col.cell ? col.cell(row) : String(valueOf(row, col))}
                   </td>
                 ))}

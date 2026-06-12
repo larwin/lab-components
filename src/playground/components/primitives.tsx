@@ -49,17 +49,12 @@ export function Showcase({
 }) {
   return (
     <section
-      className={cn(
-        "overflow-hidden rounded-xl border border-border bg-card shadow-sm",
-        className,
-      )}
+      className={cn("overflow-hidden rounded-xl border border-border bg-card shadow-sm", className)}
     >
       {(title || description) && (
         <div className="border-b border-border px-5 py-4">
           {title && <h3 className="font-sans text-sm font-semibold">{title}</h3>}
-          {description && (
-            <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>
-          )}
+          {description && <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>}
         </div>
       )}
       <div className={cn("p-5", contentClassName)}>{children}</div>
@@ -69,13 +64,7 @@ export function Showcase({
 
 /* ── Demo surface (dotted backdrop) ───────────────────────────────────────*/
 
-export function DemoSurface({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export function DemoSurface({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <div
       className={cn(
@@ -127,12 +116,7 @@ export function MetricCard({
         {label}
       </p>
       <p className="mt-1 flex items-baseline gap-1">
-        <span
-          className={cn(
-            "font-sans text-2xl font-bold tabular-nums",
-            accent && "text-primary",
-          )}
-        >
+        <span className={cn("font-sans text-2xl font-bold tabular-nums", accent && "text-primary")}>
           {value}
         </span>
         {unit && <span className="text-xs text-muted-foreground">{unit}</span>}

@@ -2,8 +2,10 @@ import { forwardRef } from "react";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export interface CheckboxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
+export interface CheckboxProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "type" | "size"
+> {
   label?: string;
 }
 
@@ -25,13 +27,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         htmlFor={inputId}
       >
         <span className="relative inline-flex">
-          <input
-            ref={ref}
-            id={inputId}
-            type="checkbox"
-            className="peer sr-only"
-            {...props}
-          />
+          <input ref={ref} id={inputId} type="checkbox" className="peer sr-only" {...props} />
           <span
             className={cn(
               "flex size-4.5 items-center justify-center rounded-[5px] border border-border bg-surface transition-colors",

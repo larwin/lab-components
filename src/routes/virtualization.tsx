@@ -16,7 +16,10 @@ export const Route = createFileRoute("/virtualization")({
   head: () => ({
     meta: [
       { title: "Virtualization — Forge" },
-      { name: "description", content: "Windowed rendering of large datasets with live performance metrics." },
+      {
+        name: "description",
+        content: "Windowed rendering of large datasets with live performance metrics.",
+      },
     ],
   }),
   component: Virtualization,
@@ -93,14 +96,10 @@ function Virtualization() {
                   className="absolute flex w-full items-center gap-4 border-b border-border px-4 text-sm"
                   style={{ top: index * ROW_HEIGHT, height: ROW_HEIGHT }}
                 >
-                  <span className="w-16 font-mono text-xs text-muted-foreground">
-                    {index}
-                  </span>
+                  <span className="w-16 font-mono text-xs text-muted-foreground">{index}</span>
                   <span className="flex-1 truncate font-medium">{p.name}</span>
                   <span className="w-28 font-mono text-xs text-muted-foreground">{p.sku}</span>
-                  <span className="w-24 text-right tabular-nums">
-                    {formatCurrency(p.price)}
-                  </span>
+                  <span className="w-24 text-right tabular-nums">{formatCurrency(p.price)}</span>
                   <span className="w-24 text-right">
                     <StatusPill status={p.status} />
                   </span>

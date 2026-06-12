@@ -8,7 +8,10 @@ export const Route = createFileRoute("/collections")({
   head: () => ({
     meta: [
       { title: "Collections — Forge" },
-      { name: "description", content: "List, tree and menu collection examples in the Forge playground." },
+      {
+        name: "description",
+        content: "List, tree and menu collection examples in the Forge playground.",
+      },
     ],
   }),
   component: Collections,
@@ -57,7 +60,10 @@ function Collections() {
       />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Showcase title="List" description="Single-select with roving keyboard navigation (↑ ↓ Home End).">
+        <Showcase
+          title="List"
+          description="Single-select with roving keyboard navigation (↑ ↓ Home End)."
+        >
           <List
             items={LIST_ITEMS}
             selectedId={selected}

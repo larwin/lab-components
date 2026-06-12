@@ -31,7 +31,7 @@ export function Grid({ columns = 3, gap = 4, className, children }: GridProps) {
   );
 }
 
-export interface GridCellProps extends React.HTMLAttributes<HTMLDivElement> {}
+export type GridCellProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function GridCell({ className, ...props }: GridCellProps) {
   return (

@@ -22,10 +22,7 @@ export function useEventLog(limit = 100) {
   const log = useCallback(
     (level: LogEntry["level"], message: string, data?: unknown) => {
       setEntries((prev) =>
-        [{ id: ++counter, level, message, data, timestamp: Date.now() }, ...prev].slice(
-          0,
-          limit,
-        ),
+        [{ id: ++counter, level, message, data, timestamp: Date.now() }, ...prev].slice(0, limit),
       );
     },
     [limit],

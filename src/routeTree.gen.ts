@@ -12,10 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VirtualizationRouteImport } from './routes/virtualization'
 import { Route as ThemingRouteImport } from './routes/theming'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as OverlaysRouteImport } from './routes/overlays'
+import { Route as KanbanRouteImport } from './routes/kanban'
+import { Route as GridNextRouteImport } from './routes/grid-next'
+import { Route as EngineRouteImport } from './routes/engine'
 import { Route as DebugRouteImport } from './routes/debug'
+import { Route as DataLoaderRouteImport } from './routes/data-loader'
 import { Route as DataGridRouteImport } from './routes/data-grid'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as CollectionsRouteImport } from './routes/collections'
+import { Route as CanvasGridRouteImport } from './routes/canvas-grid'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -34,9 +40,34 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OverlaysRoute = OverlaysRouteImport.update({
+  id: '/overlays',
+  path: '/overlays',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KanbanRoute = KanbanRouteImport.update({
+  id: '/kanban',
+  path: '/kanban',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GridNextRoute = GridNextRouteImport.update({
+  id: '/grid-next',
+  path: '/grid-next',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EngineRoute = EngineRouteImport.update({
+  id: '/engine',
+  path: '/engine',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DebugRoute = DebugRouteImport.update({
   id: '/debug',
   path: '/debug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataLoaderRoute = DataLoaderRouteImport.update({
+  id: '/data-loader',
+  path: '/data-loader',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DataGridRoute = DataGridRouteImport.update({
@@ -54,6 +85,11 @@ const CollectionsRoute = CollectionsRouteImport.update({
   path: '/collections',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CanvasGridRoute = CanvasGridRouteImport.update({
+  id: '/canvas-grid',
+  path: '/canvas-grid',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AccessibilityRoute = AccessibilityRouteImport.update({
   id: '/accessibility',
   path: '/accessibility',
@@ -68,10 +104,16 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/canvas-grid': typeof CanvasGridRoute
   '/collections': typeof CollectionsRoute
   '/components': typeof ComponentsRoute
   '/data-grid': typeof DataGridRoute
+  '/data-loader': typeof DataLoaderRoute
   '/debug': typeof DebugRoute
+  '/engine': typeof EngineRoute
+  '/grid-next': typeof GridNextRoute
+  '/kanban': typeof KanbanRoute
+  '/overlays': typeof OverlaysRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/theming': typeof ThemingRoute
   '/virtualization': typeof VirtualizationRoute
@@ -79,10 +121,16 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/canvas-grid': typeof CanvasGridRoute
   '/collections': typeof CollectionsRoute
   '/components': typeof ComponentsRoute
   '/data-grid': typeof DataGridRoute
+  '/data-loader': typeof DataLoaderRoute
   '/debug': typeof DebugRoute
+  '/engine': typeof EngineRoute
+  '/grid-next': typeof GridNextRoute
+  '/kanban': typeof KanbanRoute
+  '/overlays': typeof OverlaysRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/theming': typeof ThemingRoute
   '/virtualization': typeof VirtualizationRoute
@@ -91,10 +139,16 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/canvas-grid': typeof CanvasGridRoute
   '/collections': typeof CollectionsRoute
   '/components': typeof ComponentsRoute
   '/data-grid': typeof DataGridRoute
+  '/data-loader': typeof DataLoaderRoute
   '/debug': typeof DebugRoute
+  '/engine': typeof EngineRoute
+  '/grid-next': typeof GridNextRoute
+  '/kanban': typeof KanbanRoute
+  '/overlays': typeof OverlaysRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/theming': typeof ThemingRoute
   '/virtualization': typeof VirtualizationRoute
@@ -104,10 +158,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/accessibility'
+    | '/canvas-grid'
     | '/collections'
     | '/components'
     | '/data-grid'
+    | '/data-loader'
     | '/debug'
+    | '/engine'
+    | '/grid-next'
+    | '/kanban'
+    | '/overlays'
     | '/sitemap.xml'
     | '/theming'
     | '/virtualization'
@@ -115,10 +175,16 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/accessibility'
+    | '/canvas-grid'
     | '/collections'
     | '/components'
     | '/data-grid'
+    | '/data-loader'
     | '/debug'
+    | '/engine'
+    | '/grid-next'
+    | '/kanban'
+    | '/overlays'
     | '/sitemap.xml'
     | '/theming'
     | '/virtualization'
@@ -126,10 +192,16 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/accessibility'
+    | '/canvas-grid'
     | '/collections'
     | '/components'
     | '/data-grid'
+    | '/data-loader'
     | '/debug'
+    | '/engine'
+    | '/grid-next'
+    | '/kanban'
+    | '/overlays'
     | '/sitemap.xml'
     | '/theming'
     | '/virtualization'
@@ -138,10 +210,16 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccessibilityRoute: typeof AccessibilityRoute
+  CanvasGridRoute: typeof CanvasGridRoute
   CollectionsRoute: typeof CollectionsRoute
   ComponentsRoute: typeof ComponentsRoute
   DataGridRoute: typeof DataGridRoute
+  DataLoaderRoute: typeof DataLoaderRoute
   DebugRoute: typeof DebugRoute
+  EngineRoute: typeof EngineRoute
+  GridNextRoute: typeof GridNextRoute
+  KanbanRoute: typeof KanbanRoute
+  OverlaysRoute: typeof OverlaysRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ThemingRoute: typeof ThemingRoute
   VirtualizationRoute: typeof VirtualizationRoute
@@ -170,11 +248,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/overlays': {
+      id: '/overlays'
+      path: '/overlays'
+      fullPath: '/overlays'
+      preLoaderRoute: typeof OverlaysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kanban': {
+      id: '/kanban'
+      path: '/kanban'
+      fullPath: '/kanban'
+      preLoaderRoute: typeof KanbanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/grid-next': {
+      id: '/grid-next'
+      path: '/grid-next'
+      fullPath: '/grid-next'
+      preLoaderRoute: typeof GridNextRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/engine': {
+      id: '/engine'
+      path: '/engine'
+      fullPath: '/engine'
+      preLoaderRoute: typeof EngineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/debug': {
       id: '/debug'
       path: '/debug'
       fullPath: '/debug'
       preLoaderRoute: typeof DebugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-loader': {
+      id: '/data-loader'
+      path: '/data-loader'
+      fullPath: '/data-loader'
+      preLoaderRoute: typeof DataLoaderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/data-grid': {
@@ -198,6 +311,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/canvas-grid': {
+      id: '/canvas-grid'
+      path: '/canvas-grid'
+      fullPath: '/canvas-grid'
+      preLoaderRoute: typeof CanvasGridRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/accessibility': {
       id: '/accessibility'
       path: '/accessibility'
@@ -218,10 +338,16 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccessibilityRoute: AccessibilityRoute,
+  CanvasGridRoute: CanvasGridRoute,
   CollectionsRoute: CollectionsRoute,
   ComponentsRoute: ComponentsRoute,
   DataGridRoute: DataGridRoute,
+  DataLoaderRoute: DataLoaderRoute,
   DebugRoute: DebugRoute,
+  EngineRoute: EngineRoute,
+  GridNextRoute: GridNextRoute,
+  KanbanRoute: KanbanRoute,
+  OverlaysRoute: OverlaysRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ThemingRoute: ThemingRoute,
   VirtualizationRoute: VirtualizationRoute,
@@ -229,3 +355,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -28,9 +28,7 @@ describe("DataGrid", () => {
   });
 
   it("filters rows by text", () => {
-    render(
-      <DataGrid data={data} columns={columns} getRowId={(r) => r.id} filterText="alpha" />,
-    );
+    render(<DataGrid data={data} columns={columns} getRowId={(r) => r.id} filterText="alpha" />);
     expect(screen.getByText("Alpha")).toBeInTheDocument();
     expect(screen.queryByText("Charlie")).not.toBeInTheDocument();
   });
@@ -38,9 +36,9 @@ describe("DataGrid", () => {
   it("sorts ascending when a sortable header is clicked", async () => {
     render(<DataGrid data={data} columns={columns} getRowId={(r) => r.id} />);
     await userEvent.click(screen.getByRole("button", { name: /Name/ }));
-    const cells = screen.getAllByRole("cell").filter((c) =>
-      ["Alpha", "Bravo", "Charlie"].includes(c.textContent ?? ""),
-    );
+    const cells = screen
+      .getAllByRole("cell")
+      .filter((c) => ["Alpha", "Bravo", "Charlie"].includes(c.textContent ?? ""));
     expect(cells[0]).toHaveTextContent("Alpha");
   });
 });

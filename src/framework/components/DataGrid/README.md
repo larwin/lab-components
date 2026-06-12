@@ -6,14 +6,14 @@ on its own.
 
 ## Separation of concerns
 
-| Concern         | Where it lives            | How it evolves |
-| --------------- | ------------------------- | -------------- |
-| State (sort/filter/select) | `useDataGrid.ts` (headless) | Swap algorithms, add server-side modes |
-| Column model    | `types.ts` (`ColumnDef`)  | Add grouping, pinning, resizing fields |
-| Row rendering   | `DataGrid.tsx` + `renderRow` prop | Provide a virtualized row renderer |
-| Cell rendering  | `ColumnDef.cell`          | Per-column editors, formatters |
-| Sorting         | `useDataGrid` comparator  | Multi-sort, custom comparators |
-| Filtering       | `useDataGrid` predicate   | Per-column filters, query DSL |
+| Concern                    | Where it lives                    | How it evolves                         |
+| -------------------------- | --------------------------------- | -------------------------------------- |
+| State (sort/filter/select) | `useDataGrid.ts` (headless)       | Swap algorithms, add server-side modes |
+| Column model               | `types.ts` (`ColumnDef`)          | Add grouping, pinning, resizing fields |
+| Row rendering              | `DataGrid.tsx` + `renderRow` prop | Provide a virtualized row renderer     |
+| Cell rendering             | `ColumnDef.cell`                  | Per-column editors, formatters         |
+| Sorting                    | `useDataGrid` comparator          | Multi-sort, custom comparators         |
+| Filtering                  | `useDataGrid` predicate           | Per-column filters, query DSL          |
 
 ## Extension points
 

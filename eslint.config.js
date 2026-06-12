@@ -6,7 +6,9 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", ".output", ".vinxi"] },
+  // `experimentations/` is an exploratory sandbox (see CLAUDE.md) — not held
+  // to the framework's lint standards.
+  { ignores: ["dist", ".output", ".vinxi", "experimentations"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
