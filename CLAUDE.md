@@ -49,6 +49,14 @@ src/hooks/           → Utility hooks (useRenderMetrics, useEventLog)
 
 **`@/framework` is the stability boundary.** Props are the contract; anything inside that doesn't affect the public API can be freely rewritten.
 
+### Project skills
+
+Four skills in `.claude/skills/` encode the working method — prefer them over
+improvising: `/forge-feature` (build anything on the engine, RFC-001 pipeline),
+`/forge-verify` (validation loop), `/forge-review` (review a diff against the
+RFC principles), `/forge-learn` (capture session lessons back into the skills
+and memory — run it at the end of significant work).
+
 ### Next-gen architecture (read this first)
 
 [docs/RFC-001-NEXT-GEN-ARCHITECTURE.md](docs/RFC-001-NEXT-GEN-ARCHITECTURE.md) is the authoritative design document. Hard rules:
