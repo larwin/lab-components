@@ -42,8 +42,11 @@ Kanban et canvas **sans retour correctif**. Suis-la dans l'ordre.
 src/framework/core/        LE PRODUIT — pur, testé en Node
   runtime/    intents, effets, machines, store journalisé + bus inspecteur
   behaviors/  composeMachine + Focusable/Pressable/Toggleable/Navigable/
-              Selectable/Expandable/Dismissable/Searchable/Actionable
+              Selectable/Expandable/Dismissable/Searchable/Actionable/
+              Validatable (dirty/touched/error + annonces)/NumericValue
+              (clamp/step, profils keymap spinbutton|slider)
   collection/ modèle normalisé, navigation, algèbre de sélection, typeahead
+  i18n/       translator, collators, formatNumber/parseNumber (round-trip Intl)
   interaction/ combos clavier, résolution de keymap, scopes de raccourcis
   virtualization/ fenêtrage Fenwick O(log n)
   data/       query (tri/filtre), grouping, loader machine (async sans courses)
@@ -147,3 +150,20 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
 - 2026-06-12 · Indices visuels partout dans la grille : curseur, tri, édition
   et clipboard passent par l'ordre **effectif** des colonnes (live ref), pas
   l'ordre des props.
+- 2026-06-12 · Contrôlé/non-contrôlé : la machine reste la source de vérité ;
+  un `useEffect` re-synchronise quand la prop contrôlée diverge (intent source
+  "program"). Les events ne s'émettent que sur vrai changement, donc pas d'écho.
+- 2026-06-12 · Un behavior paramétrable par config vaut mieux que deux
+  behaviors jumeaux : `numericValue` sert NumberField ET Slider via un profil
+  keymap (`keys: "spinbutton" | "slider"`), `toggleable` sert Checkbox/Switch
+  ET Toggle via `ariaAttribute: "checked" | "pressed"`, `navigable` sert les
+  groupes horizontaux via `orientation`. C'est ce qui rend tenable la règle
+  « un nouveau behavior doit servir ≥ 2 composants ».
+- 2026-06-12 · `Button type="submit"` : le DOM reste `type="button"` et la
+  soumission passe par l'événement `press` → `form.requestSubmit()` — sinon la
+  keymap (preventDefault sur Enter/Space) avale la soumission native et
+  clavier/pointeur divergent.
+- 2026-06-12 · Champs validables : `validate` au blur (intent `validity/touch`),
+  puis re-validation live seulement une fois `touched` — et un miroir ref
+  synchrone de la valeur pour que le validate du même tick lise la frappe en
+  cours (les live refs ne se mettent à jour qu'au re-render).

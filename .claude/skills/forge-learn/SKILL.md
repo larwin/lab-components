@@ -30,13 +30,13 @@ propres à un seul chantier, les évidences.
 
 ## 2. Router chaque leçon vers le bon support
 
-| Nature de la leçon | Destination |
-|---|---|
-| Comment construire (pattern, convention, étape du pipeline, nouveau behavior/primitive à ajouter à la carte) | `.claude/skills/forge-feature/SKILL.md` — section LEARNINGS, ou le corps du skill si c'est structurel |
-| Comment vérifier (commande, piège d'outillage, hygiène de diff) | `.claude/skills/forge-verify/SKILL.md` |
-| Quoi surveiller en relecture (violation récurrente, nouveau point de contrôle) | `.claude/skills/forge-review/SKILL.md` |
-| Préférence/pilotage de Nicolas, état du projet, faits hors-repo | Mémoire persistante (`~/.claude/projects/...lab-components/memory/`) — mettre à jour la fiche existante plutôt qu'en créer une |
-| Décision d'architecture | `docs/RFC-001-NEXT-GEN-ARCHITECTURE.md` (table de statut ou section concernée) |
+| Nature de la leçon                                                                                           | Destination                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| Comment construire (pattern, convention, étape du pipeline, nouveau behavior/primitive à ajouter à la carte) | `.claude/skills/forge-feature/SKILL.md` — section LEARNINGS, ou le corps du skill si c'est structurel                          |
+| Comment vérifier (commande, piège d'outillage, hygiène de diff)                                              | `.claude/skills/forge-verify/SKILL.md`                                                                                         |
+| Quoi surveiller en relecture (violation récurrente, nouveau point de contrôle)                               | `.claude/skills/forge-review/SKILL.md`                                                                                         |
+| Préférence/pilotage de Nicolas, état du projet, faits hors-repo                                              | Mémoire persistante (`~/.claude/projects/...lab-components/memory/`) — mettre à jour la fiche existante plutôt qu'en créer une |
+| Décision d'architecture                                                                                      | `docs/RFC-001-NEXT-GEN-ARCHITECTURE.md` (table de statut ou section concernée)                                                 |
 
 ## 3. Écrire la leçon
 
@@ -48,6 +48,7 @@ Format d'une entrée LEARNINGS :
 ```
 
 Règles :
+
 - **Mettre à jour plutôt qu'empiler** : si une entrée existante couvre le
   sujet, l'enrichir ou la corriger ; supprimer celles devenues fausses.
 - Si une section LEARNINGS dépasse ~10 entrées, promouvoir les leçons

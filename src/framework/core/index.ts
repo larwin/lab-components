@@ -89,6 +89,20 @@ export {
 } from "./behaviors/dismissable";
 export { searchable, searchIntents, type SearchableSlice } from "./behaviors/searchable";
 export { actionable, actionIntents } from "./behaviors/actionable";
+export {
+  validatable,
+  validityIntents,
+  type ValidatableSlice,
+  type ValidatableConfig,
+  type Validator,
+  type FieldValueReader,
+} from "./behaviors/validatable";
+export {
+  numericValue,
+  numberIntents,
+  type NumericValueSlice,
+  type NumericValueConfig,
+} from "./behaviors/numeric-value";
 export { visibleKeysOf, type CollectionBehaviorConfig } from "./behaviors/collection-config";
 
 // Collection engine
@@ -222,3 +236,4 @@ export {
   type MessageBundle,
   type MessageValues,
 } from "./i18n";
+export { formatNumber, parseNumber, type NumberFormatSpec } from "./i18n/number";

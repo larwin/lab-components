@@ -10,6 +10,7 @@ import {
   FlaskConical,
   Grid3x3,
   Layers,
+  SlidersHorizontal,
   SquareKanban,
   TestTube2,
   X,
@@ -66,6 +67,18 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "Sélectionnez des lignes (Espace, Shift+flèche) puis Ctrl+C : TSV collable dans Excel",
       "Groupez par Category → Status : agrégats ⌀ prix et Σ stock par groupe",
       "Glissez le bord d'un en-tête (resize), glissez l'en-tête (réordonner), épinglez-le (pin sticky)",
+    ],
+  },
+  {
+    to: "/controls",
+    icon: SlidersHorizontal,
+    title: "Form Controls",
+    what: "Les contrôles de formulaire classiques en compositions de behaviors : Checkbox/Switch (même machine), RadioGroup sur le collection engine, NumberField et Slider sur la même machine NumericValue, validation Validatable annoncée aux lecteurs d'écran.",
+    verify: [
+      "Tab dans le RadioGroup : l'entrée se fait sur la valeur cochée, les flèches déplacent ET cochent (wrap inclus, XL désactivé sauté)",
+      "Dans NumberField Prix, tapez « 1 234,56 » puis Tab : parsing fr-FR, affichage 1 234,56 € — flèches ±0,5, Shift+flèche ±5",
+      "Sur le Slider, glissez puis prenez le clavier : pointeur et flèches convergent sur le même intent number/set",
+      "Soumettez le formulaire vide : chaque erreur est annoncée (live region assertive) et le focus saute au premier champ invalide",
     ],
   },
   {

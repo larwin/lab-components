@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import {
   composeMachine,
@@ -28,6 +28,12 @@ import {
 export interface ButtonProps {
   children: ReactNode;
   onPress?: (detail: { source: string }) => void;
+  /**
+   * "submit" requests the enclosing form's submission *through* the press
+   * event (keyboard, pointer and shortcut all converge on it) — the DOM
+   * element stays type="button" so nothing fires twice.
+   */
+  type?: "button" | "submit";
   disabled?: boolean;
   /** Global shortcut (e.g. "Mod+S") that activates this button focus-free. */
   shortcut?: string;
@@ -41,13 +47,15 @@ const buttonBehaviors = [focusable, pressable] as const;
 export function Button({
   children,
   onPress,
+  type = "button",
   disabled = false,
   shortcut,
   showShortcut = true,
   variant = "default",
   className,
 }: ButtonProps) {
-  const live = useLiveRef({ onPress, disabled });
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const live = useLiveRef({ onPress, disabled, type });
 
   const { state, dispatch, store, composed } = useComposedMachine(() =>
     composeMachine("button", buttonBehaviors, {
@@ -59,7 +67,10 @@ export function Button({
 
   useForgeEffects(store, {
     events: {
-      press: (detail) => live.current.onPress?.(detail as { source: string }),
+      press: (detail) => {
+        live.current.onPress?.(detail as { source: string });
+        if (live.current.type === "submit") buttonRef.current?.form?.requestSubmit();
+      },
     },
   });
 
@@ -75,6 +86,7 @@ export function Button({
 
   return (
     <button
+      ref={buttonRef}
       type="button"
       disabled={disabled}
       {...composed.aria(state)}

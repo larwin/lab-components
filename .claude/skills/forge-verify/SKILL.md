@@ -84,3 +84,10 @@ pas un contournement.
   `Get-Content`/`Set-Content` (corruption UTF-8) — outils Write/Edit
   uniquement. `git push` écrit sa confirmation sur stderr : le
   `NativeCommandError` PowerShell est cosmétique si `main -> main` apparaît.
+- 2026-06-12 · Caractères Unicode invisibles (U+202F…) littéraux dans le code
+  ⇒ erreur lint `no-irregular-whitespace` : toujours des échappements
+  `\uXXXX` dans les regex. Piège de réparation : l'outil Edit ne matche pas
+  les invisibles de façon fiable et la génération retombe en littéraux ; la
+  voie sûre est PowerShell `[IO.File]` en construisant la chaîne par morceaux
+  (`[char]0x5C + 'u00a0'`), écrite via `WriteAllText` + `UTF8Encoding($false)`
+  — jamais `WriteAllLines`, qui force du CRLF (vague de `Delete ␍` prettier).

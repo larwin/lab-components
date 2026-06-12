@@ -17,6 +17,11 @@ export interface ToggleableSlice {
 
 export interface ToggleableConfig {
   defaultChecked?: CheckedState;
+  /**
+   * ARIA vocabulary: "checked" (checkbox/switch, default) or "pressed"
+   * (toggle buttons — aria-pressed, no mixed state).
+   */
+  ariaAttribute?: "checked" | "pressed";
 }
 
 export const toggleIntents = {
@@ -41,8 +46,16 @@ export const toggleable = defineBehavior<"toggleable", ToggleableSlice, Toggleab
     },
   },
   keymap: () => [{ keys: "Space", intent: () => toggleIntents.toggle(undefined, "keyboard") }],
-  aria: (slice) => ({
-    "aria-checked": slice.checked === "mixed" ? "mixed" : slice.checked,
-    "data-checked": slice.checked === true || undefined,
-  }),
+  aria: (slice, ctx) => {
+    if (ctx.config.ariaAttribute === "pressed") {
+      return {
+        "aria-pressed": slice.checked === true,
+        "data-checked": slice.checked === true || undefined,
+      };
+    }
+    return {
+      "aria-checked": slice.checked === "mixed" ? "mixed" : slice.checked,
+      "data-checked": slice.checked === true || undefined,
+    };
+  },
 });

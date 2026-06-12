@@ -73,7 +73,11 @@ const followNavigation = (
 
 export const selectable = defineBehavior<"selectable", SelectableSlice, CollectionBehaviorConfig>({
   name: "selectable",
-  initial: () => EMPTY_SELECTION,
+  initial: (config) => {
+    const keys = config.defaultSelectedKeys;
+    if (!keys || keys.length === 0) return EMPTY_SELECTION;
+    return { selectedKeys: new Set(keys), anchorKey: keys[0] };
+  },
   handlers: {
     [selectIntents.select.type]: (slice, intent, ctx) => {
       const payload = (intent.payload ?? {}) as { key?: Key; toggle?: boolean; extend?: boolean };
@@ -103,9 +107,13 @@ export const selectable = defineBehavior<"selectable", SelectableSlice, Collecti
   },
   keymap: (_slice, ctx) => {
     const multiple = ctx.config.selectionMode === "multiple";
+    const toggleOnSelect = ctx.config.toggleOnSelect === true;
     const bindings: KeyBinding[] = [
-      { keys: "Enter", intent: () => selectIntents.select({}, "keyboard") },
-      { keys: "Space", intent: () => selectIntents.select({ toggle: multiple }, "keyboard") },
+      { keys: "Enter", intent: () => selectIntents.select({ toggle: toggleOnSelect }, "keyboard") },
+      {
+        keys: "Space",
+        intent: () => selectIntents.select({ toggle: multiple || toggleOnSelect }, "keyboard"),
+      },
     ];
     if (multiple) {
       bindings.push({ keys: "Mod+a", intent: () => selectIntents.all(undefined, "keyboard") });

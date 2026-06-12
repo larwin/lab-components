@@ -15,6 +15,19 @@ export interface CollectionBehaviorConfig<T = unknown> {
   selectionFollowsFocus?: boolean;
   /** Arrow navigation wraps around the ends. */
   wrap?: boolean;
+  /**
+   * Which arrow axis moves focus. "vertical" (default) = Up/Down,
+   * "horizontal" = Left/Right (toolbars, tab lists, radio rows), "both" = all
+   * four. Trees must stay vertical: Expandable owns Left/Right there.
+   */
+  orientation?: "vertical" | "horizontal" | "both";
+  /** Initial selection for uncontrolled usage (radio groups, tabs). */
+  defaultSelectedKeys?: readonly Key[];
+  /**
+   * Enter/Space toggle instead of replacing, even in single mode — pressing
+   * the active item deselects it (toggle buttons, filter chips).
+   */
+  toggleOnSelect?: boolean;
   /** PageUp/PageDown jump size. Adapters may override per viewport. */
   pageSize?: number;
   /** BCP 47 locale for typeahead collation. */

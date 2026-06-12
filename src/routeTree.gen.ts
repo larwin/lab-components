@@ -19,6 +19,7 @@ import { Route as EngineRouteImport } from './routes/engine'
 import { Route as DebugRouteImport } from './routes/debug'
 import { Route as DataLoaderRouteImport } from './routes/data-loader'
 import { Route as DataGridRouteImport } from './routes/data-grid'
+import { Route as ControlsRouteImport } from './routes/controls'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as CanvasGridRouteImport } from './routes/canvas-grid'
@@ -75,6 +76,11 @@ const DataGridRoute = DataGridRouteImport.update({
   path: '/data-grid',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ControlsRoute = ControlsRouteImport.update({
+  id: '/controls',
+  path: '/controls',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsRoute = ComponentsRouteImport.update({
   id: '/components',
   path: '/components',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/canvas-grid': typeof CanvasGridRoute
   '/collections': typeof CollectionsRoute
   '/components': typeof ComponentsRoute
+  '/controls': typeof ControlsRoute
   '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
   '/debug': typeof DebugRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/canvas-grid': typeof CanvasGridRoute
   '/collections': typeof CollectionsRoute
   '/components': typeof ComponentsRoute
+  '/controls': typeof ControlsRoute
   '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
   '/debug': typeof DebugRoute
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/canvas-grid': typeof CanvasGridRoute
   '/collections': typeof CollectionsRoute
   '/components': typeof ComponentsRoute
+  '/controls': typeof ControlsRoute
   '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
   '/debug': typeof DebugRoute
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/canvas-grid'
     | '/collections'
     | '/components'
+    | '/controls'
     | '/data-grid'
     | '/data-loader'
     | '/debug'
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/canvas-grid'
     | '/collections'
     | '/components'
+    | '/controls'
     | '/data-grid'
     | '/data-loader'
     | '/debug'
@@ -195,6 +206,7 @@ export interface FileRouteTypes {
     | '/canvas-grid'
     | '/collections'
     | '/components'
+    | '/controls'
     | '/data-grid'
     | '/data-loader'
     | '/debug'
@@ -213,6 +225,7 @@ export interface RootRouteChildren {
   CanvasGridRoute: typeof CanvasGridRoute
   CollectionsRoute: typeof CollectionsRoute
   ComponentsRoute: typeof ComponentsRoute
+  ControlsRoute: typeof ControlsRoute
   DataGridRoute: typeof DataGridRoute
   DataLoaderRoute: typeof DataLoaderRoute
   DebugRoute: typeof DebugRoute
@@ -297,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DataGridRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/controls': {
+      id: '/controls'
+      path: '/controls'
+      fullPath: '/controls'
+      preLoaderRoute: typeof ControlsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/components': {
       id: '/components'
       path: '/components'
@@ -341,6 +361,7 @@ const rootRouteChildren: RootRouteChildren = {
   CanvasGridRoute: CanvasGridRoute,
   CollectionsRoute: CollectionsRoute,
   ComponentsRoute: ComponentsRoute,
+  ControlsRoute: ControlsRoute,
   DataGridRoute: DataGridRoute,
   DataLoaderRoute: DataLoaderRoute,
   DebugRoute: DebugRoute,

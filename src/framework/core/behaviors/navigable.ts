@@ -1,4 +1,4 @@
-import { defineBehavior } from "./behavior";
+import { defineBehavior, type KeyBinding } from "./behavior";
 import { defineIntent } from "../runtime/intent";
 import { scrollToItem } from "../runtime/effect";
 import { withEffects, type TransitionResult } from "../runtime/machine";
@@ -149,29 +149,49 @@ export const navigable = defineBehavior<"navigable", NavigableSlice, CollectionB
       return moveTo(slice, node.parentKey);
     },
   },
-  keymap: (slice) => [
-    { keys: "ArrowDown", intent: () => navIntents.next(undefined, "keyboard") },
-    { keys: "ArrowUp", intent: () => navIntents.previous(undefined, "keyboard") },
-    { keys: "Shift+ArrowDown", intent: () => navIntents.next({ extend: true }, "keyboard") },
-    { keys: "Shift+ArrowUp", intent: () => navIntents.previous({ extend: true }, "keyboard") },
-    { keys: "Home", intent: () => navIntents.first(undefined, "keyboard") },
-    { keys: "End", intent: () => navIntents.last(undefined, "keyboard") },
-    { keys: "PageDown", intent: () => navIntents.page({ direction: 1 }, "keyboard") },
-    { keys: "PageUp", intent: () => navIntents.page({ direction: -1 }, "keyboard") },
-    {
-      keys: "@printable",
-      intent: (stroke) => {
-        // Space only joins an *active* typeahead search; otherwise it falls
-        // through to selection/press bindings declared by later behaviors.
-        if (stroke.key === " ") {
-          const now = stroke.at ?? 0;
-          const active =
-            slice.typeahead.buffer !== "" &&
-            now - slice.typeahead.lastTypedAt <= TYPEAHEAD_TIMEOUT_MS;
-          if (!active) return null;
-        }
-        return navIntents.type({ char: stroke.key, now: stroke.at ?? 0 }, "keyboard");
+  keymap: (slice, ctx) => {
+    const orientation = ctx.config.orientation ?? "vertical";
+    const bindings: KeyBinding[] = [];
+    if (orientation !== "horizontal") {
+      bindings.push(
+        { keys: "ArrowDown", intent: () => navIntents.next(undefined, "keyboard") },
+        { keys: "ArrowUp", intent: () => navIntents.previous(undefined, "keyboard") },
+        { keys: "Shift+ArrowDown", intent: () => navIntents.next({ extend: true }, "keyboard") },
+        { keys: "Shift+ArrowUp", intent: () => navIntents.previous({ extend: true }, "keyboard") },
+      );
+    }
+    if (orientation !== "vertical") {
+      bindings.push(
+        { keys: "ArrowRight", intent: () => navIntents.next(undefined, "keyboard") },
+        { keys: "ArrowLeft", intent: () => navIntents.previous(undefined, "keyboard") },
+        { keys: "Shift+ArrowRight", intent: () => navIntents.next({ extend: true }, "keyboard") },
+        {
+          keys: "Shift+ArrowLeft",
+          intent: () => navIntents.previous({ extend: true }, "keyboard"),
+        },
+      );
+    }
+    bindings.push(
+      { keys: "Home", intent: () => navIntents.first(undefined, "keyboard") },
+      { keys: "End", intent: () => navIntents.last(undefined, "keyboard") },
+      { keys: "PageDown", intent: () => navIntents.page({ direction: 1 }, "keyboard") },
+      { keys: "PageUp", intent: () => navIntents.page({ direction: -1 }, "keyboard") },
+      {
+        keys: "@printable",
+        intent: (stroke) => {
+          // Space only joins an *active* typeahead search; otherwise it falls
+          // through to selection/press bindings declared by later behaviors.
+          if (stroke.key === " ") {
+            const now = stroke.at ?? 0;
+            const active =
+              slice.typeahead.buffer !== "" &&
+              now - slice.typeahead.lastTypedAt <= TYPEAHEAD_TIMEOUT_MS;
+            if (!active) return null;
+          }
+          return navIntents.type({ char: stroke.key, now: stroke.at ?? 0 }, "keyboard");
+        },
       },
-    },
-  ],
+    );
+    return bindings;
+  },
 });

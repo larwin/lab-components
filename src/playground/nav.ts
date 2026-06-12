@@ -13,6 +13,7 @@ import {
   Accessibility,
   Palette,
   Bug,
+  SlidersHorizontal,
   type LucideIcon,
 } from "lucide-react";
 
@@ -55,6 +56,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "DataGrid Next",
         icon: Grid3x3,
         description: "500k rows, pure grid machine",
+      },
+      {
+        to: "/controls",
+        label: "Form Controls",
+        icon: SlidersHorizontal,
+        description: "Champs, toggles, slider — machines pures",
       },
       {
         to: "/overlays",

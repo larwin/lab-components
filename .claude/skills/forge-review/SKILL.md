@@ -82,7 +82,7 @@ sable en lecture seule.
 ## LEARNINGS (enrichi au fil des sessions — voir /forge-learn)
 
 - 2026-06-12 · Point de vigilance récurrent : les indices (curseur, colonnes)
-  doivent référencer l'univers *visuel/effectif* (après réordonnancement,
+  doivent référencer l'univers _visuel/effectif_ (après réordonnancement,
   groupement, filtre), lu via live ref — pas l'ordre des props.
 - 2026-06-12 · Pour l'async : vérifier que les réponses portent un numéro de
   séquence et que le reducer rejette les séquences périmées — l'anti-course
