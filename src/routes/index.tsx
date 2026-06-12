@@ -177,12 +177,12 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
     to: "/time",
     icon: Clock,
     title: "Temps",
-    what: "TimeValue pur ({hour, minute, second?} — stockage toujours 0-23, wrap à minuit), cycle 12/24 h dérivé d'Intl jamais deviné, et la machine dateField généralisée en machine de segments : dates et temps sont deux configurations du même reducer. TimeField, DateTimeField, DateTimePicker.",
+    what: "TimeValue pur ({hour, minute, second?} — stockage toujours 0-23, wrap à minuit), cycle 12/24 h dérivé d'Intl jamais deviné, la machine dateField généralisée en machine de segments (dates et temps = deux configurations du même reducer), et le TimePicker à QUATRE rendus — segments, colonnes, roue, cadran — sans aucune machine nouvelle : listbox pour les colonnes et la roue, NumericValue pour le cadran, géométrie pure testée en Node.",
     verify: [
       "Tapez « 2 30 p » dans le champ en-US : les champs fr et ar-EG (même état contrôlé) affichent 14:30",
-      "Segment AM/PM : flèches ↑↓ pour basculer, ou l'initiale localisée « a »/« p »",
-      "fr n'a pas de segment AM/PM (cycle h23 via Intl) ; ar-EG passe en chiffres arabes et RTL",
-      "DateTimePicker : choisir un jour ne ferme pas l'overlay — le TimeField en dessous complète l'échéance",
+      "Les 4 variantes du TimePicker côte à côte : changez l'heure dans l'une, les trois autres suivent (même état)",
+      "Cadran en fr (h23) : deux bagues (1-12 dehors, 13-00 dedans) ; en en-US : une bague + AM/PM ; flèches = mêmes intents que le pointeur",
+      "Roue : glissez avec inertie (snap pur offset→index), 12 h-13 h barrées (isTimeDisabled), pas de 5 min",
     ],
   },
   {

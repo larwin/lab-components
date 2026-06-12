@@ -56,6 +56,12 @@ src/framework/core/        LE PRODUIT — pur, testé en Node
   date/       DateValue pur + arithmétique civile, services Intl
               (firstDayOfWeek/libellés/formatToParts/DisplayNames),
               machines calendarGrid (single + range) et dateField
+  field/      machine de segments générique (curseur, auto-avance,
+              brouillon/commit, projection getValue/isEqual injectée) —
+              dateField et timeField en sont deux configurations
+  time/       TimeValue pur (stockage 0-23, wrap à minuit, secondes opt-in),
+              conversions de cycle h11/h12/h23/h24, services Intl
+              (hourCycleOf/timeFieldParts/dayPeriodLabels), DateTimeValue
 src/framework/react/       L'ADAPTATEUR — useMachine, interpréteurs d'effets,
                             Overlay (pile de layers), useVirtualizer, useDataSource
 src/framework/primitives/  Les composants composés (coquilles minces)
@@ -249,6 +255,27 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
   dérivation pure `calendarRange(state)` = ancre → focus ordonnés. Clavier
   et pointeur convergent gratuitement, et le commit est ordonné par
   construction (jamais de validation début ≤ fin a posteriori dans la grille).
+- 2026-06-12 · Généraliser une machine quand le 2ᵉ consommateur arrive (dateField
+  → core/field/segments pour timeField) : la détection de changement passe par
+  une projection injectée (`getValue` + `isEqual`), jamais par comparaison des
+  valeurs brutes — deux brouillons différents peuvent se projeter sur la même
+  valeur clampée (31/02 ≡ 28/02) et dripperaient des doublons. Les segments
+  non numériques (AM/PM) entrent par `parseChar` ; le binding `@printable` ne
+  capture les lettres que si un segment textuel existe, sinon il retourne
+  null (pas de preventDefault global).
+- 2026-06-12 · Domaine à convention d'affichage (heures 12/24 h) : l'état de la
+  machine stocke ce qui est AFFICHÉ par segment (heure 1-12 + dayPeriod), la
+  valeur composée stocke la forme canonique (0-23) — la conversion est une
+  paire de fonctions pures (displayHour/hourFromDisplay) testée en round-trip
+  sur tout le domaine (24 h × 4 cycles). Le cycle vient de
+  `resolvedOptions().hourCycle`, jamais deviné. Propriété optionnelle
+  sémantique (`second?`) : l'arithmétique préserve sa présence/absence,
+  l'égalité la neutralise (second 0 ≡ absent).
+- 2026-06-12 · Composer deux champs en un (DateTimeField) : deux instances de
+  la même machine dans un seul groupe ARIA, chaque moitié garde sa saisie
+  partielle, et la coquille n'émet la composition que sur vraie transition
+  (ref du dernier émis) — sinon écho de null pendant le remplissage de la
+  seconde moitié.
 - 2026-06-12 · Statiques sans machine (Alert, Badge, Avatar, Card, Skeleton,
   Spinner, EmptyState…) : rôle ARIA correct + tokens + variantes CVA, point.
   Quand un statique a quand même UNE décision (compteur TextArea, acceptation

@@ -65,6 +65,7 @@ export { DateField, type DateFieldProps } from "./DateField";
 export { DatePicker, type DatePickerProps } from "./DatePicker";
 export { DateRangePicker, type DateRangePickerProps } from "./DateRangePicker";
 export { TimeField, type TimeFieldProps } from "./TimeField";
+export { TimePicker, type TimePickerProps, type TimePickerVariant } from "./TimePicker";
 export { DateTimeField, type DateTimeFieldProps } from "./DateTimeField";
 export { DateTimePicker, type DateTimePickerProps } from "./DateTimePicker";
 export { Tooltip, type TooltipProps } from "./Tooltip";
