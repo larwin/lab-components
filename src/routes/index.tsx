@@ -177,12 +177,12 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
     to: "/time",
     icon: Clock,
     title: "Temps",
-    what: "TimeValue pur ({hour, minute, second?} — stockage toujours 0-23, wrap à minuit), cycle 12/24 h dérivé d'Intl jamais deviné, la machine dateField généralisée en machine de segments (dates et temps = deux configurations du même reducer), et le TimePicker à QUATRE rendus — segments, colonnes, roue, cadran — sans aucune machine nouvelle : listbox pour les colonnes et la roue, NumericValue pour le cadran, géométrie pure testée en Node.",
+    what: "TimeValue pur (stockage 0-23, wrap à minuit), cycle 12/24 h dérivé d'Intl jamais deviné, la machine dateField généralisée en machine de segments, le TimePicker à QUATRE rendus (segments, colonnes, roue, cadran) sans machine nouvelle, et ZonedDateTime pur — l'offset d'un instant dans un fuseau IANA est calculé via Intl (longOffset), DST par construction, zéro donnée de fuseau embarquée ; mapping Windows ↔ IANA optionnel généré depuis CLDR.",
     verify: [
       "Tapez « 2 30 p » dans le champ en-US : les champs fr et ar-EG (même état contrôlé) affichent 14:30",
       "Les 4 variantes du TimePicker côte à côte : changez l'heure dans l'une, les trois autres suivent (même état)",
-      "Cadran en fr (h23) : deux bagues (1-12 dehors, 13-00 dedans) ; en en-US : une bague + AM/PM ; flèches = mêmes intents que le pointeur",
-      "Roue : glissez avec inertie (snap pur offset→index), 12 h-13 h barrées (isTimeDisabled), pas de 5 min",
+      "Cadran en fr (h23) : deux bagues (1-12 dehors, 13-00 dedans) ; flèches = mêmes intents que le pointeur",
+      "Convertisseur : basculez été/hiver — Tokyo passe de +7 h à +8 h vs Paris (le Japon n'a pas de DST) ; 29 mars 02:30 n'existe pas → 03:30",
     ],
   },
   {

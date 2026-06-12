@@ -389,6 +389,26 @@ export {
   type TimePickerOptionsConfig,
   type TimeOption,
 } from "./time/picker";
+// NOTE: ./time/windows-zones (CLDR Windows ↔ IANA mapping) is deliberately
+// NOT re-exported here — it is an optional leaf module; import it directly
+// so consumers who don't need it never ship it.
+export {
+  zoneOffset,
+  zonedFromInstant,
+  instantFromZoned,
+  zonedDateTime,
+  epochOf,
+  withTimeZone,
+  addZonedDays,
+  addZonedMinutes,
+  supportedTimeZones,
+  timeZoneCity,
+  timeZoneName,
+  formatOffset,
+  formatZoned,
+  type ZonedDateTime,
+  type TimeZoneNameStyle,
+} from "./time/zone";
 
 // Overlay positioning
 export {

@@ -276,6 +276,20 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
   partielle, et la coquille n'émet la composition que sur vraie transition
   (ref du dernier émis) — sinon écho de null pendant le remplissage de la
   seconde moitié.
+- 2026-06-12 · « Une machine, N rendus » (TimePicker segments/colonnes/roue/
+  cadran) : quand le contrat de props et le comportement sont identiques et
+  que seule la projection change, c'est UN composant avec un prop `variant`,
+  pas N primitives — et la démo doit brancher toutes les variantes sur le
+  MÊME état contrôlé (c'est la preuve). Les décisions visuelles (quelles
+  options, où retombe un offset, quel angle → quelle valeur) sont des
+  fonctions pures du core testées en Node ; le snap circulaire se calcule en
+  vraie distance angulaire (min(diff, 360−diff)), jamais en arrondi — exact
+  même quand le pas ne divise pas 60.
+- 2026-06-12 · Les handlers d'événements passés à useForgeEffects sont
+  capturés UNE fois : tout ce qu'ils lisent (commit, config, valeur courante)
+  passe par live.current — un `commit` recréé à chaque render et capturé par
+  l'interpréteur commit sur un état périmé. Les handlers JSX (closures
+  fraîches par render) n'ont pas ce problème.
 - 2026-06-12 · Statiques sans machine (Alert, Badge, Avatar, Card, Skeleton,
   Spinner, EmptyState…) : rôle ARIA correct + tokens + variantes CVA, point.
   Quand un statique a quand même UNE décision (compteur TextArea, acceptation

@@ -116,7 +116,7 @@ export const NAV_GROUPS: NavGroup[] = [
         to: "/time",
         label: "Temps",
         icon: Clock,
-        description: "TimeField, DateTimePicker — cycle 12/24 h via Intl",
+        description: "TimeField, TimePicker ×4, fuseaux — tout dérive d'Intl",
       },
       {
         to: "/data-loader",

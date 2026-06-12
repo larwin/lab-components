@@ -5,16 +5,28 @@ import {
   DateTimePicker,
   TimeField,
   TimePicker,
+  TimeZoneSelect,
   type TimePickerVariant,
 } from "@/framework/primitives";
 import {
+  dateOf,
+  dateValue,
+  formatOffset,
   formatTime,
+  formatZoned,
   hourCycleOf,
+  timeOf,
   timeValue,
+  timeZoneCity,
+  timeZoneName,
   toISODateTime,
+  withTimeZone,
+  zonedDateTime,
   type DateTimeValue,
   type TimeValue,
 } from "@/framework/core";
+// Optional leaf module — imported directly, never through the core barrel.
+import { ianaFromWindows, windowsFromIana } from "@/framework/core/time/windows-zones";
 import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
 
 export const Route = createFileRoute("/time")({
@@ -50,6 +62,14 @@ function TimePage() {
   const [picked, setPicked] = useState<DateTimeValue | null>(null);
   const [meeting, setMeeting] = useState<TimeValue | null>(timeValue(14, 30));
   const [pickerLocale, setPickerLocale] = useState("fr-FR");
+  const [parisWall, setParisWall] = useState<DateTimeValue | null>({
+    ...dateValue(2026, 7, 15),
+    ...timeValue(18, 0),
+  });
+  const [targets, setTargets] = useState<string[]>(["America/New_York", "Asia/Tokyo"]);
+  const sourceZoned = parisWall
+    ? zonedDateTime(dateOf(parisWall), timeOf(parisWall), "Europe/Paris")
+    : null;
 
   return (
     <div>
@@ -58,12 +78,13 @@ function TimePage() {
         title="Temps"
         description={
           <>
-            Vague 8a : <code>TimeValue</code> pur ({"{hour, minute, second?}"}, stockage toujours
-            0-23, arithmétique avec wrap — 23:59 + 1 min = 00:00), cycle 12/24 h{" "}
-            <em>dérivé d&apos;Intl</em> (jamais deviné), et la machine <code>dateField</code>{" "}
-            généralisée en <strong>machine de segments</strong> : dateField et timeField sont deux
-            configurations du même reducer. AM/PM est un segment cyclique — flèches pour basculer,
-            ou l&apos;initiale localisée (« a »/« p »).
+            Chantier temps & fuseaux (vagues 8a/8b/8c) : <code>TimeValue</code> pur (
+            {"{hour, minute, second?}"}, stockage toujours 0-23, wrap à minuit), cycle 12/24 h{" "}
+            <em>dérivé d&apos;Intl</em> (jamais deviné), la machine <code>dateField</code>{" "}
+            généralisée en <strong>machine de segments</strong> (dates et temps = deux
+            configurations du même reducer), le TimePicker à quatre rendus sans machine nouvelle, et{" "}
+            <code>ZonedDateTime</code> pur — offsets IANA calculés via Intl, DST par construction,
+            zéro donnée embarquée.
           </>
         }
       />
@@ -71,12 +92,16 @@ function TimePage() {
       <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
         <MetricCard
           label="Tests Node ajoutés"
-          value="62"
-          unit="valeur + Intl + machine + géométrie"
+          value="76"
+          unit="valeur + Intl + machine + géométrie + fuseaux"
           accent
         />
-        <MetricCard label="Machines nouvelles (8b)" value="0" unit="4 rendus, mêmes machines" />
-        <MetricCard label="Date mutable dans l'état" value="0" unit="TimeValue pur" />
+        <MetricCard label="Machines nouvelles (8b/8c)" value="0" unit="N rendus, mêmes machines" />
+        <MetricCard
+          label="Données de fuseau embarquées"
+          value="0"
+          unit="offsets calculés via Intl"
+        />
         <MetricCard label="Données de locale embarquées" value="0" unit="tout dérive d'Intl" />
       </div>
 
@@ -151,6 +176,103 @@ function TimePage() {
               </div>
             ))}
           </div>
+        </div>
+      </Showcase>
+
+      <Showcase
+        title="Fuseaux — le même instant à Paris, New York, Tokyo (vague 8c)"
+        description={
+          <>
+            <code>ZonedDateTime</code> pur : l&apos;offset d&apos;un instant dans un fuseau IANA est{" "}
+            <em>calculé</em> via <code>Intl.DateTimeFormat</code> (timeZoneName « longOffset ») —
+            zéro donnée de fuseau embarquée, DST juste par construction. La preuve : basculez
+            été/hiver — Tokyo (sans DST) passe de +7 h à +8 h par rapport à Paris, New York reste à
+            −6 h (les deux basculent). Le 29 mars 2026 à 02:30 n&apos;existe pas à Paris : le champ
+            retombe sur 03:30 (résolution « compatible » de Temporal). Ajoutez un fuseau via le
+            TimeZoneSelect — le ComboBox existant tel quel, recherche culture-aware sur ville et
+            libellé localisé, liste triée par offset.
+          </>
+        }
+        className="mb-6"
+      >
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-wrap items-center gap-3">
+            <DateTimeField
+              locale="fr-FR"
+              value={parisWall}
+              onValueChange={setParisWall}
+              aria-label="Heure murale à Paris"
+            />
+            <div
+              role="group"
+              aria-label="Préréglages saison"
+              className="inline-flex rounded-md border border-border p-0.5"
+            >
+              <button
+                type="button"
+                onClick={() => setParisWall({ ...dateValue(2026, 7, 15), ...timeValue(18, 0) })}
+                className="rounded px-2.5 py-1 text-xs hover:bg-muted"
+              >
+                Été (15 juil.)
+              </button>
+              <button
+                type="button"
+                onClick={() => setParisWall({ ...dateValue(2026, 1, 15), ...timeValue(18, 0) })}
+                className="rounded px-2.5 py-1 text-xs hover:bg-muted"
+              >
+                Hiver (15 janv.)
+              </button>
+              <button
+                type="button"
+                onClick={() => setParisWall({ ...dateValue(2026, 3, 29), ...timeValue(2, 30) })}
+                className="rounded px-2.5 py-1 text-xs hover:bg-muted"
+              >
+                Trou DST (29 mars 02:30)
+              </button>
+            </div>
+            <TimeZoneSelect
+              locale="fr-FR"
+              referenceEpochMs={Date.UTC(2026, 6, 15)}
+              onValueChange={(zone) => {
+                if (zone && !targets.includes(zone)) setTargets((t) => [...t, zone]);
+              }}
+              aria-label="Ajouter un fuseau"
+            />
+          </div>
+          {sourceZoned && (
+            <div className="overflow-hidden rounded-lg border border-border">
+              {["Europe/Paris", ...targets].map((zone) => {
+                const zdt = withTimeZone(sourceZoned, zone);
+                const windowsId = windowsFromIana(zone);
+                return (
+                  <div
+                    key={zone}
+                    className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-border px-3 py-2 text-sm last:border-b-0"
+                  >
+                    <span className="w-40 shrink-0 font-medium">{timeZoneCity(zone)}</span>
+                    <span className="font-mono tabular-nums">
+                      {formatZoned(zdt, "fr-FR", { dateStyle: "medium", timeStyle: "short" })}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {formatOffset(zdt.offsetMinutes)} · {timeZoneName(zone, "fr-FR", "long")}
+                    </span>
+                    <span className="ml-auto text-xs text-muted-foreground">
+                      Windows : {windowsId ?? "—"}
+                      {windowsId && ianaFromWindows(windowsId) !== zone && (
+                        <> (canonique : {ianaFromWindows(windowsId)})</>
+                      )}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <p className="text-xs text-muted-foreground">
+            La colonne Windows vient du module optionnel <code>core/time/windows-zones</code> —
+            généré depuis la table CLDR windowsZones (139 ids, 500 entrées), versionné dans le repo,
+            jamais importé par le reste du core (tree-shakable). Régénération :{" "}
+            <code>bun scripts/generate-windows-zones.ts</code>.
+          </p>
         </div>
       </Showcase>
 
