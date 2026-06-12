@@ -30,6 +30,10 @@ export {
 export { Listbox, type ListboxProps } from "./Listbox";
 export { TreeView, type TreeViewProps, type TreeSourceNode } from "./TreeView";
 export { Menu, type MenuProps, type MenuItemDef, type MenuSectionDef } from "./Menu";
+export { ContextMenu, type ContextMenuProps } from "./ContextMenu";
+export { Tabs, type TabsProps, type TabDef } from "./Tabs";
+export { Accordion, type AccordionProps, type AccordionItemDef } from "./Accordion";
+export { Select, type SelectProps, type SelectOptionDef } from "./Select";
 export { ComboBox, type ComboBoxProps } from "./ComboBox";
 export { CommandPalette, type CommandPaletteProps, type CommandDef } from "./CommandPalette";
 export { Dialog, type DialogProps } from "./Dialog";

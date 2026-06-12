@@ -16,6 +16,7 @@ import { Route as OverlaysRouteImport } from './routes/overlays'
 import { Route as KanbanRouteImport } from './routes/kanban'
 import { Route as GridNextRouteImport } from './routes/grid-next'
 import { Route as EngineRouteImport } from './routes/engine'
+import { Route as DisclosureRouteImport } from './routes/disclosure'
 import { Route as DebugRouteImport } from './routes/debug'
 import { Route as DataLoaderRouteImport } from './routes/data-loader'
 import { Route as DataGridRouteImport } from './routes/data-grid'
@@ -59,6 +60,11 @@ const GridNextRoute = GridNextRouteImport.update({
 const EngineRoute = EngineRouteImport.update({
   id: '/engine',
   path: '/engine',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclosureRoute = DisclosureRouteImport.update({
+  id: '/disclosure',
+  path: '/disclosure',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DebugRoute = DebugRouteImport.update({
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
   '/debug': typeof DebugRoute
+  '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
   '/grid-next': typeof GridNextRoute
   '/kanban': typeof KanbanRoute
@@ -135,6 +142,7 @@ export interface FileRoutesByTo {
   '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
   '/debug': typeof DebugRoute
+  '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
   '/grid-next': typeof GridNextRoute
   '/kanban': typeof KanbanRoute
@@ -154,6 +162,7 @@ export interface FileRoutesById {
   '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
   '/debug': typeof DebugRoute
+  '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
   '/grid-next': typeof GridNextRoute
   '/kanban': typeof KanbanRoute
@@ -174,6 +183,7 @@ export interface FileRouteTypes {
     | '/data-grid'
     | '/data-loader'
     | '/debug'
+    | '/disclosure'
     | '/engine'
     | '/grid-next'
     | '/kanban'
@@ -192,6 +202,7 @@ export interface FileRouteTypes {
     | '/data-grid'
     | '/data-loader'
     | '/debug'
+    | '/disclosure'
     | '/engine'
     | '/grid-next'
     | '/kanban'
@@ -210,6 +221,7 @@ export interface FileRouteTypes {
     | '/data-grid'
     | '/data-loader'
     | '/debug'
+    | '/disclosure'
     | '/engine'
     | '/grid-next'
     | '/kanban'
@@ -229,6 +241,7 @@ export interface RootRouteChildren {
   DataGridRoute: typeof DataGridRoute
   DataLoaderRoute: typeof DataLoaderRoute
   DebugRoute: typeof DebugRoute
+  DisclosureRoute: typeof DisclosureRoute
   EngineRoute: typeof EngineRoute
   GridNextRoute: typeof GridNextRoute
   KanbanRoute: typeof KanbanRoute
@@ -287,6 +300,13 @@ declare module '@tanstack/react-router' {
       path: '/engine'
       fullPath: '/engine'
       preLoaderRoute: typeof EngineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclosure': {
+      id: '/disclosure'
+      path: '/disclosure'
+      fullPath: '/disclosure'
+      preLoaderRoute: typeof DisclosureRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/debug': {
@@ -365,6 +385,7 @@ const rootRouteChildren: RootRouteChildren = {
   DataGridRoute: DataGridRoute,
   DataLoaderRoute: DataLoaderRoute,
   DebugRoute: DebugRoute,
+  DisclosureRoute: DisclosureRoute,
   EngineRoute: EngineRoute,
   GridNextRoute: GridNextRoute,
   KanbanRoute: KanbanRoute,

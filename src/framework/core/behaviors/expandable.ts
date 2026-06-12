@@ -25,6 +25,11 @@ export interface ExpandableSlice {
 
 export interface ExpandableConfig {
   defaultExpandedKeys?: readonly Key[];
+  /**
+   * "multiple" (default) lets any number of nodes stay open (trees).
+   * "single" closes the others when one opens (classic accordions).
+   */
+  expansionMode?: "single" | "multiple";
 }
 
 export const expandIntents = {
@@ -43,9 +48,11 @@ const setExpanded = (
   slice: ExpandableSlice,
   key: Key,
   expanded: boolean,
+  mode: "single" | "multiple" = "multiple",
 ): TransitionResult<ExpandableSlice> => {
   if (slice.expandedKeys.has(key) === expanded) return slice;
-  const next = new Set(slice.expandedKeys);
+  // Single mode: opening a node closes every other one (accordion semantics).
+  const next = expanded && mode === "single" ? new Set([key]) : new Set(slice.expandedKeys);
   if (expanded) next.add(key);
   else next.delete(key);
   return emitChange(slice, next);
@@ -65,12 +72,12 @@ export const expandable = defineBehavior<
       if (key === null || key === undefined) return slice;
       const node = ctx.config.getCollection().getNode(key);
       if (!node?.hasChildren) return slice;
-      return setExpanded(slice, key, !slice.expandedKeys.has(key));
+      return setExpanded(slice, key, !slice.expandedKeys.has(key), ctx.config.expansionMode);
     },
-    [expandIntents.expand.type]: (slice, intent) =>
-      setExpanded(slice, (intent.payload as { key: Key }).key, true),
-    [expandIntents.collapse.type]: (slice, intent) =>
-      setExpanded(slice, (intent.payload as { key: Key }).key, false),
+    [expandIntents.expand.type]: (slice, intent, ctx) =>
+      setExpanded(slice, (intent.payload as { key: Key }).key, true, ctx.config.expansionMode),
+    [expandIntents.collapse.type]: (slice, intent, ctx) =>
+      setExpanded(slice, (intent.payload as { key: Key }).key, false, ctx.config.expansionMode),
 
     // Both nav handlers read the *pre-dispatch* focused key: Navigable may
     // already have moved focus during this same dispatch.
@@ -79,7 +86,7 @@ export const expandable = defineBehavior<
       if (key === null || key === undefined) return slice;
       const node = ctx.config.getCollection().getNode(key);
       if (!node?.hasChildren || slice.expandedKeys.has(key)) return slice;
-      return setExpanded(slice, key, true);
+      return setExpanded(slice, key, true, ctx.config.expansionMode);
     },
     [navIntents.toParent.type]: (slice, _intent, ctx) => {
       const key = ctx.readInitial<NavigableSlice>("navigable")?.focusedKey;

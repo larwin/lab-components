@@ -10,6 +10,7 @@ import {
   FlaskConical,
   Grid3x3,
   Layers,
+  PanelTopOpen,
   SlidersHorizontal,
   SquareKanban,
   TestTube2,
@@ -79,6 +80,18 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "Dans NumberField Prix, tapez « 1 234,56 » puis Tab : parsing fr-FR, affichage 1 234,56 € — flèches ±0,5, Shift+flèche ±5",
       "Sur le Slider, glissez puis prenez le clavier : pointeur et flèches convergent sur le même intent number/set",
       "Soumettez le formulaire vide : chaque erreur est annoncée (live region assertive) et le focus saute au premier champ invalide",
+    ],
+  },
+  {
+    to: "/disclosure",
+    icon: PanelTopOpen,
+    title: "Navigation & Disclosure",
+    what: "Tabs, Accordion, Select et ContextMenu sans nouvelle logique : le collection engine et la machine Menu existants, recomposés. Le mode manuel/automatique des Tabs est un flag de config, le mode single de l'Accordion est résolu dans le reducer.",
+    verify: [
+      "Tabs : passez en « Manuel » — les flèches ne font plus que déplacer le focus, Entrée active",
+      "Select : ouvrez et tapez « en » — le typeahead saute sur Enterprise (Legacy désactivé est sauté)",
+      "Accordion single : ouvrir une section ferme l'autre ; ↑ ↓ naviguent entre les en-têtes",
+      "Clic droit dans la zone ContextMenu : ouverture à la position du curseur, Échap referme et restaure le focus",
     ],
   },
   {

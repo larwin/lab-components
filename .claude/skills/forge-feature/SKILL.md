@@ -167,3 +167,12 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
   puis re-validation live seulement une fois `touched` — et un miroir ref
   synchrone de la valeur pour que le validate du même tick lise la frappe en
   cours (les live refs ne se mettent à jour qu'au re-render).
+- 2026-06-12 · Quand les items sont de vrais boutons en tab order (Accordion),
+  garder la machine Navigable et réinterpréter son effet `scrollToItem` en
+  « focus ce bouton » (override d'interpréteur + registry) : wrap, Home/End,
+  skip des items désactivés et typeahead restent dans le core.
+- 2026-06-12 · Les exports non-composants partagés entre primitives (tableaux
+  de behaviors, constructeurs de collection) vont dans un module `.ts` voisin
+  (cf. `menu-core.ts`) — pas dans le `.tsx`, sinon nouveau warning
+  react-refresh. Overlay au pointeur (ContextMenu) : ancre virtuelle 0×0
+  positionnée aux coordonnées du clic, le positioning core fait le reste.

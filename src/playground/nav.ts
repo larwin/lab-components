@@ -14,6 +14,7 @@ import {
   Palette,
   Bug,
   SlidersHorizontal,
+  PanelTopOpen,
   type LucideIcon,
 } from "lucide-react";
 
@@ -62,6 +63,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Form Controls",
         icon: SlidersHorizontal,
         description: "Champs, toggles, slider — machines pures",
+      },
+      {
+        to: "/disclosure",
+        label: "Navigation",
+        icon: PanelTopOpen,
+        description: "Tabs, Accordion, Select, ContextMenu",
       },
       {
         to: "/overlays",
