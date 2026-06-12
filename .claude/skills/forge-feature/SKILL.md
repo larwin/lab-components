@@ -54,7 +54,8 @@ src/framework/core/        LE PRODUIT — pur, testé en Node
   overlay/    positionnement pur (flip/shift) + toast queue machine
   text/       characterLimit (politique compteur) + machine PinInput
   date/       DateValue pur + arithmétique civile, services Intl
-              (firstDayOfWeek/libellés), machine calendarGrid
+              (firstDayOfWeek/libellés/formatToParts/DisplayNames),
+              machines calendarGrid (single + range) et dateField
 src/framework/react/       L'ADAPTATEUR — useMachine, interpréteurs d'effets,
                             Overlay (pile de layers), useVirtualizer, useDataSource
 src/framework/primitives/  Les composants composés (coquilles minces)
@@ -231,6 +232,23 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
   `focusElement` avec un report d'une frame (`requestAnimationFrame`) : React
   a commité au moment où le rAF s'exécute. Pattern jumeau de l'override
   `scrollToItem` → focus DOM (Accordion).
+- 2026-06-12 · Saisie segmentée (DateField) : un segment en cours de frappe
+  est un brouillon — il compte comme vide pour l'émission d'événements, et
+  `change` ne part qu'aux points de commit (buffer `typed` redevenu vide :
+  auto-avance, flèche, segment plein). Sinon taper « 2026 » égrène
+  2 → 20 → 202. Un intent `commit` dédié permet à l'adaptateur de vider le
+  brouillon au blur du groupe.
+- 2026-06-12 · Binding dépendant de l'état dans une machine dédiée (pas un
+  behavior) : passer un `getState` optionnel à la fabrique de keymap
+  (`calendarKeymap(config, getState)`) — Escape n'annule l'ancre du mode
+  range que si elle existe, sinon le binding retourne null et l'overlay
+  parent garde la touche. Les behaviors ont leur slice dans `keymap(slice)`,
+  les machines dédiées doivent l'injecter.
+- 2026-06-12 · Preview d'intervalle : pas d'état `hover` dans la machine —
+  le survol dispatch `focus-date` (source pointer) et la preview est une
+  dérivation pure `calendarRange(state)` = ancre → focus ordonnés. Clavier
+  et pointeur convergent gratuitement, et le commit est ordonné par
+  construction (jamais de validation début ≤ fin a posteriori dans la grille).
 - 2026-06-12 · Statiques sans machine (Alert, Badge, Avatar, Card, Skeleton,
   Spinner, EmptyState…) : rôle ARIA correct + tokens + variantes CVA, point.
   Quand un statique a quand même UNE décision (compteur TextArea, acceptation
