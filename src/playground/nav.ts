@@ -22,6 +22,7 @@ import {
   PanelRightOpen,
   Shapes,
   PencilRuler,
+  GalleryHorizontal,
   type LucideIcon,
 } from "lucide-react";
 
@@ -124,6 +125,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Toolbar",
         icon: PencilRuler,
         description: "Roving APG, débordement « … », pilule flottante",
+      },
+      {
+        to: "/carousel",
+        label: "Carousel",
+        icon: GalleryHorizontal,
+        description: "Drag-snap, autoplay pausable, boucle modulo, 10k virtualisé",
       },
       {
         to: "/data-loader",

@@ -11,6 +11,7 @@ import {
   DatabaseZap,
   FileText,
   FlaskConical,
+  GalleryHorizontal,
   Grid3x3,
   Layers,
   PanelRightOpen,
@@ -196,6 +197,18 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "Rétrécissez le conteneur au slider : les items partent dans « … » — Ctrl+B et Ctrl+Z marchent toujours",
       "Sélectionnez du texte dans l'éditeur : la pilule apparaît, son « gras » coche aussi la barre statique (même état)",
       "Toolbar RTL : ← avance, → recule — la frappe est retournée avant la keymap (fonction pure testée)",
+    ],
+  },
+  {
+    to: "/carousel",
+    icon: GalleryHorizontal,
+    title: "Carousel",
+    what: "Zéro machine nouvelle pour la piste : Navigable(horizontal) + le behavior Autoplayable (rotation = pattern timers du Toast, schedule/cancel prouvé en Node). Drag-snap = la géométrie de roue 8b à l'horizontale, boucle infinie en modulo pur (pas de clonage DOM), piste 10k virtualisée par le Fenwick.",
+    verify: [
+      "Faites glisser la galerie : l'inertie v²/2a coast puis snap — relâchez vite pour sauter plusieurs pages",
+      "Survolez / focalisez / masquez l'onglet : la rotation se suspend et repart — le timer est annulé à chaque arrêt",
+      "Boucle 3/page : franchir la couture (page 3 → 1) anime vers l'avant, sans clones DOM",
+      "Galerie 10k : le compteur de slides montées reste à ~6 ; End saute à la page 10000 sans monter le reste",
     ],
   },
   {

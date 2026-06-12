@@ -95,6 +95,15 @@ export {
 } from "./behaviors/searchable";
 export { actionable, actionIntents } from "./behaviors/actionable";
 export {
+  autoplayable,
+  autoplayIntents,
+  scheduleAdvance,
+  cancelAdvance,
+  type AutoplayableSlice,
+  type AutoplayableConfig,
+  type AutoplaySuspendReason,
+} from "./behaviors/autoplayable";
+export {
   validatable,
   validityIntents,
   type ValidatableSlice,

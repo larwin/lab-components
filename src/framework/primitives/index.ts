@@ -52,6 +52,7 @@ export { Breadcrumbs, type BreadcrumbsProps, type BreadcrumbItemDef } from "./Br
 export { Menubar, type MenubarProps, type MenubarMenu } from "./Menubar";
 export { Splitter, type SplitterProps } from "./Splitter";
 export { Toolbar, FloatingToolbar, type ToolbarProps, type FloatingToolbarProps } from "./Toolbar";
+export { Carousel, type CarouselProps, type CarouselSlideDef } from "./Carousel";
 export {
   type ToolbarItemDef,
   type ToolbarButtonDef,

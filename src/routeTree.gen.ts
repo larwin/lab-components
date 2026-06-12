@@ -30,6 +30,7 @@ import { Route as DataGridRouteImport } from './routes/data-grid'
 import { Route as ControlsRouteImport } from './routes/controls'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as CollectionsRouteImport } from './routes/collections'
+import { Route as CarouselRouteImport } from './routes/carousel'
 import { Route as CanvasGridRouteImport } from './routes/canvas-grid'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as IndexRouteImport } from './routes/index'
@@ -139,6 +140,11 @@ const CollectionsRoute = CollectionsRouteImport.update({
   path: '/collections',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CarouselRoute = CarouselRouteImport.update({
+  id: '/carousel',
+  path: '/carousel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CanvasGridRoute = CanvasGridRouteImport.update({
   id: '/canvas-grid',
   path: '/canvas-grid',
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/canvas-grid': typeof CanvasGridRoute
+  '/carousel': typeof CarouselRoute
   '/collections': typeof CollectionsRoute
   '/components': typeof ComponentsRoute
   '/controls': typeof ControlsRoute
@@ -185,6 +192,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/canvas-grid': typeof CanvasGridRoute
+  '/carousel': typeof CarouselRoute
   '/collections': typeof CollectionsRoute
   '/components': typeof ComponentsRoute
   '/controls': typeof ControlsRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/canvas-grid': typeof CanvasGridRoute
+  '/carousel': typeof CarouselRoute
   '/collections': typeof CollectionsRoute
   '/components': typeof ComponentsRoute
   '/controls': typeof ControlsRoute
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/'
     | '/accessibility'
     | '/canvas-grid'
+    | '/carousel'
     | '/collections'
     | '/components'
     | '/controls'
@@ -266,6 +276,7 @@ export interface FileRouteTypes {
     | '/'
     | '/accessibility'
     | '/canvas-grid'
+    | '/carousel'
     | '/collections'
     | '/components'
     | '/controls'
@@ -292,6 +303,7 @@ export interface FileRouteTypes {
     | '/'
     | '/accessibility'
     | '/canvas-grid'
+    | '/carousel'
     | '/collections'
     | '/components'
     | '/controls'
@@ -319,6 +331,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccessibilityRoute: typeof AccessibilityRoute
   CanvasGridRoute: typeof CanvasGridRoute
+  CarouselRoute: typeof CarouselRoute
   CollectionsRoute: typeof CollectionsRoute
   ComponentsRoute: typeof ComponentsRoute
   ControlsRoute: typeof ControlsRoute
@@ -491,6 +504,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/carousel': {
+      id: '/carousel'
+      path: '/carousel'
+      fullPath: '/carousel'
+      preLoaderRoute: typeof CarouselRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/canvas-grid': {
       id: '/canvas-grid'
       path: '/canvas-grid'
@@ -519,6 +539,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccessibilityRoute: AccessibilityRoute,
   CanvasGridRoute: CanvasGridRoute,
+  CarouselRoute: CarouselRoute,
   CollectionsRoute: CollectionsRoute,
   ComponentsRoute: ComponentsRoute,
   ControlsRoute: ControlsRoute,
