@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
+  BellRing,
   Boxes,
   Brush,
   Check,
@@ -104,6 +105,18 @@ const NEXT_GEN_DEMOS: DemoCard[] = [
       "Ouvrez le Dialog puis réessayez Mod+K : masqué par le scope bloquant de la modale",
       "Dans le ComboBox, tapez « eta » : trouve « États-Unis » (matching culture-aware)",
       "Échap / clic extérieur ferme et restaure le focus sur le déclencheur",
+    ],
+  },
+  {
+    to: "/feedback",
+    icon: BellRing,
+    title: "Feedback",
+    what: "La file de toasts est une machine pure : éviction au-delà du plafond, annonces lecteur d'écran et timers émis comme effets déclaratifs — le setTimeout vit dans l'adaptateur, le core n'a pas d'horloge. Progress et Meter complètent avec l'ARIA natif correct.",
+    verify: [
+      "Spammez « Info » : au-delà de 4 toasts, le plus ancien est évincé et son timer annulé par le reducer",
+      "L'erreur est sticky (duration null) et annoncée en assertif ; les autres en polite",
+      "Lancez l'upload simulé : le progressbar est déterminé (aria-valuenow), et la fin enfile un toast succès",
+      "Glissez le slider disque : le Meter change de zone (vert → orange → rouge), sémantique du <meter> natif",
     ],
   },
   {

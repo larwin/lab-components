@@ -15,6 +15,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as OverlaysRouteImport } from './routes/overlays'
 import { Route as KanbanRouteImport } from './routes/kanban'
 import { Route as GridNextRouteImport } from './routes/grid-next'
+import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as EngineRouteImport } from './routes/engine'
 import { Route as DisclosureRouteImport } from './routes/disclosure'
 import { Route as DebugRouteImport } from './routes/debug'
@@ -55,6 +56,11 @@ const KanbanRoute = KanbanRouteImport.update({
 const GridNextRoute = GridNextRouteImport.update({
   id: '/grid-next',
   path: '/grid-next',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EngineRoute = EngineRouteImport.update({
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/debug': typeof DebugRoute
   '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
+  '/feedback': typeof FeedbackRoute
   '/grid-next': typeof GridNextRoute
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/debug': typeof DebugRoute
   '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
+  '/feedback': typeof FeedbackRoute
   '/grid-next': typeof GridNextRoute
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   '/debug': typeof DebugRoute
   '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
+  '/feedback': typeof FeedbackRoute
   '/grid-next': typeof GridNextRoute
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/debug'
     | '/disclosure'
     | '/engine'
+    | '/feedback'
     | '/grid-next'
     | '/kanban'
     | '/overlays'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/debug'
     | '/disclosure'
     | '/engine'
+    | '/feedback'
     | '/grid-next'
     | '/kanban'
     | '/overlays'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/debug'
     | '/disclosure'
     | '/engine'
+    | '/feedback'
     | '/grid-next'
     | '/kanban'
     | '/overlays'
@@ -243,6 +255,7 @@ export interface RootRouteChildren {
   DebugRoute: typeof DebugRoute
   DisclosureRoute: typeof DisclosureRoute
   EngineRoute: typeof EngineRoute
+  FeedbackRoute: typeof FeedbackRoute
   GridNextRoute: typeof GridNextRoute
   KanbanRoute: typeof KanbanRoute
   OverlaysRoute: typeof OverlaysRoute
@@ -293,6 +306,13 @@ declare module '@tanstack/react-router' {
       path: '/grid-next'
       fullPath: '/grid-next'
       preLoaderRoute: typeof GridNextRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/engine': {
@@ -387,6 +407,7 @@ const rootRouteChildren: RootRouteChildren = {
   DebugRoute: DebugRoute,
   DisclosureRoute: DisclosureRoute,
   EngineRoute: EngineRoute,
+  FeedbackRoute: FeedbackRoute,
   GridNextRoute: GridNextRoute,
   KanbanRoute: KanbanRoute,
   OverlaysRoute: OverlaysRoute,

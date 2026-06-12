@@ -176,3 +176,8 @@ docs/RFC-001-NEXT-GEN-ARCHITECTURE.md  La référence + table de statut
   (cf. `menu-core.ts`) — pas dans le `.tsx`, sinon nouveau warning
   react-refresh. Overlay au pointeur (ContextMenu) : ancre virtuelle 0×0
   positionnée aux coordonnées du clic, le positioning core fait le reste.
+- 2026-06-12 · Timers sans horloge dans le core (Toast) : le reducer émet des
+  paires d'effets `schedule-…`/`cancel-…` et l'adaptateur tient une
+  `Map<id, handle>` de setTimeout ; chaque chemin qui retire un item (dismiss,
+  éviction au-delà du plafond, clear) doit émettre son `cancel-…`, sinon fuite
+  de timer. Tout le cycle se teste en Node sans fake timers.

@@ -15,6 +15,7 @@ import {
   Bug,
   SlidersHorizontal,
   PanelTopOpen,
+  BellRing,
   type LucideIcon,
 } from "lucide-react";
 
@@ -75,6 +76,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Overlays",
         icon: Layers,
         description: "Menu, ComboBox, Dialog, Command palette",
+      },
+      {
+        to: "/feedback",
+        label: "Feedback",
+        icon: BellRing,
+        description: "Toast queue machine, Progress, Meter",
       },
       {
         to: "/data-loader",

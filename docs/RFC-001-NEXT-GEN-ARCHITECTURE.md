@@ -279,6 +279,8 @@ keymap. On top of it:
 
 | Navigation & disclosure wave 2: Tabs (tablist pattern — automatic/manual activation is one `selectionFollowsFocus` flag), Accordion (`expansionMode: single \| multiple` resolved in the Expandable reducer, headers as real buttons with `scrollToItem` reinterpreted as DOM focus), Select (trigger + the listbox machine + Overlay, typeahead included), ContextMenu (the same Menu machine opened at the pointer through a 0×0 virtual anchor; `MenuPanel` shared with Menu) | ✅ implemented + tested (Node machines), demo at `/disclosure` |
 
+| Feedback wave 3: pure toast queue machine (enqueue/dismiss/clear, eviction beyond `maxToasts`, SR announcements polite/assertive by kind, timers as declarative `schedule-dismiss`/`cancel-dismiss` effects — the adapter owns `setTimeout`) + `ToastProvider`/`useToast` + Progress (determinate/indeterminate progressbar) + Meter (low/high/optimum zones, native `<meter>` semantics) | ✅ implemented + tested (Node machine), demo at `/feedback` |
+
 The structural roadmap is complete. Remaining work is breadth, not
 architecture: full i18n message bundles + RTL keymap flipping, remaining
 playgrounds (benchmarks with live render metrics), and migrating the gen-1
