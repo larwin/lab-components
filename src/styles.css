@@ -196,6 +196,16 @@
     border-color: var(--color-border);
   }
 
+  /* The app is a fixed-viewport shell (sidebar + a single scrolling <main>).
+     Lock the document so it can never grow its own scrollbar — otherwise a
+     transient height change adds a SECOND scrollbar next to main's and the
+     centered content jumps sideways. Only <main> scrolls. */
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);

@@ -24,6 +24,7 @@ import {
   PencilRuler,
   GalleryHorizontal,
   Pipette,
+  Workflow,
   type LucideIcon,
 } from "lucide-react";
 
@@ -60,6 +61,12 @@ export const NAV_GROUPS: NavGroup[] = [
         label: "Engine Inspector",
         icon: Cpu,
         description: "Intents, transitions & effects live",
+      },
+      {
+        to: "/services-demo",
+        label: "Services & DI",
+        icon: Workflow,
+        description: "Façades, stores live, invalidation — RFC-002",
       },
       {
         to: "/grid-next",

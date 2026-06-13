@@ -77,6 +77,15 @@ Use `class-variance-authority` (CVA) for type-safe variant composition. Define v
 
 Tailwind CSS v4 with CSS variables. Use the `cn()` utility from `@/lib/utils` to merge classnames. Token definitions live in `src/themes/`; do not hardcode color values.
 
+### Component usage (hard rule)
+
+**Only use components that already exist in the project.** Any UI — demo routes included — composes exclusively from `@/framework/primitives` (and the playground helpers in `@/playground/components`). Concretely:
+
+- **Never hand-roll a control with raw markup when a primitive exists.** Use `Listbox` for lists, `Select` for selects, `TextField`/`NumberField`/`Switch`/`Checkbox`/`Button` for inputs, `Alert`/`Badge`/`Spinner`/`Card` for feedback and containers, etc. A `<ul><li>` list of data when `Listbox` exists is a bug, not a shortcut.
+- **Never pull in an external component library.** No shadcn/ui, MUI, Headless UI, etc. `src/components/ui/` is the temporary shadcn-era library, not the stable API — don't build new UI on it.
+- **If a needed component does not exist, build it first** as a primitive following `/forge-feature` (pure machine → Node tests → thin shell), then use it. Never inline a one-off substitute.
+- Raw HTML is acceptable **only** for pure layout (`div`/`span`/`section` for grids and spacing) and short prose (`p`/`ul` of explanatory text) where no component is implied.
+
 ### Routing
 
 TanStack Start file-based routing: `src/routes/index.tsx` → `/`, `src/routes/users/$id.tsx` → `/users/:id`. `routeTree.gen.ts` is auto-generated — do not edit. Server-side code uses `*.server.ts` suffix (not `server-only` import).

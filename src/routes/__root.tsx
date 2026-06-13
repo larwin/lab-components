@@ -142,7 +142,7 @@ function PlaygroundLayout() {
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
       <Sidebar />
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto [scrollbar-gutter:stable]">
         <div className="mx-auto max-w-6xl px-8 py-10">
           <Outlet />
         </div>

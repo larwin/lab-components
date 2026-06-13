@@ -35,4 +35,8 @@ describe("architecture purity", () => {
     const file = join(process.cwd(), "src/framework/primitives/datagrid/gridMachine.ts");
     expect(REACT_IMPORT.test(readFileSync(file, "utf8"))).toBe(false);
   });
+
+  it("src/framework/services (DI + stores layer, RFC-002) imports no React", () => {
+    expect(offenders(join(process.cwd(), "src/framework/services"))).toEqual([]);
+  });
 });

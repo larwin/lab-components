@@ -16,6 +16,7 @@ import { Route as ThemingRouteImport } from './routes/theming'
 import { Route as SurfacesRouteImport } from './routes/surfaces'
 import { Route as StaticsRouteImport } from './routes/statics'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ServicesDemoRouteImport } from './routes/services-demo'
 import { Route as OverlaysRouteImport } from './routes/overlays'
 import { Route as KanbanRouteImport } from './routes/kanban'
 import { Route as InputsAdvancedRouteImport } from './routes/inputs-advanced'
@@ -69,6 +70,11 @@ const StaticsRoute = StaticsRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesDemoRoute = ServicesDemoRouteImport.update({
+  id: '/services-demo',
+  path: '/services-demo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OverlaysRoute = OverlaysRouteImport.update({
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/inputs-advanced': typeof InputsAdvancedRoute
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
+  '/services-demo': typeof ServicesDemoRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/statics': typeof StaticsRoute
   '/surfaces': typeof SurfacesRoute
@@ -215,6 +222,7 @@ export interface FileRoutesByTo {
   '/inputs-advanced': typeof InputsAdvancedRoute
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
+  '/services-demo': typeof ServicesDemoRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/statics': typeof StaticsRoute
   '/surfaces': typeof SurfacesRoute
@@ -244,6 +252,7 @@ export interface FileRoutesById {
   '/inputs-advanced': typeof InputsAdvancedRoute
   '/kanban': typeof KanbanRoute
   '/overlays': typeof OverlaysRoute
+  '/services-demo': typeof ServicesDemoRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/statics': typeof StaticsRoute
   '/surfaces': typeof SurfacesRoute
@@ -274,6 +283,7 @@ export interface FileRouteTypes {
     | '/inputs-advanced'
     | '/kanban'
     | '/overlays'
+    | '/services-demo'
     | '/sitemap.xml'
     | '/statics'
     | '/surfaces'
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
     | '/inputs-advanced'
     | '/kanban'
     | '/overlays'
+    | '/services-demo'
     | '/sitemap.xml'
     | '/statics'
     | '/surfaces'
@@ -330,6 +341,7 @@ export interface FileRouteTypes {
     | '/inputs-advanced'
     | '/kanban'
     | '/overlays'
+    | '/services-demo'
     | '/sitemap.xml'
     | '/statics'
     | '/surfaces'
@@ -359,6 +371,7 @@ export interface RootRouteChildren {
   InputsAdvancedRoute: typeof InputsAdvancedRoute
   KanbanRoute: typeof KanbanRoute
   OverlaysRoute: typeof OverlaysRoute
+  ServicesDemoRoute: typeof ServicesDemoRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StaticsRoute: typeof StaticsRoute
   SurfacesRoute: typeof SurfacesRoute
@@ -417,6 +430,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services-demo': {
+      id: '/services-demo'
+      path: '/services-demo'
+      fullPath: '/services-demo'
+      preLoaderRoute: typeof ServicesDemoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/overlays': {
@@ -575,6 +595,7 @@ const rootRouteChildren: RootRouteChildren = {
   InputsAdvancedRoute: InputsAdvancedRoute,
   KanbanRoute: KanbanRoute,
   OverlaysRoute: OverlaysRoute,
+  ServicesDemoRoute: ServicesDemoRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StaticsRoute: StaticsRoute,
   SurfacesRoute: SurfacesRoute,
