@@ -7,13 +7,7 @@ import { Button, DataGrid, type GridColumn } from "@/framework/primitives";
 import { getProducts } from "@/playground/fixtures";
 import type { Product } from "@/playground/fixtures/types";
 import { formatCurrency, formatNumber } from "@/shared/utils/format";
-import {
-  Field,
-  MetricCard,
-  PageHeader,
-  Showcase,
-  StatusPill,
-} from "@/playground/components/primitives";
+import { Field, MetricCard, PageHeader, Showcase, StatusPill } from "@/components/primitives";
 
 export const Route = createFileRoute("/data-loader")({
   head: () => ({

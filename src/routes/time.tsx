@@ -27,7 +27,7 @@ import {
 } from "@/framework/core";
 // Optional leaf module — imported directly, never through the core barrel.
 import { ianaFromWindows, windowsFromIana } from "@/framework/core/time/windows-zones";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/time")({
   head: () => ({

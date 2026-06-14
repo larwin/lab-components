@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Button, Meter, Progress, Slider, ToastProvider, useToast } from "@/framework/primitives";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/feedback")({
   head: () => ({

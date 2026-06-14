@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { FloatingToolbar, Slider, Toolbar, type ToolbarItemDef } from "@/framework/primitives";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/toolbar")({
   head: () => ({

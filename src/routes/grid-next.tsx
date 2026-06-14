@@ -5,13 +5,7 @@ import { getProducts } from "@/playground/fixtures";
 import type { Product } from "@/playground/fixtures/types";
 import { formatCurrency, formatNumber } from "@/shared/utils/format";
 import { formatDuration, measure } from "@/shared/utils/perf";
-import {
-  Field,
-  MetricCard,
-  PageHeader,
-  Showcase,
-  StatusPill,
-} from "@/playground/components/primitives";
+import { Field, MetricCard, PageHeader, Showcase, StatusPill } from "@/components/primitives";
 
 export const Route = createFileRoute("/grid-next")({
   head: () => ({

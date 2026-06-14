@@ -9,7 +9,7 @@ import {
   ToastProvider,
   useToast,
 } from "@/framework/primitives";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/inputs-advanced")({
   head: () => ({

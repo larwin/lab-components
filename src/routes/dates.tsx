@@ -10,7 +10,7 @@ import {
   type DateRange,
   type DateValue,
 } from "@/framework/core";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 import { cn } from "@/shared/lib/utils";
 
 export const Route = createFileRoute("/dates")({

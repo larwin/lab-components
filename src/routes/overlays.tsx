@@ -13,7 +13,7 @@ import {
   type CommandDef,
 } from "@/framework/primitives";
 import { useTheme } from "@/shared/themes/theme-provider";
-import { PageHeader, Showcase } from "@/playground/components/primitives";
+import { PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/overlays")({
   head: () => ({

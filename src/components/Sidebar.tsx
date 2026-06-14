@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Moon, Sun, Boxes } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { useTheme } from "@/shared/themes/theme-provider";
-import { NAV_GROUPS } from "../nav";
+import { NAV_GROUPS } from "@/playground/nav";
 
 export function Sidebar() {
   const { theme, toggleTheme } = useTheme();

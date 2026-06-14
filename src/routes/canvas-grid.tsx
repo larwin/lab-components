@@ -5,7 +5,7 @@ import { Select } from "@/framework/primitives";
 import { getProducts } from "@/playground/fixtures";
 import type { Product } from "@/playground/fixtures/types";
 import { formatCurrency, formatNumber } from "@/shared/utils/format";
-import { Field, MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { Field, MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/canvas-grid")({
   head: () => ({

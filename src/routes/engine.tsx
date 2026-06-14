@@ -5,7 +5,7 @@ import { cn } from "@/shared/lib/utils";
 import { inspect, type TransitionRecord } from "@/framework/core";
 import { ShortcutProvider } from "@/framework/react";
 import { Button, Listbox, TreeView } from "@/framework/primitives";
-import { PageHeader, Showcase } from "@/playground/components/primitives";
+import { PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/engine")({
   head: () => ({

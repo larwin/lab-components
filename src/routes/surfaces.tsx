@@ -11,7 +11,7 @@ import {
   TextField,
   type DrawerSide,
 } from "@/framework/primitives";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/surfaces")({
   head: () => ({

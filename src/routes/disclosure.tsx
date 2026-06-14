@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Copy, FolderOpen, Pencil, Scissors, Share2, Trash2 } from "lucide-react";
 import type { Key } from "@/framework/core";
 import { Accordion, ContextMenu, Select, Tabs } from "@/framework/primitives";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/disclosure")({
   head: () => ({

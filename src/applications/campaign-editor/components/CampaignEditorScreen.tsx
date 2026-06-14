@@ -14,7 +14,7 @@ import {
   TextField,
 } from "@/framework/primitives";
 import { ServicesProvider, useFacade, useStoreValue } from "@/framework/react/services";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 import { buildCampaignTree } from "@/app/campaignTree";
 import { CategoryFacadeToken, CategoryStoreToken, type CategoryId } from "@/domains/categories";

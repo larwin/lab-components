@@ -13,7 +13,7 @@ import {
   Skeleton,
   Spinner,
 } from "@/framework/primitives";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/statics")({
   head: () => ({

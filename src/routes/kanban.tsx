@@ -5,7 +5,7 @@ import type { DragMoveDetail, Key } from "@/framework/core";
 import { getOrders } from "@/playground/fixtures";
 import type { Order } from "@/playground/fixtures/types";
 import { formatCurrency } from "@/shared/utils/format";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/kanban")({
   head: () => ({

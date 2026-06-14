@@ -26,7 +26,7 @@ import {
   X,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { Showcase, CodeBlock } from "@/playground/components/primitives";
+import { Showcase, CodeBlock } from "@/components/primitives";
 
 export const Route = createFileRoute("/")({
   head: () => ({

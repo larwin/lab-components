@@ -12,7 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../shared/lib/lovable-error-reporting";
 import { ThemeProvider, useTheme } from "../shared/themes/theme-provider";
-import { Sidebar } from "../playground/components/Sidebar";
+import { Sidebar } from "../components/Sidebar";
 
 function NotFoundComponent() {
   return (

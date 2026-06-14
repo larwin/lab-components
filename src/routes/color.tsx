@@ -12,7 +12,7 @@ import {
 // Leaf module on purpose (not in the barrel): only this route ships the table.
 import { nearestNamedColor } from "@/framework/core/color/named";
 import { ColorPicker, ToggleGroup } from "@/framework/primitives";
-import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
+import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 export const Route = createFileRoute("/color")({
   head: () => ({
