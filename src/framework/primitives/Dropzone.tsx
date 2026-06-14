@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Upload } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { announceNow } from "@/framework/react";
 import { partitionFiles, type DropPolicy, type FileVerdict } from "./dropzone-core";
 

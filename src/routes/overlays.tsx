@@ -12,7 +12,7 @@ import {
   Tooltip,
   type CommandDef,
 } from "@/framework/primitives";
-import { useTheme } from "@/themes/theme-provider";
+import { useTheme } from "@/shared/themes/theme-provider";
 import { PageHeader, Showcase } from "@/playground/components/primitives";
 
 export const Route = createFileRoute("/overlays")({

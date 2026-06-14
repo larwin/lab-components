@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import type { DismissReason } from "@/framework/core";
 import { Overlay } from "@/framework/react";
 

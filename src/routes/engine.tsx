@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play, Trash2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { inspect, type TransitionRecord } from "@/framework/core";
 import { ShortcutProvider } from "@/framework/react";
 import { Button, Listbox, TreeView } from "@/framework/primitives";

@@ -4,7 +4,7 @@ import { KanbanBoard, type KanbanColumnDef } from "@/framework/primitives";
 import type { DragMoveDetail, Key } from "@/framework/core";
 import { getOrders } from "@/fixtures";
 import type { Order } from "@/fixtures/types";
-import { formatCurrency } from "@/utils/format";
+import { formatCurrency } from "@/shared/utils/format";
 import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
 
 export const Route = createFileRoute("/kanban")({

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import {
   createPaginationMachine,
   pageCountOf,

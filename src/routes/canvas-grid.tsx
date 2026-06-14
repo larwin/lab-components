@@ -4,7 +4,7 @@ import { mountCanvasGrid, type CanvasColumn } from "@/framework/canvas";
 import { Select } from "@/framework/primitives";
 import { getProducts } from "@/fixtures";
 import type { Product } from "@/fixtures/types";
-import { formatCurrency, formatNumber } from "@/utils/format";
+import { formatCurrency, formatNumber } from "@/shared/utils/format";
 import { Field, MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
 
 export const Route = createFileRoute("/canvas-grid")({

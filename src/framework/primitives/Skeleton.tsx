@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 /**
  * Skeleton — a loading placeholder, hidden from assistive tech (the loading

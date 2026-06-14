@@ -10,8 +10,8 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
-import { ThemeProvider, useTheme } from "../themes/theme-provider";
+import { reportLovableError } from "../shared/lib/lovable-error-reporting";
+import { ThemeProvider, useTheme } from "../shared/themes/theme-provider";
 import { Sidebar } from "../playground/components/Sidebar";
 
 function NotFoundComponent() {

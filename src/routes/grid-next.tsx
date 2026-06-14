@@ -3,8 +3,8 @@ import { useMemo, useState } from "react";
 import { DataGrid, Select, type GridColumn } from "@/framework/primitives";
 import { getProducts } from "@/fixtures";
 import type { Product } from "@/fixtures/types";
-import { formatCurrency, formatNumber } from "@/utils/format";
-import { formatDuration, measure } from "@/utils/perf";
+import { formatCurrency, formatNumber } from "@/shared/utils/format";
+import { formatDuration, measure } from "@/shared/utils/perf";
 import {
   Field,
   MetricCard,

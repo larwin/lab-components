@@ -11,7 +11,7 @@ import {
   type RefObject,
 } from "react";
 import { Check, Ellipsis } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import {
   collectionFromArray,
   composeMachine,

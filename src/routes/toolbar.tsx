@@ -14,7 +14,7 @@ import {
   Underline,
   Undo2,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { FloatingToolbar, Slider, Toolbar, type ToolbarItemDef } from "@/framework/primitives";
 import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
 

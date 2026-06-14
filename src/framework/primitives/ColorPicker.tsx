@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Pipette } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import {
   clampRgb,
   composeMachine,

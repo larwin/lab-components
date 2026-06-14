@@ -7,7 +7,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import type { Placement } from "@/framework/core";
 import { Overlay } from "@/framework/react";
 

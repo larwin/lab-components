@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { CalendarRange } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import {
   compareDates,
   composeMachine,

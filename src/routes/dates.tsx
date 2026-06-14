@@ -11,7 +11,7 @@ import {
   type DateValue,
 } from "@/framework/core";
 import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 export const Route = createFileRoute("/dates")({
   head: () => ({

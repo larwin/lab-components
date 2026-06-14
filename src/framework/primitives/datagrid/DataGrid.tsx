@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { ArrowDown, ArrowUp, ChevronRight, ChevronsUpDown, Pin, PinOff } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import {
   buildGroups,
   flattenGroups,

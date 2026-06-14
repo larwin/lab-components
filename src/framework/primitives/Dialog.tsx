@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from "react";
 import { X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import type { DismissReason } from "@/framework/core";
 import { Overlay } from "@/framework/react";
 
