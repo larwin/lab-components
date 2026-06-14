@@ -49,9 +49,9 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ["@/domains/*", "@/applications/*", "@/app/*", "@/platform/*"],
+              group: ["@/domains/*", "@/features/*", "@/app/*"],
               message:
-                "The framework is the stability boundary — it must not import business layers (domains/applications/app/platform).",
+                "The framework is the stability boundary — it must not import business layers (domains/features/app).",
             },
           ],
         },
@@ -66,9 +66,9 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ["@/applications/*", "@/app/*"],
+              group: ["@/features/*", "@/app/*"],
               message:
-                "A domain owns its data and must not depend on the application or composition layer. Cross-domain deps go through a public barrel (@/domains/<other>).",
+                "A domain owns its data and must not depend on the feature or composition layer. Cross-domain deps go through a public barrel (@/domains/<other>).",
             },
           ],
         },

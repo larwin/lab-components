@@ -60,16 +60,16 @@ describe("architecture layering (RFC-003)", () => {
     expect(offenders(src("src/domains"))).toEqual([]);
   });
 
-  it("framework imports no business layer (@/domains, @/applications, @/app, @/platform)", () => {
+  it("framework imports no business layer (@/domains, @/features, @/app)", () => {
     const bad = listSourceFiles(src("src/framework")).filter((f) =>
-      importsOf(f).some((i) => /^@\/(domains|applications|app|platform)(\/|$)/.test(i)),
+      importsOf(f).some((i) => /^@\/(domains|features|app)(\/|$)/.test(i)),
     );
     expect(bad).toEqual([]);
   });
 
-  it("domains import no application or composition layer (@/applications, @/app)", () => {
+  it("domains import no feature or composition layer (@/features, @/app)", () => {
     const bad = listSourceFiles(src("src/domains")).filter((f) =>
-      importsOf(f).some((i) => /^@\/(applications|app)(\/|$)/.test(i)),
+      importsOf(f).some((i) => /^@\/(features|app)(\/|$)/.test(i)),
     );
     expect(bad).toEqual([]);
   });
@@ -90,14 +90,14 @@ describe("architecture layering (RFC-003)", () => {
     expect(bad).toEqual([]);
   });
 
-  it("an application reaches another application only via its public barrel", () => {
-    const root = src("src/applications");
+  it("a feature reaches another feature only via its public barrel", () => {
+    const root = src("src/features");
     const bad: string[] = [];
     for (const file of listSourceFiles(root)) {
       const rel = file.slice(root.length + 1).replace(/\\/g, "/");
       const own = rel.split("/")[0];
       for (const imp of importsOf(file)) {
-        const m = imp.match(/^@\/applications\/([^/]+)\/.+/);
+        const m = imp.match(/^@\/features\/([^/]+)\/.+/);
         if (m && m[1] !== own) bad.push(`${rel} → ${imp}`);
       }
     }

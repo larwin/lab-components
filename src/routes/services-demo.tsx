@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { CampaignEditorScreen } from "@/applications/campaign-editor/components/CampaignEditorScreen";
+import { CampaignEditorScreen } from "@/features/campaign-editor/components/CampaignEditorScreen";
 
 export const Route = createFileRoute("/services-demo")({
   head: () => ({

@@ -9,10 +9,7 @@ import { CategoryFacadeToken, type CategoryId } from "@/domains/business/campaig
 import type { CampaignDraft } from "@/domains/business/campaign/campaigns";
 import { FieldFacadeToken, type FieldFacade } from "@/domains/business/data-management/fields";
 import { TemplateFacadeToken } from "@/domains/business/campaign/templates";
-import {
-  CampaignEditorFacadeToken,
-  type CampaignEditorFacade,
-} from "@/applications/campaign-editor";
+import { CampaignEditorFacadeToken, type CampaignEditorFacade } from "@/features/campaign-editor";
 
 describe("campaign-editor — invalidation across domains + app orchestration", () => {
   let account: ReturnType<typeof buildCampaignTree>["account"];

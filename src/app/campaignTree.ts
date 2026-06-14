@@ -6,7 +6,7 @@ import {
 } from "@/domains/business/campaign/categories";
 import { FieldStoreToken, registerFieldsDomain } from "@/domains/business/data-management/fields";
 import { TemplateStoreToken, registerTemplatesDomain } from "@/domains/business/campaign/templates";
-import { registerCampaignEditorApp } from "@/applications/campaign-editor";
+import { registerCampaignEditorApp } from "@/features/campaign-editor";
 import { ApiClientToken, type ApiClient } from "@/domains/technical/http/apiClient";
 import { createTelemetry, TelemetryToken } from "@/domains/technical/telemetry/telemetry";
 
