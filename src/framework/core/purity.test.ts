@@ -51,25 +51,40 @@ describe("architecture purity", () => {
   });
 });
 
-// Layer boundaries (RFC-003 §10): applications → domains → framework, one-way.
+// Layer boundaries (RFC-004 §7, ex RFC-003 §10): features → domains → framework,
+// one-way; the composition root (WebApplication/WebTest) sits above everything.
 // Proven by CI, not discipline.
-describe("architecture layering (RFC-003)", () => {
+describe("architecture layering (RFC-004)", () => {
   const src = (p: string) => join(process.cwd(), p);
+
+  // A "domain" is the unit that owns its data and exposes a public barrel.
+  // Under the RFC-004 layout that is:
+  //   business/<context>/<domain>   (e.g. business/campaign/categories)
+  //   technical/<domain>            (e.g. technical/telemetry)
+  // The domain root is the prefix that addresses that barrel; anything deeper is
+  // an internal file. `segs` are the path segments AFTER `domains/`.
+  const domainRootSegs = (segs: string[]): string[] => {
+    if (segs[0] === "business") return segs.slice(0, 3);
+    if (segs[0] === "technical") return segs.slice(0, 2);
+    return segs.slice(0, 1);
+  };
 
   it("src/domains is pure — imports no React", () => {
     expect(offenders(src("src/domains"))).toEqual([]);
   });
 
-  it("framework imports no business layer (@/domains, @/features, @/app)", () => {
+  it("framework imports no business layer nor the composition root", () => {
     const bad = listSourceFiles(src("src/framework")).filter((f) =>
-      importsOf(f).some((i) => /^@\/(domains|features|app)(\/|$)/.test(i)),
+      importsOf(f).some((i) =>
+        /^@\/(domains|features)(\/|$)|^@\/Web(Application|Test)(\/|$)/.test(i),
+      ),
     );
     expect(bad).toEqual([]);
   });
 
-  it("domains import no feature or composition layer (@/features, @/app)", () => {
+  it("domains import no feature nor the composition root (WebApplication/WebTest)", () => {
     const bad = listSourceFiles(src("src/domains")).filter((f) =>
-      importsOf(f).some((i) => /^@\/(features|app)(\/|$)/.test(i)),
+      importsOf(f).some((i) => /^@\/features(\/|$)|^@\/Web(Application|Test)(\/|$)/.test(i)),
     );
     expect(bad).toEqual([]);
   });
@@ -79,12 +94,17 @@ describe("architecture layering (RFC-003)", () => {
     const bad: string[] = [];
     for (const file of listSourceFiles(root)) {
       const rel = file.slice(root.length + 1).replace(/\\/g, "/");
-      const own = rel.split("/")[0];
+      const ownRoot = domainRootSegs(rel.split("/")).join("/");
       for (const imp of importsOf(file)) {
-        const m = imp.match(/^@\/domains\/([^/]+)\/.+/); // deep import into a domain
-        // `technical/*` (http, telemetry…) are shared infra domains: any business
-        // domain may inject them, so they are exempt from the cross-domain barrel rule.
-        if (m && m[1] !== own && m[1] !== "technical") bad.push(`${rel} → ${imp}`);
+        const m = imp.match(/^@\/domains\/(.+)$/);
+        if (!m) continue;
+        const segs = m[1].split("/");
+        // `technical/*` (http, telemetry…) are shared infra domains: any domain
+        // may inject them, so they are exempt from the cross-domain barrel rule.
+        if (segs[0] === "technical") continue;
+        const importedRoot = domainRootSegs(segs).join("/");
+        const isDeep = segs.length > domainRootSegs(segs).length; // past the barrel
+        if (importedRoot !== ownRoot && isDeep) bad.push(`${rel} → ${imp}`);
       }
     }
     expect(bad).toEqual([]);

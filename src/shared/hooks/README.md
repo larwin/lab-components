@@ -1,4 +1,4 @@
-# src/hooks
+# src/shared/hooks
 
 **Role:** small utility React hooks for the playground — render metrics, an event
 log, and a mobile-breakpoint detector.
@@ -26,4 +26,4 @@ log, and a mobile-breakpoint detector.
 
 ## See also
 
-- [../README.md](../README.md) — status table.
+- [../../README.md](../../README.md) — status table.

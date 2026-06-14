@@ -1,4 +1,4 @@
-# src/utils
+# src/shared/utils
 
 **Role:** presentation and measurement helpers for the playground — Intl formatters
 and performance timing used by the grid/benchmark demos.

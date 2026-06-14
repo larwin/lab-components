@@ -1,4 +1,4 @@
-# src/tests
+# src/test
 
 **Role:** the shared Vitest setup — registers jest-dom matchers and Testing Library
 cleanup for the jsdom-environment tests.
@@ -11,7 +11,7 @@ cleanup for the jsdom-environment tests.
 
 ## Conventions / rules
 
-- Wired via `setupFiles: ["./src/tests/setup.ts"]` in `vitest.config.ts`.
+- Wired via `setupFiles: ["./src/test/setup.ts"]` in `vitest.config.ts`.
 - Component tests use jsdom; **core/services/domain tests run in plain Node**
   (`// @vitest-environment node`) and do not rely on this setup.
 - Run tests with `bun run test` (vitest) — **not** `bun test` (Bun's native runner

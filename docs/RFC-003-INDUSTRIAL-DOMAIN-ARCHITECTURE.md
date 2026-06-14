@@ -1,5 +1,16 @@
 # RFC-003 v2 — Industrial architecture: composite scopes, domains/applications & a three-primitive dependency model
 
+> **⚠️ Structure updated by [RFC-004](RFC-004-SRC-LAYOUT.md) (2026-06-14).** The
+> _engine_ of this RFC — composite scope tree, `require`/`dependency`/`inject`,
+> store ownership, freshness — is unchanged and authoritative. But the **physical
+> layout and naming** described in **§4 (Layers & folder tree)**, **§7 (Architecture
+> rules)** and **§9 (Naming conventions)** were reorganized: `applications/` → `features/`,
+> `platform/` → `domains/technical/`, business domains nested under
+> `domains/business/<context>/`, support code under `shared/`, and the composition
+> root (`app/buildCampaignTree`) lifted to the `src/` root as `WebApplication.ts` +
+> `WebTest.ts`. For the current tree, paths and boundary rules, read **RFC-004**; the
+> sections below are kept as the historical design record.
+
 Status: **implemented (v2, 2026-06-14)** — supersedes the v1 draft of this file. Product of a design review against RFC-002 and the NP6 `Sharding` DI library. Foundation shipped: composite scopes + `require`/`dependency`/`inject` in `src/framework/services`, example migrated to `src/domains/*` + `src/applications/campaign-editor`, boundaries guarded by `purity.test.ts`, demo at `/services-demo` (470 tests green).
 Prerequisites: [RFC-001](RFC-001-NEXT-GEN-ARCHITECTURE.md) (pure core), [RFC-002](RFC-002-SERVICES-DI-ARCHITECTURE.md) (DI container + services).
 Scope: **where code lives**, **who owns/mounts a store**, **how the dependency graph is declared**, and **how data stays fresh** — without breaking RFC-002's guarantees (purity, role-branded tokens, recursion-free invalidation, DTO≠model).

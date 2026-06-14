@@ -17,7 +17,7 @@ bun run test:watch  # Tests in watch mode
 To run a single test file:
 
 ```bash
-bun vitest run src/framework/components/Button.test.tsx
+bun vitest run src/framework/primitives/Listbox.test.tsx
 ```
 
 ## Architecture
@@ -27,6 +27,10 @@ This is a **React 19 + TypeScript component framework** (codenamed "Forge") buil
 ### Layer Model
 
 ```
+src/WebApplication.ts → Composition root, PROD/runtime host: buildWebApplication()
+                       builds the scope tree (App → Account); owns the demo mock backend.
+src/WebTest.ts       → Composition root, TEST host: buildWebTest() builds the same tree
+                       on a zero-latency mock. Prod never imports the test host.
 src/routes/          → Playground / living documentation (TanStack file-based routing)
 src/framework/       → PUBLIC API — stable contracts only; internals are refactorable
   core/              → NEXT-GEN pure core: Intent → Reducer → State → Effects.
@@ -39,17 +43,19 @@ src/framework/       → PUBLIC API — stable contracts only; internals are ref
   primitives/        → Next-gen components composed from core behaviors
                        (Button, Listbox, TreeView, DataGrid)
   canvas/            → NEXT-GEN renderer adapter #2 (canvas grid; NO React, purity-guarded)
-src/platform/        → Cross-cutting infra as value tokens (ApiClient, telemetry)
-src/domains/         → Business domains (RFC-003): model/dto/mapper/provider/store/
-                       service/facade per bounded context. Pure, Node-tested, mounted Account.
-src/applications/    → UI features (RFC-003): UI stores (out of container), screens,
+src/domains/         → Business + technical domains (RFC-003/004). Pure, Node-tested.
+  business/<context>/ → model/dto/mapper/provider/store/service/facade per domain,
+                       grouped by bounded context (campaign, data-management). Mounted Account.
+  technical/         → shared infra as value tokens (http ApiClient, telemetry),
+                       injectable by business domains.
+src/features/        → UI features (RFC-003/004): UI stores (out of container), screens,
                        cross-domain orchestration. Composed from @/framework/primitives.
-src/app/             → Composition root: builds the scope tree (App → Account)
+src/components/      → The doc app's OWN UI (Sidebar, gallery) — NOT the library.
+src/playground/      → Demo shell config: nav.ts + fixtures/ (seeded demo datasets).
+src/shared/          → Support code: lib/ (cn, error/host), utils/, hooks/, themes/ (tokens+ThemeProvider).
+src/test/            → Vitest setup (jsdom matchers + cleanup).
 experimentations/    → Sandbox at repo root (lint-ignored); gen-2 prototype that
                        inspired the core — see docs/RFC-001
-src/themes/          → CSS variable token catalogue + ThemeProvider
-src/fixtures/        → Seeded demo datasets used in playground routes
-src/hooks/           → Utility hooks (useRenderMetrics, useEventLog)
 ```
 
 **`@/framework` is the stability boundary.** Props are the contract; anything inside that doesn't affect the public API can be freely rewritten.
@@ -62,7 +68,7 @@ per-directory status table (active / legacy / deprecated / isolated / support).
 
 Five skills in `.claude/skills/` encode the working method — prefer them over
 improvising: `/forge-feature` (build anything on the engine, RFC-001 pipeline),
-`/forge-service` (business layer: domains/applications/DI, RFC-002/003 pipeline),
+`/forge-service` (business layer: domains/features/DI, RFC-002/003 pipeline),
 `/forge-verify` (validation loop), `/forge-review` (review a diff against the
 RFC principles), `/forge-learn` (capture session lessons back into the skills
 and memory — run it at the end of significant work).
@@ -85,7 +91,7 @@ Use `class-variance-authority` (CVA) for type-safe variant composition. Define v
 
 ### Styling
 
-Tailwind CSS v4 with CSS variables. Use the `cn()` utility from `@/lib/utils` to merge classnames. Token definitions live in `src/themes/`; do not hardcode color values.
+Tailwind CSS v4 with CSS variables. Use the `cn()` utility from `@/shared/lib/utils` to merge classnames. Token definitions live in `src/shared/themes/`; do not hardcode color values.
 
 ### Component usage (hard rule)
 
@@ -102,7 +108,7 @@ TanStack Start file-based routing: `src/routes/index.tsx` → `/`, `src/routes/u
 
 ### Testing
 
-Tests are co-located next to components (`Button.tsx` → `Button.test.tsx`). Use React Testing Library + Vitest. The setup file at `src/tests/setup.ts` handles `jest-dom` matchers and cleanup.
+Tests are co-located next to components (`Button.tsx` → `Button.test.tsx`). Use React Testing Library + Vitest. The setup file at `src/test/setup.ts` handles `jest-dom` matchers and cleanup.
 
 ### Path Aliases
 

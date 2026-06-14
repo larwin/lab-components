@@ -1,4 +1,4 @@
-# src/fixtures
+# src/playground/fixtures
 
 **Role:** seeded demo datasets — deterministic generators for Users / Products /
 Orders used by the grid and data-heavy playground routes.
@@ -25,4 +25,4 @@ Orders used by the grid and data-heavy playground routes.
 
 ## See also
 
-- [../routes/README.md](../routes/README.md)
+- [../../routes/README.md](../../routes/README.md)

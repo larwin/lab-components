@@ -1,4 +1,4 @@
-# src/applications
+# src/features
 
 **Role:** UI features — screens that compose `domains` + `framework/primitives`,
 own their screen-local state (UI stores, forms), and orchestrate logic that spans
@@ -14,7 +14,8 @@ several domains.
   - `services/` — `campaignEditor.service.ts` (cross-domain orchestration: validate a
     campaign against categories + templates + fields) + `.facade.ts` + `tokens.ts`.
   - `forms/campaignForm.ts` — UI-local form model + schema.
-  - `components/CampaignEditorScreen.tsx` — the composition root: mounts
+  - `components/CampaignEditorScreen.tsx` — the composition root: builds the scope
+    tree via `buildWebApplication()` from `@/WebApplication` and mounts
     `ServicesProvider` against the current Account node; built from primitives.
   - `hooks/useCampaignEditorStore.ts` — the React binding (`useSyncExternalStore`)
     for the UI store.
@@ -22,8 +23,8 @@ several domains.
 
 ## Conventions / rules
 
-- An application imports `framework`, domain **barrels + tokens**, and its own
-  internals — **never another application**.
+- A feature imports `framework`, domain **barrels + tokens**, and its own
+  internals — **never another feature**.
 - **UI stores stay out of the container** (component-owned lifecycle); they _read_
   domain stores via `useStoreValue` and _act_ via facades. Dependency direction is
   always UI → container.
@@ -32,9 +33,11 @@ several domains.
 
 ## Used by / depends on
 
-- **Inbound:** `app` (registers the app), the `/services-demo` route (mounts the screen).
+- **Inbound:** `WebApplication`/`WebTest` (build the scope tree), the
+  `/services-demo` route (mounts the screen).
 - **Outbound:** `framework/primitives` + `react`, `framework/services`,
-  `domains/{categories,templates,fields,campaigns}`, `platform/telemetry`.
+  `domains/business/campaign/{categories,templates,campaigns}`,
+  `domains/business/data-management/fields`, `domains/technical/telemetry`.
 
 ## See also
 

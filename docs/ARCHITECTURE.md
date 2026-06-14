@@ -23,7 +23,7 @@ playground (routes + showcase UI)
 components · collections · engines (extension points)
         │  fed by
         ▼
-fixtures · hooks · utils · themes
+playground/fixtures · shared/hooks · shared/utils · shared/themes
 ```
 
 ## Folders
@@ -36,11 +36,11 @@ fixtures · hooks · utils · themes
 | `src/framework/components/`  | Button, Input, List, Tree, Menu, DataGrid, …        |
 | `src/framework/collections/` | Unified collection engine contracts (experimental). |
 | `src/framework/engines/`     | Reserved extension points (behaviors, intents …).   |
-| `src/fixtures/`              | Seeded demo datasets (users, products, orders).     |
-| `src/hooks/`                 | `useRenderMetrics`, `useEventLog`.                  |
-| `src/themes/`                | Theme provider + token catalogue.                   |
-| `src/utils/`                 | Timing + formatting helpers.                        |
-| `src/tests/`                 | Test setup; tests are co-located with components.   |
+| `src/playground/fixtures/`   | Seeded demo datasets (users, products, orders).     |
+| `src/shared/hooks/`          | `useRenderMetrics`, `useEventLog`.                  |
+| `src/shared/themes/`         | Theme provider + token catalogue.                   |
+| `src/shared/utils/`          | Timing + formatting helpers.                        |
+| `src/test/`                  | Test setup; tests are co-located with components.   |
 
 ## Stability boundary
 

@@ -5,9 +5,11 @@
 > document keeps its original names/paths as a point-in-time record:
 >
 > - The worked example **moved** from `src/examples/campaign` (deleted) to
->   `src/domains/{categories,templates,fields,campaigns}` + `src/applications/campaign-editor`.
+>   `src/domains/business/campaign/{categories,templates,campaigns}` +
+>   `src/domains/business/data-management/fields` + `src/features/campaign-editor`.
 > - Renames: `ContactService` → `FieldService`, `CampaignService` →
->   `CampaignEditorService`, `buildCampaignContainer` → `buildCampaignTree`, the
+>   `CampaignEditorService`, `buildCampaignContainer` → `buildWebApplication`
+>   (now exported from root `src/WebApplication.ts`), the
 >   repository classes → **provider functions**.
 > - The flat container is now a **composite scope tree** (App → [Agency] → Account),
 >   and the `inject`-as-sole-dependency rule (§2 D4) is **extended** by three

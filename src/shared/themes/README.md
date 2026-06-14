@@ -1,4 +1,4 @@
-# src/themes
+# src/shared/themes
 
 **Role:** the theming layer — the light/dark `ThemeProvider` + `useTheme` hook and
 the CSS-variable design-token catalogue.
@@ -12,7 +12,7 @@ the CSS-variable design-token catalogue.
 
 ## Conventions / rules
 
-- Tailwind v4 + CSS variables. Use `cn()` from `@/lib/utils` to merge classes; never
+- Tailwind v4 + CSS variables. Use `cn()` from `@/shared/lib/utils` to merge classes; never
   hardcode colour values — reference the tokens.
 
 ## Used by / depends on
@@ -23,4 +23,4 @@ the CSS-variable design-token catalogue.
 
 ## See also
 
-- [../../CLAUDE.md](../../CLAUDE.md) — the Styling rules.
+- [../../../CLAUDE.md](../../../CLAUDE.md) — the Styling rules.
