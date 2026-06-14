@@ -1,20 +1,28 @@
-import type { CampaignDto, CategoryDto, FieldDto, TemplateDto } from "./dto";
+import type { ApiClient } from "@/platform/http/apiClient";
 
 /**
- * A mock backend. This stands in for the real HTTP client; it speaks DTOs
- * (snake_case wire shapes) and adds latency, so the app code exercises the same
- * async path it would in production. The data deliberately VARIES between calls
- * so the demo can show live stores updating and services being invalidated:
- *   - reloading categories rotates which ones are archived,
- *   - reloading templates bumps a version marker,
- *   - adding a field appends a new required custom field.
- *
- * This is app/demo code (not core), so setTimeout and a mutable seed are fine.
+ * A mock backend (dev/demo). Speaks DTOs (snake_case wire shapes) with latency,
+ * and deliberately VARIES data between calls so the demo can show live stores
+ * updating and services being invalidated. The seed shapes are the mock's own
+ * concern — it returns `unknown`; the domain providers zod-parse at the boundary.
  */
-
-export interface ApiClient {
-  get(path: string): Promise<unknown>;
-  post(path: string, body: unknown): Promise<unknown>;
+interface CategoryRow {
+  category_id: string;
+  label: string;
+  is_archived: boolean;
+}
+interface TemplateRow {
+  template_id: string;
+  label: string;
+  category_id: string;
+}
+interface FieldRow {
+  field_id: string;
+  field_key: string;
+  label: string;
+  data_type: "text" | "email" | "number";
+  is_required: boolean;
+  max_length: number | null;
 }
 
 export interface MockApiOptions {
@@ -22,7 +30,7 @@ export interface MockApiOptions {
   latency?: number;
 }
 
-const CATEGORY_SEED: CategoryDto[] = [
+const CATEGORY_SEED: CategoryRow[] = [
   { category_id: "cat_news", label: "Newsletter", is_archived: false },
   { category_id: "cat_promo", label: "Promotions", is_archived: false },
   { category_id: "cat_tx", label: "Transactional", is_archived: false },
@@ -31,7 +39,7 @@ const CATEGORY_SEED: CategoryDto[] = [
   { category_id: "cat_winback", label: "Win-back", is_archived: false },
 ];
 
-const TEMPLATE_SEED: Omit<TemplateDto, "label">[] = [
+const TEMPLATE_SEED: Omit<TemplateRow, "label">[] = [
   { template_id: "tpl_minimal", category_id: "cat_news" },
   { template_id: "tpl_hero", category_id: "cat_promo" },
   { template_id: "tpl_receipt", category_id: "cat_tx" },
@@ -39,7 +47,7 @@ const TEMPLATE_SEED: Omit<TemplateDto, "label">[] = [
   { template_id: "tpl_nps", category_id: "cat_survey" },
 ];
 
-const INITIAL_FIELDS: FieldDto[] = [
+const INITIAL_FIELDS: FieldRow[] = [
   {
     field_id: "fld_email",
     field_key: "email",
@@ -58,7 +66,7 @@ const INITIAL_FIELDS: FieldDto[] = [
   },
 ];
 
-const EXTRA_FIELD_POOL: Omit<FieldDto, "field_id">[] = [
+const EXTRA_FIELD_POOL: Omit<FieldRow, "field_id">[] = [
   { field_key: "company", label: "Company", data_type: "text", is_required: true, max_length: 60 },
   { field_key: "age", label: "Age", data_type: "number", is_required: true, max_length: null },
   { field_key: "city", label: "City", data_type: "text", is_required: true, max_length: 50 },
@@ -72,10 +80,9 @@ const EXTRA_FIELD_POOL: Omit<FieldDto, "field_id">[] = [
 ];
 
 export function createMockApi({ latency = 350 }: MockApiOptions = {}): ApiClient {
-  // Mutable seed — each call may read or evolve it. This is what "varies".
   let categoryReload = 0;
   let templateReload = 0;
-  let fields: FieldDto[] = INITIAL_FIELDS.map((f) => ({ ...f }));
+  let fields: FieldRow[] = INITIAL_FIELDS.map((f) => ({ ...f }));
   let campaignSeq = 0;
 
   const delay = () =>
@@ -86,7 +93,6 @@ export function createMockApi({ latency = 350 }: MockApiOptions = {}): ApiClient
       await delay();
       if (path === "/categories") {
         categoryReload += 1;
-        // Rotate which two categories are archived, so the active set shifts.
         const a = categoryReload % CATEGORY_SEED.length;
         const b = (categoryReload + 2) % CATEGORY_SEED.length;
         return CATEGORY_SEED.map((c, i) => ({ ...c, is_archived: i === a || i === b }));
@@ -94,10 +100,7 @@ export function createMockApi({ latency = 350 }: MockApiOptions = {}): ApiClient
       if (path === "/templates") {
         templateReload += 1;
         const suffix = templateReload > 1 ? ` (v${templateReload})` : "";
-        return TEMPLATE_SEED.map((t) => ({
-          ...t,
-          label: prettyTemplate(t.template_id) + suffix,
-        }));
+        return TEMPLATE_SEED.map((t) => ({ ...t, label: prettyTemplate(t.template_id) + suffix }));
       }
       if (path === "/fields") {
         return fields.map((f) => ({ ...f }));
@@ -109,19 +112,14 @@ export function createMockApi({ latency = 350 }: MockApiOptions = {}): ApiClient
       await delay();
       if (path === "/fields") {
         const next = EXTRA_FIELD_POOL[fields.length % EXTRA_FIELD_POOL.length];
-        const created: FieldDto = { ...next, field_id: `fld_${fields.length}_${next.field_key}` };
+        const created: FieldRow = { ...next, field_id: `fld_${fields.length}_${next.field_key}` };
         fields = [...fields, created];
         return created;
       }
       if (path === "/campaigns") {
         campaignSeq += 1;
-        const upsert = body as Omit<CampaignDto, "campaign_id" | "status">;
-        const saved: CampaignDto = {
-          campaign_id: `cmp_${campaignSeq}`,
-          status: "draft",
-          ...upsert,
-        };
-        return saved;
+        const upsert = body as Record<string, unknown>;
+        return { campaign_id: `cmp_${campaignSeq}`, status: "draft", ...upsert };
       }
       throw new Error(`Mock POST 404: ${path}`);
     },

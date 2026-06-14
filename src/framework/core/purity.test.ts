@@ -22,6 +22,16 @@ const REACT_IMPORT = /from\s+["'](react|react-dom)(\/|["'])/;
 const offenders = (root: string): string[] =>
   listSourceFiles(root).filter((file) => REACT_IMPORT.test(readFileSync(file, "utf8")));
 
+/** Module specifiers imported by a file (`from "…"`). */
+const importsOf = (file: string): string[] => {
+  const src = readFileSync(file, "utf8");
+  const re = /from\s+["']([^"']+)["']/g;
+  const out: string[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(src))) out.push(m[1]);
+  return out;
+};
+
 describe("architecture purity", () => {
   it("src/framework/core imports no React", () => {
     expect(offenders(join(process.cwd(), "src/framework/core"))).toEqual([]);
@@ -38,5 +48,57 @@ describe("architecture purity", () => {
 
   it("src/framework/services (DI + stores layer, RFC-002) imports no React", () => {
     expect(offenders(join(process.cwd(), "src/framework/services"))).toEqual([]);
+  });
+});
+
+// Layer boundaries (RFC-003 §10): applications → domains → framework, one-way.
+// Proven by CI, not discipline.
+describe("architecture layering (RFC-003)", () => {
+  const src = (p: string) => join(process.cwd(), p);
+
+  it("src/domains is pure — imports no React", () => {
+    expect(offenders(src("src/domains"))).toEqual([]);
+  });
+
+  it("framework imports no business layer (@/domains, @/applications, @/app, @/platform)", () => {
+    const bad = listSourceFiles(src("src/framework")).filter((f) =>
+      importsOf(f).some((i) => /^@\/(domains|applications|app|platform)(\/|$)/.test(i)),
+    );
+    expect(bad).toEqual([]);
+  });
+
+  it("domains import no application or composition layer (@/applications, @/app)", () => {
+    const bad = listSourceFiles(src("src/domains")).filter((f) =>
+      importsOf(f).some((i) => /^@\/(applications|app)(\/|$)/.test(i)),
+    );
+    expect(bad).toEqual([]);
+  });
+
+  it("a domain reaches another domain only via its public barrel (no deep import)", () => {
+    const root = src("src/domains");
+    const bad: string[] = [];
+    for (const file of listSourceFiles(root)) {
+      const rel = file.slice(root.length + 1).replace(/\\/g, "/");
+      const own = rel.split("/")[0];
+      for (const imp of importsOf(file)) {
+        const m = imp.match(/^@\/domains\/([^/]+)\/.+/); // deep import into a domain
+        if (m && m[1] !== own) bad.push(`${rel} → ${imp}`);
+      }
+    }
+    expect(bad).toEqual([]);
+  });
+
+  it("an application reaches another application only via its public barrel", () => {
+    const root = src("src/applications");
+    const bad: string[] = [];
+    for (const file of listSourceFiles(root)) {
+      const rel = file.slice(root.length + 1).replace(/\\/g, "/");
+      const own = rel.split("/")[0];
+      for (const imp of importsOf(file)) {
+        const m = imp.match(/^@\/applications\/([^/]+)\/.+/);
+        if (m && m[1] !== own) bad.push(`${rel} → ${imp}`);
+      }
+    }
+    expect(bad).toEqual([]);
   });
 });

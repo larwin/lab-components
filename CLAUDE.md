@@ -33,12 +33,20 @@ src/framework/       → PUBLIC API — stable contracts only; internals are ref
                        behaviors, collection engine, shortcuts, Fenwick virtualizer,
                        query, i18n. NO React/DOM imports — tests run in plain Node.
   react/             → React adapter: useMachine, useKeymap, useVirtualizer,
-                       effect interpreters, ShortcutProvider
+                       effect interpreters, ShortcutProvider, services (useFacade/useStoreValue)
+  services/          → DI container + invalidation (RFC-002/003): role tokens,
+                       composite scopes, require/dependency/inject. NO React — plain Node.
   primitives/        → Next-gen components composed from core behaviors
                        (Button, Listbox, TreeView, DataGrid)
   components/        → Gen-1 components (Button, Checkbox, Input, DataGrid, …)
   collections/       → Gen-1.5 contracts (superseded by core/collection)
   engines/           → Gen-1.5 descriptors (superseded by core/)
+src/platform/        → Cross-cutting infra as value tokens (ApiClient, telemetry)
+src/domains/         → Business domains (RFC-003): model/dto/mapper/provider/store/
+                       service/facade per bounded context. Pure, Node-tested, mounted Account.
+src/applications/    → UI features (RFC-003): UI stores (out of container), screens,
+                       cross-domain orchestration. Composed from @/framework/primitives.
+src/app/             → Composition root: builds the scope tree (App → Account)
 src/components/ui/   → Temporary shadcn-style UI library (not the stable API)
 experimentations/    → Sandbox at repo root (lint-ignored); gen-2 prototype that
                        inspired the core — see docs/RFC-001
@@ -51,8 +59,9 @@ src/hooks/           → Utility hooks (useRenderMetrics, useEventLog)
 
 ### Project skills
 
-Four skills in `.claude/skills/` encode the working method — prefer them over
+Five skills in `.claude/skills/` encode the working method — prefer them over
 improvising: `/forge-feature` (build anything on the engine, RFC-001 pipeline),
+`/forge-service` (business layer: domains/applications/DI, RFC-002/003 pipeline),
 `/forge-verify` (validation loop), `/forge-review` (review a diff against the
 RFC principles), `/forge-learn` (capture session lessons back into the skills
 and memory — run it at the end of significant work).

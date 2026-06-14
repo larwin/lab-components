@@ -38,5 +38,42 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  // Layer boundaries (RFC-003 §10). The architecture test (purity.test.ts) is the
+  // exhaustive guard, incl. the cross-domain "barrel only" rule; these give fast
+  // editor feedback for the coarse, one-directional layering.
+  {
+    files: ["src/framework/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/domains/*", "@/applications/*", "@/app/*", "@/platform/*"],
+              message:
+                "The framework is the stability boundary — it must not import business layers (domains/applications/app/platform).",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/domains/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/applications/*", "@/app/*"],
+              message:
+                "A domain owns its data and must not depend on the application or composition layer. Cross-domain deps go through a public barrel (@/domains/<other>).",
+            },
+          ],
+        },
+      ],
+    },
+  },
   eslintPluginPrettier,
 );

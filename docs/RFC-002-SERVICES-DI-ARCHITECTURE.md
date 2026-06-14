@@ -1,5 +1,20 @@
 # RFC-002 — Business services & dependency injection, decoupled from the UI
 
+> **Updated by [RFC-003](RFC-003-INDUSTRIAL-DOMAIN-ARCHITECTURE.md) (2026-06-14).** The
+> mechanism and decisions below still hold, but the packaging evolved and this
+> document keeps its original names/paths as a point-in-time record:
+>
+> - The worked example **moved** from `src/examples/campaign` (deleted) to
+>   `src/domains/{categories,templates,fields,campaigns}` + `src/applications/campaign-editor`.
+> - Renames: `ContactService` → `FieldService`, `CampaignService` →
+>   `CampaignEditorService`, `buildCampaignContainer` → `buildCampaignTree`, the
+>   repository classes → **provider functions**.
+> - The flat container is now a **composite scope tree** (App → [Agency] → Account),
+>   and the `inject`-as-sole-dependency rule (§2 D4) is **extended** by three
+>   primitives `require` / `dependency` / `inject` (RFC-003 §3).
+>
+> Read RFC-003 for the current structure; read on here for the original rationale.
+
 Status: **implemented (foundation)** — `src/framework/services`, `src/framework/react/services`, worked example in `src/examples/campaign`, demo at `/services-demo`.
 Prerequisite: [RFC-001](RFC-001-NEXT-GEN-ARCHITECTURE.md) (the pure-core engine this layer reuses).
 Tests: `src/framework/services/**/*.test.ts` and `src/examples/campaign/**/*.test.ts` run in **plain Node** — no DOM, no React. A purity guard (`core/purity.test.ts`) asserts `src/framework/services` never imports React.

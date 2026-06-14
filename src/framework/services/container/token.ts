@@ -18,8 +18,13 @@ export interface Token<T, R extends TokenRole = TokenRole> {
   readonly key: symbol;
   readonly name: string;
   readonly role: R;
-  /** Phantom carrier — never read at runtime, only makes `T` inferrable. */
-  readonly __type?: (value: T) => T;
+  /**
+   * Phantom carrier — never read at runtime, only makes `T` inferrable.
+   * Covariant in `T` (a plain `T`, not `(value: T) => T`) so a role token like
+   * `StoreToken<Sub>` is assignable to `AnyToken`; the `role` field, not `T`,
+   * is what prevents wiring the wrong KIND of token.
+   */
+  readonly __type?: T;
 }
 
 /** A plain dependency with one implementation: ApiClient, config, a clock. */

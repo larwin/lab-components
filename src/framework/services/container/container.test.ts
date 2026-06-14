@@ -204,3 +204,123 @@ describe("container — scopes", () => {
     expect(child.get(T)).toBe("test");
   });
 });
+
+describe("container — composite scope tree (RFC-003 §2)", () => {
+  it("a parent singleton is built once at its owner, never duplicated by a child resolve", () => {
+    const app = createContainer();
+    const ApiToken = valueToken<{ id: number }>("ApiClient");
+    let n = 0;
+    app.provide(defineSingleton(ApiToken, { create: () => ({ id: ++n }) }));
+
+    const account = app.createScope();
+    expect(account.get(ApiToken)).toBe(app.get(ApiToken)); // same instance
+    expect(n).toBe(1); // built exactly once, at the owner (App)
+  });
+
+  it("invalidation cascades DOWN: an App store change rebuilds an Account service that injects it", () => {
+    const app = createContainer();
+    const AppStore = storeToken<CountState>("AppStore");
+    app.provide(defineStore(AppStore, { create: () => createStore(countMachine()) }));
+
+    const account = app.createScope();
+    const Svc = serviceToken<{ builds: number }>("AccountSvc");
+    const build = vi.fn();
+    account.provide(
+      defineService(Svc, {
+        inject: { store: AppStore },
+        create: () => {
+          build();
+          return { builds: build.mock.calls.length };
+        },
+      }),
+    );
+    account.validate();
+
+    account.get(Svc); // build #1 (also materializes + subscribes AppStore at App)
+    (app.get(AppStore) as Store<CountState>).dispatch(bump());
+    account.get(Svc); // build #2 — dropped by the downward cascade
+    expect(build).toHaveBeenCalledTimes(2);
+  });
+
+  it("two sibling Account scopes are isolated — invalidating one never touches the other", () => {
+    const app = createContainer();
+    const AccStore = storeToken<CountState>("AccountStore");
+    const Svc = serviceToken<{ builds: number }>("Svc");
+    const account = () => {
+      const a = app.createScope();
+      a.provide(defineStore(AccStore, { create: () => createStore(countMachine()) }));
+      const build = vi.fn();
+      a.provide(
+        defineService(Svc, {
+          inject: { s: AccStore },
+          create: () => {
+            build();
+            return { builds: build.mock.calls.length };
+          },
+        }),
+      );
+      a.validate();
+      return { a, build };
+    };
+
+    const a1 = account();
+    const a2 = account();
+    expect(a1.a.get(AccStore)).not.toBe(a2.a.get(AccStore)); // each account owns its store
+    a1.a.get(Svc);
+    a2.a.get(Svc);
+
+    (a1.a.get(AccStore) as Store<CountState>).dispatch(bump());
+    a1.a.get(Svc);
+    a2.a.get(Svc);
+    expect(a1.build).toHaveBeenCalledTimes(2); // rebuilt
+    expect(a2.build).toHaveBeenCalledTimes(1); // untouched
+  });
+});
+
+describe("container — require / dependency / inject (RFC-003 §3)", () => {
+  it("require(store) builds from the store but is NOT dropped when it changes (snapshot)", () => {
+    const c = createContainer();
+    const StoreT = storeToken<CountState>("Store");
+    const Snapshot = serviceToken<{ at: number }>("SnapshotService");
+    const build = vi.fn();
+    c.provide(defineStore(StoreT, { create: () => createStore(countMachine()) }));
+    c.provide(
+      defineService(Snapshot, {
+        require: { s: StoreT }, // construction only — no invalidation edge
+        create: ({ s }) => {
+          build();
+          return { at: s.getState().count };
+        },
+      }),
+    );
+    c.validate();
+
+    expect(c.get(Snapshot).at).toBe(0); // build #1
+    (c.get(StoreT) as Store<CountState>).dispatch(bump());
+    expect(c.get(Snapshot).at).toBe(0); // STILL the snapshot — not rebuilt
+    expect(build).toHaveBeenCalledTimes(1);
+  });
+
+  it("dependency(store) drops the service on change but is NOT passed to the factory", () => {
+    const c = createContainer();
+    const StoreT = storeToken<CountState>("Store");
+    const Listener = serviceToken<{ keys: string[] }>("ListenerService");
+    const build = vi.fn();
+    c.provide(defineStore(StoreT, { create: () => createStore(countMachine()) }));
+    c.provide(
+      defineService(Listener, {
+        dependency: [StoreT], // invalidation only — not injected
+        create: (deps) => {
+          build();
+          return { keys: Object.keys(deps as object) };
+        },
+      }),
+    );
+    c.validate();
+
+    expect(c.get(Listener).keys).toEqual([]); // dependency is not handed to the factory
+    (c.get(StoreT) as Store<CountState>).dispatch(bump());
+    c.get(Listener);
+    expect(build).toHaveBeenCalledTimes(2); // dropped + rebuilt on store change
+  });
+});
