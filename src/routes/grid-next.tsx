@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Select } from "@/framework";
-import { DataGrid, type GridColumn } from "@/framework/primitives";
+import { DataGrid, Select, type GridColumn } from "@/framework/primitives";
 import { getProducts } from "@/fixtures";
 import type { Product } from "@/fixtures/types";
 import { formatCurrency, formatNumber } from "@/utils/format";
@@ -139,9 +138,10 @@ function GridNextPage() {
         <div className="mb-4 flex flex-wrap items-end gap-4">
           <Field label="Dataset size">
             <Select
+              aria-label="Dataset size"
               value={String(size)}
-              onChange={(e) => setSize(Number(e.target.value))}
-              options={SIZES.map((s) => ({ label: `${formatNumber(s)} rows`, value: String(s) }))}
+              onValueChange={(v) => setSize(Number(v))}
+              options={SIZES.map((s) => ({ key: String(s), label: `${formatNumber(s)} rows` }))}
             />
           </Field>
           <Field label="Global filter" hint="Diacritic-insensitive, all columns">
@@ -154,13 +154,14 @@ function GridNextPage() {
           </Field>
           <Field label="Group by" hint="Headers show ⌀ price and Σ stock">
             <Select
+              aria-label="Group by"
               value={groupByKey}
-              onChange={(e) => setGroupByKey(e.target.value)}
+              onValueChange={(v) => setGroupByKey(v ?? "none")}
               options={[
-                { label: "No grouping", value: "none" },
-                { label: "Category", value: "category" },
-                { label: "Status", value: "status" },
-                { label: "Category → Status", value: "category-status" },
+                { key: "none", label: "No grouping" },
+                { key: "category", label: "Category" },
+                { key: "status", label: "Status" },
+                { key: "category-status", label: "Category → Status" },
               ]}
             />
           </Field>

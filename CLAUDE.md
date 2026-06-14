@@ -38,16 +38,13 @@ src/framework/       → PUBLIC API — stable contracts only; internals are ref
                        composite scopes, require/dependency/inject. NO React — plain Node.
   primitives/        → Next-gen components composed from core behaviors
                        (Button, Listbox, TreeView, DataGrid)
-  components/        → Gen-1 components (Button, Checkbox, Input, DataGrid, …)
-  collections/       → Gen-1.5 contracts (superseded by core/collection)
-  engines/           → Gen-1.5 descriptors (superseded by core/)
+  canvas/            → NEXT-GEN renderer adapter #2 (canvas grid; NO React, purity-guarded)
 src/platform/        → Cross-cutting infra as value tokens (ApiClient, telemetry)
 src/domains/         → Business domains (RFC-003): model/dto/mapper/provider/store/
                        service/facade per bounded context. Pure, Node-tested, mounted Account.
 src/applications/    → UI features (RFC-003): UI stores (out of container), screens,
                        cross-domain orchestration. Composed from @/framework/primitives.
 src/app/             → Composition root: builds the scope tree (App → Account)
-src/components/ui/   → Temporary shadcn-style UI library (not the stable API)
 experimentations/    → Sandbox at repo root (lint-ignored); gen-2 prototype that
                        inspired the core — see docs/RFC-001
 src/themes/          → CSS variable token catalogue + ThemeProvider
@@ -56,6 +53,10 @@ src/hooks/           → Utility hooks (useRenderMetrics, useEventLog)
 ```
 
 **`@/framework` is the stability boundary.** Props are the contract; anything inside that doesn't affect the public API can be freely rewritten.
+
+Each significant directory has its own `README.md` (role / layer / status / inbound
+usage). [src/README.md](src/README.md) is the map: the layer diagram + a grep-backed
+per-directory status table (active / legacy / deprecated / isolated / support).
 
 ### Project skills
 
@@ -91,7 +92,7 @@ Tailwind CSS v4 with CSS variables. Use the `cn()` utility from `@/lib/utils` to
 **Only use components that already exist in the project.** Any UI — demo routes included — composes exclusively from `@/framework/primitives` (and the playground helpers in `@/playground/components`). Concretely:
 
 - **Never hand-roll a control with raw markup when a primitive exists.** Use `Listbox` for lists, `Select` for selects, `TextField`/`NumberField`/`Switch`/`Checkbox`/`Button` for inputs, `Alert`/`Badge`/`Spinner`/`Card` for feedback and containers, etc. A `<ul><li>` list of data when `Listbox` exists is a bug, not a shortcut.
-- **Never pull in an external component library.** No shadcn/ui, MUI, Headless UI, etc. `src/components/ui/` is the temporary shadcn-era library, not the stable API — don't build new UI on it.
+- **Never pull in an external component library.** No shadcn/ui, MUI, Headless UI, etc. (The temporary `src/components/ui/` shadcn-era library was removed on 2026-06-14 — `@/framework/primitives` is the only component API.)
 - **If a needed component does not exist, build it first** as a primitive following `/forge-feature` (pure machine → Node tests → thin shell), then use it. Never inline a one-off substitute.
 - Raw HTML is acceptable **only** for pure layout (`div`/`span`/`section` for grids and spacing) and short prose (`p`/`ul` of explanatory text) where no component is implied.
 

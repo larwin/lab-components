@@ -9,10 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VirtualizationRouteImport } from './routes/virtualization'
 import { Route as ToolbarRouteImport } from './routes/toolbar'
 import { Route as TimeRouteImport } from './routes/time'
-import { Route as ThemingRouteImport } from './routes/theming'
 import { Route as SurfacesRouteImport } from './routes/surfaces'
 import { Route as StaticsRouteImport } from './routes/statics'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -24,24 +22,14 @@ import { Route as GridNextRouteImport } from './routes/grid-next'
 import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as EngineRouteImport } from './routes/engine'
 import { Route as DisclosureRouteImport } from './routes/disclosure'
-import { Route as DebugRouteImport } from './routes/debug'
 import { Route as DatesRouteImport } from './routes/dates'
 import { Route as DataLoaderRouteImport } from './routes/data-loader'
-import { Route as DataGridRouteImport } from './routes/data-grid'
 import { Route as ControlsRouteImport } from './routes/controls'
-import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as ColorRouteImport } from './routes/color'
-import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as CarouselRouteImport } from './routes/carousel'
 import { Route as CanvasGridRouteImport } from './routes/canvas-grid'
-import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as IndexRouteImport } from './routes/index'
 
-const VirtualizationRoute = VirtualizationRouteImport.update({
-  id: '/virtualization',
-  path: '/virtualization',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ToolbarRoute = ToolbarRouteImport.update({
   id: '/toolbar',
   path: '/toolbar',
@@ -50,11 +38,6 @@ const ToolbarRoute = ToolbarRouteImport.update({
 const TimeRoute = TimeRouteImport.update({
   id: '/time',
   path: '/time',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ThemingRoute = ThemingRouteImport.update({
-  id: '/theming',
-  path: '/theming',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SurfacesRoute = SurfacesRouteImport.update({
@@ -112,11 +95,6 @@ const DisclosureRoute = DisclosureRouteImport.update({
   path: '/disclosure',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DebugRoute = DebugRouteImport.update({
-  id: '/debug',
-  path: '/debug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DatesRoute = DatesRouteImport.update({
   id: '/dates',
   path: '/dates',
@@ -127,29 +105,14 @@ const DataLoaderRoute = DataLoaderRouteImport.update({
   path: '/data-loader',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DataGridRoute = DataGridRouteImport.update({
-  id: '/data-grid',
-  path: '/data-grid',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ControlsRoute = ControlsRouteImport.update({
   id: '/controls',
   path: '/controls',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsRoute = ComponentsRouteImport.update({
-  id: '/components',
-  path: '/components',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ColorRoute = ColorRouteImport.update({
   id: '/color',
   path: '/color',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CollectionsRoute = CollectionsRouteImport.update({
-  id: '/collections',
-  path: '/collections',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CarouselRoute = CarouselRouteImport.update({
@@ -162,11 +125,6 @@ const CanvasGridRoute = CanvasGridRouteImport.update({
   path: '/canvas-grid',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AccessibilityRoute = AccessibilityRouteImport.update({
-  id: '/accessibility',
-  path: '/accessibility',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -175,17 +133,12 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/accessibility': typeof AccessibilityRoute
   '/canvas-grid': typeof CanvasGridRoute
   '/carousel': typeof CarouselRoute
-  '/collections': typeof CollectionsRoute
   '/color': typeof ColorRoute
-  '/components': typeof ComponentsRoute
   '/controls': typeof ControlsRoute
-  '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
   '/dates': typeof DatesRoute
-  '/debug': typeof DebugRoute
   '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
   '/feedback': typeof FeedbackRoute
@@ -197,24 +150,17 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/statics': typeof StaticsRoute
   '/surfaces': typeof SurfacesRoute
-  '/theming': typeof ThemingRoute
   '/time': typeof TimeRoute
   '/toolbar': typeof ToolbarRoute
-  '/virtualization': typeof VirtualizationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/accessibility': typeof AccessibilityRoute
   '/canvas-grid': typeof CanvasGridRoute
   '/carousel': typeof CarouselRoute
-  '/collections': typeof CollectionsRoute
   '/color': typeof ColorRoute
-  '/components': typeof ComponentsRoute
   '/controls': typeof ControlsRoute
-  '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
   '/dates': typeof DatesRoute
-  '/debug': typeof DebugRoute
   '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
   '/feedback': typeof FeedbackRoute
@@ -226,25 +172,18 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/statics': typeof StaticsRoute
   '/surfaces': typeof SurfacesRoute
-  '/theming': typeof ThemingRoute
   '/time': typeof TimeRoute
   '/toolbar': typeof ToolbarRoute
-  '/virtualization': typeof VirtualizationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/accessibility': typeof AccessibilityRoute
   '/canvas-grid': typeof CanvasGridRoute
   '/carousel': typeof CarouselRoute
-  '/collections': typeof CollectionsRoute
   '/color': typeof ColorRoute
-  '/components': typeof ComponentsRoute
   '/controls': typeof ControlsRoute
-  '/data-grid': typeof DataGridRoute
   '/data-loader': typeof DataLoaderRoute
   '/dates': typeof DatesRoute
-  '/debug': typeof DebugRoute
   '/disclosure': typeof DisclosureRoute
   '/engine': typeof EngineRoute
   '/feedback': typeof FeedbackRoute
@@ -256,26 +195,19 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/statics': typeof StaticsRoute
   '/surfaces': typeof SurfacesRoute
-  '/theming': typeof ThemingRoute
   '/time': typeof TimeRoute
   '/toolbar': typeof ToolbarRoute
-  '/virtualization': typeof VirtualizationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/accessibility'
     | '/canvas-grid'
     | '/carousel'
-    | '/collections'
     | '/color'
-    | '/components'
     | '/controls'
-    | '/data-grid'
     | '/data-loader'
     | '/dates'
-    | '/debug'
     | '/disclosure'
     | '/engine'
     | '/feedback'
@@ -287,24 +219,17 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/statics'
     | '/surfaces'
-    | '/theming'
     | '/time'
     | '/toolbar'
-    | '/virtualization'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/accessibility'
     | '/canvas-grid'
     | '/carousel'
-    | '/collections'
     | '/color'
-    | '/components'
     | '/controls'
-    | '/data-grid'
     | '/data-loader'
     | '/dates'
-    | '/debug'
     | '/disclosure'
     | '/engine'
     | '/feedback'
@@ -316,24 +241,17 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/statics'
     | '/surfaces'
-    | '/theming'
     | '/time'
     | '/toolbar'
-    | '/virtualization'
   id:
     | '__root__'
     | '/'
-    | '/accessibility'
     | '/canvas-grid'
     | '/carousel'
-    | '/collections'
     | '/color'
-    | '/components'
     | '/controls'
-    | '/data-grid'
     | '/data-loader'
     | '/dates'
-    | '/debug'
     | '/disclosure'
     | '/engine'
     | '/feedback'
@@ -345,25 +263,18 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/statics'
     | '/surfaces'
-    | '/theming'
     | '/time'
     | '/toolbar'
-    | '/virtualization'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AccessibilityRoute: typeof AccessibilityRoute
   CanvasGridRoute: typeof CanvasGridRoute
   CarouselRoute: typeof CarouselRoute
-  CollectionsRoute: typeof CollectionsRoute
   ColorRoute: typeof ColorRoute
-  ComponentsRoute: typeof ComponentsRoute
   ControlsRoute: typeof ControlsRoute
-  DataGridRoute: typeof DataGridRoute
   DataLoaderRoute: typeof DataLoaderRoute
   DatesRoute: typeof DatesRoute
-  DebugRoute: typeof DebugRoute
   DisclosureRoute: typeof DisclosureRoute
   EngineRoute: typeof EngineRoute
   FeedbackRoute: typeof FeedbackRoute
@@ -375,21 +286,12 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StaticsRoute: typeof StaticsRoute
   SurfacesRoute: typeof SurfacesRoute
-  ThemingRoute: typeof ThemingRoute
   TimeRoute: typeof TimeRoute
   ToolbarRoute: typeof ToolbarRoute
-  VirtualizationRoute: typeof VirtualizationRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/virtualization': {
-      id: '/virtualization'
-      path: '/virtualization'
-      fullPath: '/virtualization'
-      preLoaderRoute: typeof VirtualizationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/toolbar': {
       id: '/toolbar'
       path: '/toolbar'
@@ -402,13 +304,6 @@ declare module '@tanstack/react-router' {
       path: '/time'
       fullPath: '/time'
       preLoaderRoute: typeof TimeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/theming': {
-      id: '/theming'
-      path: '/theming'
-      fullPath: '/theming'
-      preLoaderRoute: typeof ThemingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/surfaces': {
@@ -488,13 +383,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DisclosureRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/debug': {
-      id: '/debug'
-      path: '/debug'
-      fullPath: '/debug'
-      preLoaderRoute: typeof DebugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dates': {
       id: '/dates'
       path: '/dates'
@@ -509,13 +397,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DataLoaderRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/data-grid': {
-      id: '/data-grid'
-      path: '/data-grid'
-      fullPath: '/data-grid'
-      preLoaderRoute: typeof DataGridRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/controls': {
       id: '/controls'
       path: '/controls'
@@ -523,25 +404,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ControlsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/components': {
-      id: '/components'
-      path: '/components'
-      fullPath: '/components'
-      preLoaderRoute: typeof ComponentsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/color': {
       id: '/color'
       path: '/color'
       fullPath: '/color'
       preLoaderRoute: typeof ColorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/collections': {
-      id: '/collections'
-      path: '/collections'
-      fullPath: '/collections'
-      preLoaderRoute: typeof CollectionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/carousel': {
@@ -558,13 +425,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CanvasGridRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/accessibility': {
-      id: '/accessibility'
-      path: '/accessibility'
-      fullPath: '/accessibility'
-      preLoaderRoute: typeof AccessibilityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -577,17 +437,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AccessibilityRoute: AccessibilityRoute,
   CanvasGridRoute: CanvasGridRoute,
   CarouselRoute: CarouselRoute,
-  CollectionsRoute: CollectionsRoute,
   ColorRoute: ColorRoute,
-  ComponentsRoute: ComponentsRoute,
   ControlsRoute: ControlsRoute,
-  DataGridRoute: DataGridRoute,
   DataLoaderRoute: DataLoaderRoute,
   DatesRoute: DatesRoute,
-  DebugRoute: DebugRoute,
   DisclosureRoute: DisclosureRoute,
   EngineRoute: EngineRoute,
   FeedbackRoute: FeedbackRoute,
@@ -599,10 +454,8 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StaticsRoute: StaticsRoute,
   SurfacesRoute: SurfacesRoute,
-  ThemingRoute: ThemingRoute,
   TimeRoute: TimeRoute,
   ToolbarRoute: ToolbarRoute,
-  VirtualizationRoute: VirtualizationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

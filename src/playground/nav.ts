@@ -3,18 +3,11 @@ import {
   Brush,
   CalendarDays,
   Clock,
-  Component,
   Cpu,
   DatabaseZap,
   Layers,
   SquareKanban,
-  ListTree,
-  Table2,
   Grid3x3,
-  Gauge,
-  Accessibility,
-  Palette,
-  Bug,
   SlidersHorizontal,
   PanelTopOpen,
   BellRing,
@@ -43,15 +36,7 @@ export interface NavGroup {
 export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Overview",
-    links: [
-      { to: "/", label: "Home", icon: Home, description: "Project overview & architecture" },
-      {
-        to: "/components",
-        label: "Components",
-        icon: Component,
-        description: "Component catalog",
-      },
-    ],
+    links: [{ to: "/", label: "Home", icon: Home, description: "Project overview & architecture" }],
   },
   {
     label: "Next-Gen Engine",
@@ -164,42 +149,6 @@ export const NAV_GROUPS: NavGroup[] = [
         icon: Brush,
         description: "Second renderer — 1M rows, no React",
       },
-    ],
-  },
-  {
-    label: "Collections",
-    links: [
-      {
-        to: "/collections",
-        label: "Collections",
-        icon: ListTree,
-        description: "Lists, trees & menus",
-      },
-      {
-        to: "/data-grid",
-        label: "Data Grid",
-        icon: Table2,
-        description: "Sortable, filterable, selectable",
-      },
-      {
-        to: "/virtualization",
-        label: "Virtualization",
-        icon: Gauge,
-        description: "Large datasets & metrics",
-      },
-    ],
-  },
-  {
-    label: "Platform",
-    links: [
-      {
-        to: "/accessibility",
-        label: "Accessibility",
-        icon: Accessibility,
-        description: "Keyboard, focus & ARIA",
-      },
-      { to: "/theming", label: "Theming", icon: Palette, description: "Tokens & dark mode" },
-      { to: "/debug", label: "Debug", icon: Bug, description: "State, events & logs" },
     ],
   },
 ];

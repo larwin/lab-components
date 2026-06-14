@@ -354,20 +354,6 @@ const PROOFS = [
   },
 ];
 
-/* ------------------------------------------------------------------ */
-/* L'existant conservé (gen 1)                                         */
-/* ------------------------------------------------------------------ */
-
-const LEGACY_PAGES = [
-  { to: "/components", label: "Components", note: "catalogue gen 1 (Button, Checkbox, Input…)" },
-  { to: "/collections", label: "Collections", note: "List / Tree / Menu gen 1, logique locale" },
-  { to: "/data-grid", label: "Data Grid", note: "la grille d'origine : tri simple + filtre" },
-  { to: "/virtualization", label: "Virtualization", note: "la démo manuelle d'origine" },
-  { to: "/accessibility", label: "Accessibility", note: "page a11y d'origine" },
-  { to: "/theming", label: "Theming", note: "tokens & dark mode (partagés)" },
-  { to: "/debug", label: "Debug", note: "logs d'événements gen 1" },
-];
-
 function Home() {
   return (
     <div className="space-y-12">
@@ -386,8 +372,7 @@ function Home() {
             <span className="font-mono text-sm">Intent → Reducer → State → Effects</span> — où
             chaque composant est une composition de behaviors, et où React n'est qu'un adaptateur
             parmi d'autres (le canvas en est la preuve). Tout ce qui est marqué <Badge kind="new" />{" "}
-            ci-dessous a été construit sur ce socle ; les pages <Badge kind="legacy" /> montrent
-            l'état antérieur du projet, conservé pour comparaison.
+            ci-dessous a été construit sur ce socle.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
@@ -578,29 +563,6 @@ bun run build   # build de production OK`}
             sans navigateur » n'est pas déclarative, elle est exécutée à chaque CI.
           </p>
         </Showcase>
-      </section>
-
-      {/* ---- L'existant conservé ---- */}
-      <section>
-        <SectionTitle
-          icon={Layers}
-          title="L'existant, conservé pour comparaison"
-          subtitle="Les pages de la génération précédente n'ont pas été touchées : comparez par vous-même (ex. /data-grid vs /grid-next, /virtualization vs /canvas-grid)."
-          badge="legacy"
-        />
-        <div className="mt-5 flex flex-wrap gap-2">
-          {LEGACY_PAGES.map((page) => (
-            <Link
-              key={page.to}
-              to={page.to}
-              className="group inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-sm transition-colors hover:bg-muted"
-            >
-              <Badge kind="legacy" />
-              <span className="font-medium">{page.label}</span>
-              <span className="text-xs text-muted-foreground">— {page.note}</span>
-            </Link>
-          ))}
-        </div>
       </section>
     </div>
   );

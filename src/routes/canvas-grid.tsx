@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Select } from "@/framework";
 import { mountCanvasGrid, type CanvasColumn } from "@/framework/canvas";
+import { Select } from "@/framework/primitives";
 import { getProducts } from "@/fixtures";
 import type { Product } from "@/fixtures/types";
 import { formatCurrency, formatNumber } from "@/utils/format";
@@ -98,9 +98,10 @@ function CanvasGridPage() {
         <div className="mb-4 max-w-xs">
           <Field label="Dataset size">
             <Select
+              aria-label="Dataset size"
               value={String(size)}
-              onChange={(e) => setSize(Number(e.target.value))}
-              options={SIZES.map((s) => ({ label: `${formatNumber(s)} rows`, value: String(s) }))}
+              onValueChange={(v) => setSize(Number(v))}
+              options={SIZES.map((s) => ({ key: String(s), label: `${formatNumber(s)} rows` }))}
             />
           </Field>
         </div>
