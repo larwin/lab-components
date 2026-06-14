@@ -1,0 +1,7 @@
+# Normalize line endings: store as LF in git, check out as LF on every platform.
+# This makes Prettier (endOfLine: lf) and ESLint pass on Windows checkouts where
+# core.autocrlf=true would otherwise produce CRLF working trees.
+* text=auto eol=lf
+
+# Generated lockfile — leave to the tool.
+bun.lock linguist-generated=true
