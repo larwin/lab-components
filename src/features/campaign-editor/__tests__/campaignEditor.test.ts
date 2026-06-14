@@ -3,8 +3,7 @@
 // two-level scope tree, with a zero-latency mock API. No React, no DOM.
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { buildCampaignTree } from "@/app/campaignTree";
-import { createMockApi } from "@/app/mockApi";
+import { buildWebTest } from "@/WebTest";
 import { CategoryFacadeToken, type CategoryId } from "@/domains/business/campaign/categories";
 import type { CampaignDraft } from "@/domains/business/campaign/campaigns";
 import { FieldFacadeToken, type FieldFacade } from "@/domains/business/data-management/fields";
@@ -12,12 +11,12 @@ import { TemplateFacadeToken } from "@/domains/business/campaign/templates";
 import { CampaignEditorFacadeToken, type CampaignEditorFacade } from "@/features/campaign-editor";
 
 describe("campaign-editor — invalidation across domains + app orchestration", () => {
-  let account: ReturnType<typeof buildCampaignTree>["account"];
+  let account: ReturnType<typeof buildWebTest>["account"];
   let editor: CampaignEditorFacade;
   let field: FieldFacade;
 
   beforeEach(async () => {
-    const tree = buildCampaignTree(createMockApi({ latency: 0 }));
+    const tree = buildWebTest();
     account = tree.account;
     editor = account.get(CampaignEditorFacadeToken);
     field = account.get(FieldFacadeToken);

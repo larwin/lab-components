@@ -16,7 +16,7 @@ import {
 import { ServicesProvider, useFacade, useStoreValue } from "@/framework/react/services";
 import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
-import { buildCampaignTree } from "@/app/campaignTree";
+import { buildWebApplication } from "@/WebApplication";
 import {
   CategoryFacadeToken,
   CategoryStoreToken,
@@ -42,7 +42,7 @@ import { useCampaignEditorStore } from "../hooks/useCampaignEditorStore";
  * disposes the whole tree on unmount. Components below see only facades + stores.
  */
 export function CampaignEditorScreen() {
-  const [tree] = useState(() => buildCampaignTree());
+  const [tree] = useState(() => buildWebApplication());
   useEffect(() => () => tree.app.dispose(), [tree]);
 
   return (
