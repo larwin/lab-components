@@ -4,8 +4,8 @@ import { CategoryStoreToken, registerCategoriesDomain } from "@/domains/categori
 import { FieldStoreToken, registerFieldsDomain } from "@/domains/fields";
 import { TemplateStoreToken, registerTemplatesDomain } from "@/domains/templates";
 import { registerCampaignEditorApp } from "@/applications/campaign-editor";
-import { ApiClientToken, type ApiClient } from "@/platform/http/apiClient";
-import { createTelemetry, TelemetryToken } from "@/platform/telemetry/telemetry";
+import { ApiClientToken, type ApiClient } from "@/domains/technical/http/apiClient";
+import { createTelemetry, TelemetryToken } from "@/domains/technical/telemetry/telemetry";
 
 import { createMockApi } from "./mockApi";
 

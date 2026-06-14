@@ -82,7 +82,9 @@ describe("architecture layering (RFC-003)", () => {
       const own = rel.split("/")[0];
       for (const imp of importsOf(file)) {
         const m = imp.match(/^@\/domains\/([^/]+)\/.+/); // deep import into a domain
-        if (m && m[1] !== own) bad.push(`${rel} → ${imp}`);
+        // `technical/*` (http, telemetry…) are shared infra domains: any business
+        // domain may inject them, so they are exempt from the cross-domain barrel rule.
+        if (m && m[1] !== own && m[1] !== "technical") bad.push(`${rel} → ${imp}`);
       }
     }
     expect(bad).toEqual([]);

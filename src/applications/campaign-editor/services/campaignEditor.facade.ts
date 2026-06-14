@@ -10,8 +10,8 @@ import {
 } from "@/domains/campaigns";
 import { FieldServiceToken, type ValidationResult } from "@/domains/fields";
 import type { Template } from "@/domains/templates";
-import { ApiClientToken } from "@/platform/http/apiClient";
-import { TelemetryToken } from "@/platform/telemetry/telemetry";
+import { ApiClientToken } from "@/domains/technical/http/apiClient";
+import { TelemetryToken } from "@/domains/technical/telemetry/telemetry";
 
 import { CampaignEditorServiceToken } from "./tokens";
 

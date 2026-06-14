@@ -1,6 +1,6 @@
 import type { Resolver } from "@/framework/services";
 
-import { ApiClientToken } from "@/platform/http/apiClient";
+import { ApiClientToken } from "@/domains/technical/http/apiClient";
 
 import { categoryProvider } from "./category.provider";
 import { categoryIntents } from "./category.store";

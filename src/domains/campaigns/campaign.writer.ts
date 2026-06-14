@@ -1,4 +1,4 @@
-import type { ApiClient } from "@/platform/http/apiClient";
+import type { ApiClient } from "@/domains/technical/http/apiClient";
 
 import { CampaignDtoSchema } from "./dto";
 import { toCampaign, toCampaignUpsertDto } from "./mappers";

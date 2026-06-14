@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import type { ApiClient } from "@/platform/http/apiClient";
+import type { ApiClient } from "@/domains/technical/http/apiClient";
 
 import { FieldDtoSchema } from "./dto";
 import { toField } from "./mappers";

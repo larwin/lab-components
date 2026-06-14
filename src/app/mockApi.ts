@@ -1,4 +1,4 @@
-import type { ApiClient } from "@/platform/http/apiClient";
+import type { ApiClient } from "@/domains/technical/http/apiClient";
 
 /**
  * A mock backend (dev/demo). Speaks DTOs (snake_case wire shapes) with latency,

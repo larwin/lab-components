@@ -3,7 +3,7 @@ import { defineFacade, defineService, type Container } from "@/framework/service
 import { CategoryStoreToken } from "@/domains/categories";
 import { FieldServiceToken } from "@/domains/fields";
 import { TemplateStoreToken } from "@/domains/templates";
-import { TelemetryToken } from "@/platform/telemetry/telemetry";
+import { TelemetryToken } from "@/domains/technical/telemetry/telemetry";
 
 import { createCampaignEditorFacade } from "./services/campaignEditor.facade";
 import { createCampaignEditorService } from "./services/campaignEditor.service";

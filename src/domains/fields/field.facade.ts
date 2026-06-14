@@ -1,6 +1,6 @@
 import type { Resolver } from "@/framework/services";
 
-import { ApiClientToken } from "@/platform/http/apiClient";
+import { ApiClientToken } from "@/domains/technical/http/apiClient";
 
 import { createFieldCommand, fieldProvider } from "./field.provider";
 import { fieldIntents } from "./field.store";

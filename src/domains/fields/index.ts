@@ -1,6 +1,6 @@
 import { defineFacade, defineService, defineStore, type Container } from "@/framework/services";
 
-import { TelemetryToken } from "@/platform/telemetry/telemetry";
+import { TelemetryToken } from "@/domains/technical/telemetry/telemetry";
 
 import { createFieldFacade } from "./field.facade";
 import { createFieldService } from "./field.service";

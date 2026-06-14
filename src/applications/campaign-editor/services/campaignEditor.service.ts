@@ -4,7 +4,7 @@ import type { CategoryId, CategoryState } from "@/domains/categories";
 import type { CampaignDraft } from "@/domains/campaigns";
 import type { FieldService, ValidationIssue, ValidationResult } from "@/domains/fields";
 import type { Template, TemplateState } from "@/domains/templates";
-import type { Telemetry } from "@/platform/telemetry/telemetry";
+import type { Telemetry } from "@/domains/technical/telemetry/telemetry";
 
 /**
  * CampaignEditorService — APPLICATION orchestration (not a single domain). It

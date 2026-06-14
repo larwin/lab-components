@@ -1,6 +1,6 @@
 import type { Store } from "@/framework/core/runtime/store";
 
-import type { Telemetry } from "@/platform/telemetry/telemetry";
+import type { Telemetry } from "@/domains/technical/telemetry/telemetry";
 
 import type { FieldState } from "./field.store";
 import type { Field } from "./model";
