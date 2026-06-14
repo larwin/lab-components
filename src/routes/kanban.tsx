@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { KanbanBoard, type KanbanColumnDef } from "@/framework/primitives";
 import type { DragMoveDetail, Key } from "@/framework/core";
-import { getOrders } from "@/fixtures";
-import type { Order } from "@/fixtures/types";
+import { getOrders } from "@/playground/fixtures";
+import type { Order } from "@/playground/fixtures/types";
 import { formatCurrency } from "@/shared/utils/format";
 import { MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
 

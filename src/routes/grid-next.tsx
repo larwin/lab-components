@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { DataGrid, Select, type GridColumn } from "@/framework/primitives";
-import { getProducts } from "@/fixtures";
-import type { Product } from "@/fixtures/types";
+import { getProducts } from "@/playground/fixtures";
+import type { Product } from "@/playground/fixtures/types";
 import { formatCurrency, formatNumber } from "@/shared/utils/format";
 import { formatDuration, measure } from "@/shared/utils/perf";
 import {

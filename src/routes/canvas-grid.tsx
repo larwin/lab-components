@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { mountCanvasGrid, type CanvasColumn } from "@/framework/canvas";
 import { Select } from "@/framework/primitives";
-import { getProducts } from "@/fixtures";
-import type { Product } from "@/fixtures/types";
+import { getProducts } from "@/playground/fixtures";
+import type { Product } from "@/playground/fixtures/types";
 import { formatCurrency, formatNumber } from "@/shared/utils/format";
 import { Field, MetricCard, PageHeader, Showcase } from "@/playground/components/primitives";
 

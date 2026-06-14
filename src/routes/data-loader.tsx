@@ -4,8 +4,8 @@ import { Loader2, RefreshCw, XCircle } from "lucide-react";
 import { arraySource } from "@/framework/core";
 import { useDataSource } from "@/framework/react";
 import { Button, DataGrid, type GridColumn } from "@/framework/primitives";
-import { getProducts } from "@/fixtures";
-import type { Product } from "@/fixtures/types";
+import { getProducts } from "@/playground/fixtures";
+import type { Product } from "@/playground/fixtures/types";
 import { formatCurrency, formatNumber } from "@/shared/utils/format";
 import {
   Field,
