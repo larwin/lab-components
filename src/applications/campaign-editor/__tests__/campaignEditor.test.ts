@@ -5,10 +5,10 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { buildCampaignTree } from "@/app/campaignTree";
 import { createMockApi } from "@/app/mockApi";
-import { CategoryFacadeToken, type CategoryId } from "@/domains/categories";
-import type { CampaignDraft } from "@/domains/campaigns";
-import { FieldFacadeToken, type FieldFacade } from "@/domains/fields";
-import { TemplateFacadeToken } from "@/domains/templates";
+import { CategoryFacadeToken, type CategoryId } from "@/domains/business/campaign/categories";
+import type { CampaignDraft } from "@/domains/business/campaign/campaigns";
+import { FieldFacadeToken, type FieldFacade } from "@/domains/business/data-management/fields";
+import { TemplateFacadeToken } from "@/domains/business/campaign/templates";
 import {
   CampaignEditorFacadeToken,
   type CampaignEditorFacade,

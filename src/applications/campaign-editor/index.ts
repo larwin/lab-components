@@ -1,8 +1,8 @@
 import { defineFacade, defineService, type Container } from "@/framework/services";
 
-import { CategoryStoreToken } from "@/domains/categories";
-import { FieldServiceToken } from "@/domains/fields";
-import { TemplateStoreToken } from "@/domains/templates";
+import { CategoryStoreToken } from "@/domains/business/campaign/categories";
+import { FieldServiceToken } from "@/domains/business/data-management/fields";
+import { TemplateStoreToken } from "@/domains/business/campaign/templates";
 import { TelemetryToken } from "@/domains/technical/telemetry/telemetry";
 
 import { createCampaignEditorFacade } from "./services/campaignEditor.facade";

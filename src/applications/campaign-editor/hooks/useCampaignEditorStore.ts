@@ -1,7 +1,7 @@
 import { useMemo, useRef, useSyncExternalStore } from "react";
 
-import type { CategoryId } from "@/domains/categories";
-import type { TemplateId } from "@/domains/templates";
+import type { CategoryId } from "@/domains/business/campaign/categories";
+import type { TemplateId } from "@/domains/business/campaign/templates";
 
 import {
   createCampaignEditorStore,

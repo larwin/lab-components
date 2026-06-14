@@ -1,8 +1,8 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
 
-import type { CategoryId } from "@/domains/categories";
-import type { TemplateId } from "@/domains/templates";
+import type { CategoryId } from "@/domains/business/campaign/categories";
+import type { TemplateId } from "@/domains/business/campaign/templates";
 
 import { CampaignDtoSchema } from "../dto";
 import { toCampaign, toCampaignUpsertDto } from "../mappers";

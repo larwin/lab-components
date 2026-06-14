@@ -1,9 +1,13 @@
 import type { Store } from "@/framework/core/runtime/store";
 
-import type { CategoryId, CategoryState } from "@/domains/categories";
-import type { CampaignDraft } from "@/domains/campaigns";
-import type { FieldService, ValidationIssue, ValidationResult } from "@/domains/fields";
-import type { Template, TemplateState } from "@/domains/templates";
+import type { CategoryId, CategoryState } from "@/domains/business/campaign/categories";
+import type { CampaignDraft } from "@/domains/business/campaign/campaigns";
+import type {
+  FieldService,
+  ValidationIssue,
+  ValidationResult,
+} from "@/domains/business/data-management/fields";
+import type { Template, TemplateState } from "@/domains/business/campaign/templates";
 import type { Telemetry } from "@/domains/technical/telemetry/telemetry";
 
 /**

@@ -1,8 +1,11 @@
 import { createContainer, defineValue, type Container } from "@/framework/services";
 
-import { CategoryStoreToken, registerCategoriesDomain } from "@/domains/categories";
-import { FieldStoreToken, registerFieldsDomain } from "@/domains/fields";
-import { TemplateStoreToken, registerTemplatesDomain } from "@/domains/templates";
+import {
+  CategoryStoreToken,
+  registerCategoriesDomain,
+} from "@/domains/business/campaign/categories";
+import { FieldStoreToken, registerFieldsDomain } from "@/domains/business/data-management/fields";
+import { TemplateStoreToken, registerTemplatesDomain } from "@/domains/business/campaign/templates";
 import { registerCampaignEditorApp } from "@/applications/campaign-editor";
 import { ApiClientToken, type ApiClient } from "@/domains/technical/http/apiClient";
 import { createTelemetry, TelemetryToken } from "@/domains/technical/telemetry/telemetry";

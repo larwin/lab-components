@@ -17,9 +17,21 @@ import { ServicesProvider, useFacade, useStoreValue } from "@/framework/react/se
 import { MetricCard, PageHeader, Showcase } from "@/components/primitives";
 
 import { buildCampaignTree } from "@/app/campaignTree";
-import { CategoryFacadeToken, CategoryStoreToken, type CategoryId } from "@/domains/categories";
-import { FieldFacadeToken, FieldStoreToken, type ValidationIssue } from "@/domains/fields";
-import { TemplateFacadeToken, TemplateStoreToken, type TemplateId } from "@/domains/templates";
+import {
+  CategoryFacadeToken,
+  CategoryStoreToken,
+  type CategoryId,
+} from "@/domains/business/campaign/categories";
+import {
+  FieldFacadeToken,
+  FieldStoreToken,
+  type ValidationIssue,
+} from "@/domains/business/data-management/fields";
+import {
+  TemplateFacadeToken,
+  TemplateStoreToken,
+  type TemplateId,
+} from "@/domains/business/campaign/templates";
 
 import { CampaignEditorFacadeToken, type ServiceBuilds } from "../index";
 import { useCampaignEditorStore } from "../hooks/useCampaignEditorStore";

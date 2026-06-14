@@ -1,15 +1,18 @@
 import type { Resolver } from "@/framework/services";
 
-import type { CategoryId } from "@/domains/categories";
+import type { CategoryId } from "@/domains/business/campaign/categories";
 import {
   createCampaignWriter,
   toCampaignUpsertDto,
   type Campaign,
   type CampaignDraft,
   type CampaignUpsertDto,
-} from "@/domains/campaigns";
-import { FieldServiceToken, type ValidationResult } from "@/domains/fields";
-import type { Template } from "@/domains/templates";
+} from "@/domains/business/campaign/campaigns";
+import {
+  FieldServiceToken,
+  type ValidationResult,
+} from "@/domains/business/data-management/fields";
+import type { Template } from "@/domains/business/campaign/templates";
 import { ApiClientToken } from "@/domains/technical/http/apiClient";
 import { TelemetryToken } from "@/domains/technical/telemetry/telemetry";
 

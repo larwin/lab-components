@@ -1,5 +1,5 @@
-import type { CategoryId } from "@/domains/categories";
-import type { TemplateId } from "@/domains/templates";
+import type { CategoryId } from "@/domains/business/campaign/categories";
+import type { TemplateId } from "@/domains/business/campaign/templates";
 
 /** Campaigns domain — the Campaign entity and its write-input (draft). */
 export type CampaignId = string & { readonly __brand: "CampaignId" };

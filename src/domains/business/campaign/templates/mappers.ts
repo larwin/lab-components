@@ -1,4 +1,4 @@
-import type { CategoryId } from "@/domains/categories";
+import type { CategoryId } from "@/domains/business/campaign/categories";
 
 import type { TemplateDto } from "./dto";
 import type { Template, TemplateId } from "./model";

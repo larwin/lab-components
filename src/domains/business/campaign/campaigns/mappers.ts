@@ -1,5 +1,5 @@
-import type { CategoryId } from "@/domains/categories";
-import type { TemplateId } from "@/domains/templates";
+import type { CategoryId } from "@/domains/business/campaign/categories";
+import type { TemplateId } from "@/domains/business/campaign/templates";
 
 import type { CampaignDto, CampaignUpsertDto } from "./dto";
 import type { Campaign, CampaignDraft, CampaignId } from "./model";

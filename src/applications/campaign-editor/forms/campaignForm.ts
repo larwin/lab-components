@@ -1,4 +1,4 @@
-import type { CampaignDraft } from "@/domains/campaigns";
+import type { CampaignDraft } from "@/domains/business/campaign/campaigns";
 
 /**
  * The editor's form model IS the campaigns domain's write input (`CampaignDraft`).

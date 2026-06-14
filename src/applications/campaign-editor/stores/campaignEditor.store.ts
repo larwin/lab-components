@@ -2,9 +2,9 @@ import { defineIntent } from "@/framework/core/runtime/intent";
 import { createMachine } from "@/framework/core/runtime/machine";
 import { createStore, type Store } from "@/framework/core/runtime/store";
 
-import type { CategoryId } from "@/domains/categories";
-import type { CampaignDraft } from "@/domains/campaigns";
-import type { TemplateId } from "@/domains/templates";
+import type { CategoryId } from "@/domains/business/campaign/categories";
+import type { CampaignDraft } from "@/domains/business/campaign/campaigns";
+import type { TemplateId } from "@/domains/business/campaign/templates";
 
 import { emptyCampaignForm } from "../forms/campaignForm";
 
