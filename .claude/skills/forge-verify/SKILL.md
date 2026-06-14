@@ -39,7 +39,10 @@ bun run test
 - Vérifier que `purity.test.ts` est dans les fichiers passés : c'est la garde
   d'architecture (zéro import React dans `core/` et `canvas/`, ni dans
   `gridMachine.ts`). S'il échoue, c'est le code qui a tort, pas le test.
-- Un seul fichier : `bun vitest run <chemin>`.
+- Un seul fichier : **`bun run test <chemin>`** — PAS `bun vitest run <chemin>`
+  en direct, qui casse la collection (`Vitest failed to find the current suite`)
+  sur un fichier `// @vitest-environment node` à cause du setup jsdom global ;
+  le script configuré (`vitest run`) gère le cas, le binaire nu non.
 
 ## 3. Lint
 
@@ -59,8 +62,11 @@ bunx tsc --noEmit
 ```
 
 Dans cet ordre si une route a été ajoutée/renommée : le build régénère
-`routeTree.gen.ts` dont le typecheck dépend. `routeTree.gen.ts` ne s'édite
-jamais à la main.
+`routeTree.gen.ts`. `routeTree.gen.ts` ne s'édite jamais à la main.
+
+⚠️ **`bun run build` (vite/esbuild) ne typecheck PAS** — il strippe les types.
+`bunx tsc --noEmit` est donc le **seul** vrai gate de typage, obligatoire avant
+commit (un build vert ne garantit rien côté types).
 
 ## 5. Hygiène du diff (avant commit)
 
@@ -71,6 +77,17 @@ jamais à la main.
   pour un chantier majeur, carte sur la home (`src/routes/index.tsx`).
 - Commit : seulement à la demande de Nicolas ; message conventionnel
   (`feat(framework): …`) avec un corps qui liste ce qui est vérifiable.
+- **Staging sélectif, jamais `git add -A`/`.`** : des untracked locaux à Nicolas
+  (`.claude/commands/`, `.claude/settings.json`) ne doivent pas partir dans le
+  commit. Stager par chemins explicites (`git add src/ docs/ CLAUDE.md …`) et
+  relire `git status --short` pour confirmer ce qui est `A/M/D` vs ce qui reste
+  `??`.
+- **Check-up pré-commit d'un gros chantier** (à la demande de Nicolas) : retirer
+  les dossiers d'essai (un exemple jeté, du scratch non suivi par git) ; scanner
+  docs + sources pour les références périmées. Un RFC antérieur rendu obsolète se
+  traite par un **bandeau « mis à jour par RFC-XXX »** en tête (renommages +
+  déménagements) en conservant le corps comme trace historique — pas une
+  réécriture. Branche dédiée + merge ff dans `main` quand il le demande.
 
 ## Rapport attendu
 
@@ -105,3 +122,9 @@ pas un contournement.
 - 2026-06-12 · Ne jamais chaîner `prettier --write` et `bun run test` dans la
   même commande composée : vitest peut lire des fichiers en cours de
   réécriture (échec fantôme). Deux commandes séparées.
+- 2026-06-14 · Fichier isolé : `bun run test <chemin>`, jamais `bun vitest run`
+  en direct (casse sur le setup jsdom pour un fichier node-env) — §2 corrigée.
+  Et `bun run build` ne typecheck pas : `bunx tsc --noEmit` est le seul gate de
+  typage (§4). Sur un gros chantier : staging par chemins explicites (les
+  untracked `.claude/*` locaux restent dehors) et bandeau « superseded » sur un
+  RFC obsolète plutôt qu'une réécriture (§5).
