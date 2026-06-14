@@ -128,3 +128,12 @@ pas un contournement.
   typage (§4). Sur un gros chantier : staging par chemins explicites (les
   untracked `.claude/*` locaux restent dehors) et bandeau « superseded » sur un
   RFC obsolète plutôt qu'une réécriture (§5).
+- 2026-06-14 · **CRLF résolu à la racine.** Lint qui crache des milliers de
+  `prettier/prettier Delete ␍` = fins de ligne CRLF, pas un vrai souci de code :
+  cause = `core.autocrlf=true` sans `.gitattributes` (les blobs LF sont *checkout*
+  en CRLF sous Windows). **Fix posé le 14/06 : `.gitattributes` (`* text=auto
+  eol=lf`) commité** → tout checkout futur arrive en LF, lint vert. Si ça
+  réapparaît : `bun run format` (LF) + `git restore experimentations/`, vérifier
+  que `.gitattributes` existe. Prouver qu'un diff est purement EOL :
+  `git diff --ignore-cr-at-eol <fichiers>` (vide = contenu identique). L'outil
+  Edit fonctionne très bien sur un fichier CRLF (pas besoin de tout réécrire).

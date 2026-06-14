@@ -87,3 +87,10 @@ sable en lecture seule.
 - 2026-06-12 · Pour l'async : vérifier que les réponses portent un numéro de
   séquence et que le reducer rejette les séquences périmées — l'anti-course
   par discipline d'adaptateur est une violation du principe 3.
+- 2026-06-14 · **Audit « code mort » : grepper TOUS les chemins d'import, y
+  compris les re-exports de barrel racine.** Un module re-exporté par
+  `@/framework` (ou tout barrel) paraît mort si on ne grep que le sous-chemin
+  précis (`@/framework/components`) : il était en réalité vivant via 9 routes
+  important `from "@/framework"`. Ne jamais conclure « 0 importeur → mort » sur
+  un seul motif de grep ; vérifier le barrel et ses ré-exports avant de proposer
+  une suppression.
